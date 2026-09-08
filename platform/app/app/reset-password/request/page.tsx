@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { getSessionUser } from "@/lib/auth";
 import { resetRequestAction } from "@/app/auth/actions";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +19,10 @@ type Props = { searchParams: Promise<{ error?: string; email?: string; sent?: st
 
 export default async function ResetRequestPage({ searchParams }: Props) {
   const { error, email, sent } = await searchParams;
+  const user = await getSessionUser();
+  if (user) {
+    redirect("/me");
+  }
 
   return (
     <div className="shell section">

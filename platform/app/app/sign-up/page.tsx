@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { authMode, oauthProviders } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { authMode, getSessionUser, oauthProviders } from "@/lib/auth";
 import { keelSignUpAction, offlineSignUpAction } from "@/app/auth/actions";
 import { OfflineAuthNote } from "@/components/auth/offline-note";
 import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
@@ -28,6 +29,12 @@ type Props = {
 
 export default async function SignUpPage({ searchParams }: Props) {
   const { error, email, next } = await searchParams;
+  const user = await getSessionUser();
+  if (user) {
+    const destination =
+      next && next.startsWith("/") && !next.startsWith("//") ? next : "/me";
+    redirect(destination);
+  }
   const mode = authMode();
 
   if (mode === "clerk") {

@@ -271,17 +271,28 @@ def paddle_subscription_checkout(student_id, student_email, display_name,
     if customer_id and txn_id:
         # Reuse the previous signup while its transaction is still payable
         # (a refresh of the checkout page must not stack up transactions).
-        txn = paddle_call("GET", "/transactions/" + txn_id)
-        if str(txn.get("status") or "") in ("ready", "draft"):
-            url = (txn.get("checkout") or {}).get("url")
-            if url:
-                return txn_id, str(url), customer_id, price_id
+        try:
+            txn = paddle_call("GET", "/transactions/" + txn_id)
+            if str(txn.get("status") or "") in ("ready", "draft"):
+                url = (txn.get("checkout") or {}).get("url")
+                if url:
+                    return txn_id, str(url), customer_id, price_id
+        except Exception:
+            pass
     if not customer_id:
-        customer = paddle_call("POST", "/customers", {
-            "email": student_email,
-            "name": display_name,
-        })
-        customer_id = str(customer.get("id") or "")
+        try:
+            customer = paddle_call("POST", "/customers", {
+                "email": student_email,
+                "name": display_name,
+            })
+            customer_id = str(customer.get("id") or "")
+        except RuntimeError:
+            try:
+                custs = paddle_call("GET", "/customers?email=" + urllib.parse.quote(student_email))
+                if isinstance(custs, list) and custs:
+                    customer_id = str(custs[0].get("id") or "")
+            except Exception:
+                pass
         if not customer_id:
             raise RuntimeError("paddle_bad_response")
     txn = paddle_call("POST", "/transactions", {

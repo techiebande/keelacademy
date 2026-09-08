@@ -138,6 +138,17 @@ class Handler(BaseHTTPRequestHandler):
             self._json(200, {"customers": len(CUSTOMERS),
                              "transactions": len(TXNS)})
             return
+        if self.path.startswith("/customers"):
+            parsed = urllib.parse.urlsplit(self.path)
+            q = urllib.parse.parse_qs(parsed.query)
+            target_email = (q.get("email") or [""])[0].lower()
+            matching = [
+                {"id": cid, "email": em}
+                for cid, em in CUSTOMERS.items()
+                if not target_email or em.lower() == target_email
+            ]
+            self._json(200, {"data": matching})
+            return
         if self.path.startswith("/prices/"):
             pid = self.path[len("/prices/"):]
             if pid != price_id():

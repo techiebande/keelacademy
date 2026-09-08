@@ -102,6 +102,15 @@ async function githubIdentity(code: string, redirectUri: string): Promise<OAuthI
   return { subject: String(user.id), email, name: user.name ?? user.login ?? null };
 }
 
+function getOrigin(request: NextRequest): string {
+  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  const proto = request.headers.get("x-forwarded-proto") ?? (request.nextUrl.protocol.replace(":", "") || "https");
+  if (host) {
+    return `${proto}://${host}`;
+  }
+  return request.nextUrl.origin;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ provider: string }> },
@@ -117,7 +126,8 @@ export async function GET(
     return NextResponse.redirect(new URL("/sign-in?error=oauth", request.url));
   }
 
-  const redirectUri = `${url.origin}/api/auth/${provider}/callback`;
+  const origin = getOrigin(request);
+  const redirectUri = `${origin}/api/auth/${provider}/callback`;
   const identity =
     provider === "google"
       ? await googleIdentity(code, redirectUri)

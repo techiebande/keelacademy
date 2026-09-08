@@ -889,11 +889,11 @@ ROLLBACK;
     persona_id = str(r[2])
     status = str(r[3])
     turns = json.loads(str(r[4]))
-    score_pct = float(r[5]) if r[5] is not None else None
-    passed = (r[6] == "t" or r[6] is True) if r[6] is not None else None
-    verdict = json.loads(str(r[7])) if r[7] is not None else None
+    score_pct = float(r[5]) if r[5] else None
+    passed = (r[6] in ("t", "true", "True")) if r[6] else None
+    verdict = json.loads(str(r[7])) if r[7] else None
     created_at = str(r[8])
-    completed_at = str(r[9]) if r[9] is not None else None
+    completed_at = str(r[9]) if r[9] else None
 
     return {
         "id": sid,
@@ -929,12 +929,12 @@ ROLLBACK;
             "student_id": int(r[1]),
             "persona_id": str(r[2]),
             "status": str(r[3]),
-            "score_pct": float(r[4]) if r[4] is not None else None,
-            "passed": (r[5] == "t" or r[5] is True) if r[5] is not None else None,
-            "verdict": json.loads(str(r[6])) if r[6] is not None else None,
+            "score_pct": float(r[4]) if r[4] else None,
+            "passed": (r[5] in ("t", "true", "True")) if r[5] else None,
+            "verdict": json.loads(str(r[6])) if r[6] else None,
             "created_at": str(r[7]),
-            "completed_at": str(r[8]) if r[8] is not None else None,
-            "turn_count": int(r[9]) if r[9] is not None else 0,
+            "completed_at": str(r[8]) if r[8] else None,
+            "turn_count": int(r[9]) if r[9] else 0,
         })
     return sims
 

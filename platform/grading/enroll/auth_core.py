@@ -210,6 +210,13 @@ def signup(email: str, password: str, name) -> dict:
         raise AuthError(422, "invalid_email")
     if not (PASSWORD_MIN <= len(password) <= PASSWORD_MAX):
         raise AuthError(422, "password_length")
+    existing = db_sql(
+        "BEGIN;\n"
+        "SELECT id FROM auth_users WHERE email = %s;\n"
+        "ROLLBACK;\n" % sql_str(email)
+    )
+    if existing:
+        raise AuthError(409, "exists")
     rows = db_sql(
         "BEGIN;\n"
         "INSERT INTO auth_users (email, password_hash, display_name)\n"

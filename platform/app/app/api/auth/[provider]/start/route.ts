@@ -30,6 +30,15 @@ function sign(payload: string): string {
   return createHmac("sha256", stateSecret()).update(payload).digest("base64url");
 }
 
+function getOrigin(request: NextRequest): string {
+  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+  const proto = request.headers.get("x-forwarded-proto") ?? (request.nextUrl.protocol.replace(":", "") || "https");
+  if (host) {
+    return `${proto}://${host}`;
+  }
+  return request.nextUrl.origin;
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ provider: string }> },
@@ -51,7 +60,8 @@ export async function GET(
   ).toString("base64url");
   const state = `${payload}.${sign(payload)}`;
 
-  const redirectUri = `${url.origin}/api/auth/${provider}/callback`;
+  const origin = getOrigin(request);
+  const redirectUri = `${origin}/api/auth/${provider}/callback`;
   const authorize = new URL(conf.authorize);
   authorize.searchParams.set("client_id", process.env[idEnv]!);
   authorize.searchParams.set("redirect_uri", redirectUri);

@@ -10,10 +10,13 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
-type Props = { searchParams: Promise<{ transaction_id?: string }> };
+type Props = {
+  searchParams: Promise<{ transaction_id?: string; _ptxn?: string }>;
+};
 
 export default async function CheckoutSuccessPage({ searchParams }: Props) {
-  const { transaction_id: transactionId } = await searchParams;
+  const params = await searchParams;
+  const transactionId = params.transaction_id || params._ptxn;
   await requireSession("/me");
 
   const result = transactionId

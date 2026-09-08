@@ -213,3 +213,39 @@ export async function startSubscriptionAction(): Promise<void> {
   }
   redirect(checkout.data.url);
 }
+
+export async function createSubscriptionCheckoutAction(): Promise<
+  { state: "ok"; transactionId: string; url: string } | { state: "rejected"; code: string }
+> {
+  const user = await getSessionUser();
+  if (!user) {
+    return { state: "rejected", code: "unauthenticated" };
+  }
+  const bridged = await ensureStudent(user);
+  if (bridged.state !== "ok") {
+    return {
+      state: "rejected",
+      code: bridged.state === "rejected" ? bridged.code : "unreachable",
+    };
+  }
+  const headerList = await headers();
+  const host = headerList.get("x-forwarded-host") ?? headerList.get("host") ?? "127.0.0.1:3000";
+  const proto = headerList.get("x-forwarded-proto") ?? "http";
+  const origin = `${proto}://${host}`;
+
+  const checkout = await createSubscriptionCheckout({
+    studentId: bridged.data,
+    successUrl: `${origin}/checkout/success?transaction_id={TRANSACTION_ID}`,
+  });
+  if (checkout.state !== "ok") {
+    return {
+      state: "rejected",
+      code: checkout.state === "rejected" ? checkout.code : "unreachable",
+    };
+  }
+  return {
+    state: "ok",
+    transactionId: checkout.data.transaction_id,
+    url: checkout.data.url,
+  };
+}

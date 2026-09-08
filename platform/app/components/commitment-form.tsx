@@ -15,9 +15,11 @@ export function CommitmentForm({ priceLabel }: { priceLabel: string }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const clientToken = process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN;
   const paddleEnv =
     (process.env.NEXT_PUBLIC_PADDLE_ENV as "sandbox" | "production") || "sandbox";
+  const clientToken =
+    process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN ||
+    (paddleEnv === "sandbox" ? "test_f4a8b0e34b6454d58e3d610ee30" : "");
 
   useEffect(() => {
     if (!clientToken) return;

@@ -201,7 +201,11 @@ def paddle_api():
     if billing_provider() == "fake":
         base = os.environ.get("KEEL_FAKE_PADDLE_URL", "http://127.0.0.1:8798")
     else:
-        base = os.environ.get("KEEL_PADDLE_API_URL", "https://api.paddle.com")
+        default_base = "https://sandbox-api.paddle.com" if (
+            key.startswith("pdl_sdbx_") or
+            os.environ.get("KEEL_PADDLE_ENV") == "sandbox"
+        ) else "https://api.paddle.com"
+        base = os.environ.get("KEEL_PADDLE_API_URL", default_base)
     return base.rstrip("/"), key
 
 
@@ -257,6 +261,10 @@ def paddle_subscription_checkout(student_id, student_email, display_name,
     subscription_signups row (written by the caller) is the fallback.
     Returns (transaction_id, checkout_url, customer_id, price_id)."""
     price_id = os.environ.get("PADDLE_PRICE_ID", "")
+    if not price_id:
+        key = os.environ.get("PADDLE_API_KEY", "")
+        if key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox":
+            price_id = "pri_01kxze6b5pgnp6dyrsazhs87hk"
     if not price_id:
         raise RuntimeError("paddle_not_wired")
     rows = db_sql(
@@ -773,6 +781,10 @@ COMMIT;
         provider (fake or real Paddle API) so the number on the page is
         always the price Paddle will actually charge."""
         price_id = os.environ.get("PADDLE_PRICE_ID", "")
+        if not price_id:
+            key = os.environ.get("PADDLE_API_KEY", "")
+            if key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox":
+                price_id = "pri_01kxze6b5pgnp6dyrsazhs87hk"
         if not price_id:
             self._respond(503, {"error": "paddle_not_wired"})
             return

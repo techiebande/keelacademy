@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getSessionUser } from "@/lib/auth";
 import { listUnits, loadCurriculumMap } from "@/lib/content";
-import { fetchSubscriptionPrice, formatPrice } from "@/lib/enroll";
+import {
+  ensureStudent,
+  fetchProfile,
+  fetchSubscriptionPrice,
+  formatPrice,
+} from "@/lib/enroll";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +20,19 @@ export const metadata: Metadata = {
 export default async function PricingPage() {
   const units = listUnits();
   const first = units[0];
+
+  const user = await getSessionUser();
+  let hasActiveSub = false;
+  if (user) {
+    const bridged = await ensureStudent(user);
+    if (bridged.state === "ok") {
+      const profile = await fetchProfile(bridged.data);
+      if (profile.state === "ok") {
+        const sub = profile.data.subscription;
+        hasActiveSub = sub?.status === "active" || sub?.status === "trialing";
+      }
+    }
+  }
 
   const priceRes = await fetchSubscriptionPrice();
   const priceLabel =
@@ -39,9 +58,15 @@ export default async function PricingPage() {
           Clear a milestone gate inside its window and we refund 15% back to your card.
         </p>
         <div className="mt-8 flex flex-wrap gap-4">
-          <Link href="/checkout" className="btn btn-accent">
-            Subscribe — {priceLabel} / month
-          </Link>
+          {hasActiveSub ? (
+            <Link href="/me" className="btn btn-accent">
+              Go to your dashboard
+            </Link>
+          ) : (
+            <Link href="/checkout" className="btn btn-accent">
+              Subscribe — {priceLabel} / month
+            </Link>
+          )}
           {first ? (
             <Link href={`/units/${first.id}`} className="btn btn-primary">
               Preview Unit {first.id}

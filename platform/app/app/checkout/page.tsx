@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { requireSession } from "@/lib/auth";
 import {
   ensureStudent,
@@ -24,7 +25,11 @@ export default async function CheckoutPage() {
   if (bridged.state === "ok") {
     const profile = await fetchProfile(bridged.data);
     if (profile.state === "ok") {
-      paddleCustomerId = profile.data.subscription?.customer_id ?? null;
+      const sub = profile.data.subscription;
+      if (sub?.status === "active" || sub?.status === "trialing") {
+        redirect("/me");
+      }
+      paddleCustomerId = sub?.customer_id ?? null;
     }
   }
 

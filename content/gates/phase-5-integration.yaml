@@ -1,0 +1,12 @@
+# Gate rule (S2.7): the engine that consumes verdict.issued events reads
+# these files as data. A rule names the unit whose PASSING verdict satisfies
+# the gate and the units the gate unlocks. The engine refuses to evaluate
+# verdicts for any unit without a rule here.
+gate_id: phase-5-integration
+title: Phase 5 integration gate
+unit_id: "5.1"
+unlocks: ["6.1", "6.2", "6.3", "6.4"]
+rebate: true
+summary: >-
+  A passing verdict on unit 5.1 clears this gate. Unit 5.1 is the Phase 5
+  integration project.

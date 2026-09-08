@@ -1,0 +1,11 @@
+submission: s01-textbook-pass
+expected: pass
+criteria:
+  all-modules-present: pass
+  required-columns-present: pass
+  phase-0-done: pass
+  tracker-path-correct: pass
+overall: pass
+grader_notes: "All four criteria pass. The table has exactly 56 rows from 0.1 to 12.4. The header row reads 'Module | Status | Hours spent | Deliverable'. Rows 0.1, 0.2, and 0.3 each show 'done'. The 0.2 row Deliverable cell contains 'omnicart-system/docs/progress-tracker.md'."
+graded_by: human
+graded_on: 2026-09-07

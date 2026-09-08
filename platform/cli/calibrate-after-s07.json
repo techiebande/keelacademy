@@ -1,0 +1,752 @@
+{
+  "golden": "../../content/golden/3.2.1",
+  "rubric": "../../content/rubrics/3.2.1.yaml",
+  "results": [
+    {
+      "name": "s01-textbook",
+      "status": "match",
+      "expected": "pass",
+      "judged": "pass",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "response_format={\"type\": \"json_schema\", \"json_schema\": {\"name\": \"claim_extraction\", \"strict\": True, \"schema\": CLAIM_JSON_SCHEMA}}"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction.model_validate(data)"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction(claim_id=record[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=reason)"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "logger.error(\"FALLBACK claim_id=%s reason='%s'\", record[\"claim_id\"], reason)"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "records = _records(); assert len(records) == 20; ... assert len(results) == 20"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2494,
+        "completion_tokens": 313,
+        "latency_s": 2.9
+      }
+    },
+    {
+      "name": "s02-strict-schema",
+      "status": "match",
+      "expected": "pass",
+      "judged": "pass",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "resp = PROXY.chat.completions.create(model=\"gpt-4o-mini\", response_format={\"type\": \"json_schema\", \"json_schema\": {\"name\": \"claim\", \"strict\": True, \"schema\": SCHEMA}}, messages=[{\"role\": \"user\", \"content\": f\"Extract: {note}\"}])"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "ext = ClaimExtraction.model_validate_json(raw)"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction(claim_id=rec[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=reason)"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "log.error(\"FALLBACK claim_id=%s reason=%r\", rec[\"claim_id\"], reason)"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "assert len(out) == 20 and all(isinstance(o, ClaimExtraction) for o in out)"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2395,
+        "completion_tokens": 348,
+        "latency_s": 3.86
+      }
+    },
+    {
+      "name": "s03-guided-decoding",
+      "status": "match",
+      "expected": "pass",
+      "judged": "pass",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The provider call passes 'guided_json': ClaimExtraction.model_json_schema(), in the request (see: '\"guided_json\": ClaimExtraction.model_json_schema(),   # server-side constrained decoding')."
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The extract function returns ClaimExtraction.model_validate(obj) (see: 'return ClaimExtraction.model_validate(obj)')."
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "On ValidationError, the except branch returns ClaimExtraction(..., extraction_failed=True, failure_reason=why) (see: 'return ClaimExtraction(claim_id=rec[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=why)')."
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The except branch logs 'FALLBACK claim_id=%s reason='%s'' with rec[\"claim_id\"] and why (see: 'log.error(\"FALLBACK claim_id=%s reason='%s'\", rec[\"claim_id\"], why)')."
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The test asserts 'assert len(RECS) == 20 and len(out) == 20' in test_twenty_in_twenty_out()."
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2437,
+        "completion_tokens": 395,
+        "latency_s": 3.86
+      }
+    },
+    {
+      "name": "s04-terse",
+      "status": "match",
+      "expected": "pass",
+      "judged": "pass",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The provider call is: TOOL.call(model=M.config.model, tool_choice={\"type\":\"tool\",\"name\":\"emit\"}, tools=[{\"name\":\"emit\",\"input_schema\":ClaimExtraction.model_json_schema()}], messages=[note]).tool_input"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The extract function returns ClaimExtraction.model_validate({**get(rec[\"notes\"]), \"claim_id\": rec[\"claim_id\"]})"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "In the except ValidationError branch: return ClaimExtraction(claim_id=rec[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=str(e)[:300])"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The log statement is: log.error(\"FALLBACK claim_id=%s reason=%s\", rec[\"claim_id\"], str(e)[:300])"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The test asserts: assert len(RECS) == 20 and len(out) == 20"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2302,
+        "completion_tokens": 365,
+        "latency_s": 2.78
+      }
+    },
+    {
+      "name": "s05-retry",
+      "status": "match",
+      "expected": "pass",
+      "judged": "pass",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "res = LLM.chat(messages=[note], response_schema=ClaimExtraction.model_json_schema(), mode=\"strict\")          # provider-side constrained decoding"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction.model_validate(data)"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction(claim_id=rec[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=reason)"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "logger.error(\"FALLBACK claim_id=%s reason='%s'\", rec[\"claim_id\"], reason)"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "assert len(RECS) == 20 and len(out) == 20"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2422,
+        "completion_tokens": 299,
+        "latency_s": 3.67
+      }
+    },
+    {
+      "name": "s06-silent-drops",
+      "status": "match",
+      "expected": "fail",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "resp = LLM.chat(messages=[note], response_schema=ClaimExtraction.model_json_schema(), mode=\"strict\")"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction.model_validate(data)"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "except (json.JSONDecodeError, ValidationError):\n        return None   # skip bad ones, keep the pipeline moving"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "except (json.JSONDecodeError, ValidationError):\n        return None   # skip bad ones, keep the pipeline moving"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "assert len(run(RECS)) >= 15   # good enough"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2041,
+        "completion_tokens": 315,
+        "latency_s": 3.08
+      }
+    },
+    {
+      "name": "s07-freetext-regex",
+      "status": "match",
+      "expected": "fail",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The provider call is: return LLM.chat(messages=[PROMPT, note])          # plain text completion"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The extract function returns a dict: return { ... }, with no model_validate or model_validate_json call."
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "There is no except ValidationError branch or any fallback construction in extract or run."
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "There is no log statement in the code for failures or fallbacks."
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The test asserts: assert len(run(RECS)) == 20"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2037,
+        "completion_tokens": 290,
+        "latency_s": 2.71
+      }
+    },
+    {
+      "name": "s08-no-fallback",
+      "status": "match",
+      "expected": "fail",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "resp = LLM.chat(messages=[note], response_schema=ClaimExtraction.model_json_schema(), mode=\"strict\")"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction.model_validate(data)    # let errors surface loudly"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "except ValidationError as e:\n            log.error(\"skipping %s: %s\", r[\"claim_id\"], str(e)[:200])"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "log.error(\"skipping %s: %s\", r[\"claim_id\"], str(e)[:200])"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "No assertion or artifact in the submission demonstrates 20-in/20-out; no test or output file is present."
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 1956,
+        "completion_tokens": 336,
+        "latency_s": 3.18
+      }
+    },
+    {
+      "name": "s09-hardcoded",
+      "status": "match",
+      "expected": "fail",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "No provider-call or schema-constrained generation mechanism is present; extract() branches on keywords and constructs ClaimExtraction directly."
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The extract() function constructs ClaimExtraction(...) from values derived by code, not from model output or model_validate/model_validate_json."
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "No except ValidationError branch or fallback value is present; extract() never handles validation failures."
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "No log statement exists for fallback events; there is no logging in the code."
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The only output is print(len(run(recs))), which does not assert or demonstrate 20-in/20-out or reference the number 20."
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 1985,
+        "completion_tokens": 303,
+        "latency_s": 3.14
+      }
+    },
+    {
+      "name": "s10-overengineered",
+      "status": "match",
+      "expected": "fail",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The provider call in PromptProvider.complete uses 'LLM.chat(messages=[SYSTEM + prompt])', which only asks for JSON in the prompt and does not pass a schema constraint or guided decoding parameter."
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "There is no model_validate or model_validate_json call; the code only uses 'json.loads(raw)' to parse output."
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "On JSONDecodeError, the code logs and sets 'payload = {\"raw\": raw}', but does not construct a schema-valid ClaimExtraction marked as failed."
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The log line 'log.error(\"degraded output for %s, passing through raw\", rec.get(\"claim_id\"))' logs only the claim id, not the validation reason."
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The test 'assert all(o.payload for o in out)' does not assert that 20 inputs yield 20 outputs, nor does it name the bar of 20."
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2177,
+        "completion_tokens": 375,
+        "latency_s": 3.29
+      }
+    },
+    {
+      "name": "s11-print-no-reason",
+      "status": "match",
+      "expected": "borderline",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return LLM.chat(messages=[note], response_schema=ClaimExtraction.model_json_schema(), mode=\"strict\")"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction.model_validate(data)"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction(claim_id=rec[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=str(e)[:300])"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "print(f\"FALLBACK {rec['claim_id']}\")        # TODO add reason"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "assert len(RECS) == 20 and len(out) == 20"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2091,
+        "completion_tokens": 296,
+        "latency_s": 3.42
+      }
+    },
+    {
+      "name": "s12-json-mode-only",
+      "status": "match",
+      "expected": "borderline",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The provider call is: resp = LLM.chat(messages=[SCHEMA_IN_PROMPT, note], response_format={\"type\": \"json_object\"})   # JSON mode: syntax only"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The extract function returns ClaimExtraction.model_validate(data) after parsing the model output."
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "In the except branch: return ClaimExtraction(claim_id=rec[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=reason)"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The log line is: log.error(\"FALLBACK claim_id=%s reason='%s'\", rec[\"claim_id\"], reason)"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The test asserts: assert len(RECS) == 20 and len(out) == 20"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2298,
+        "completion_tokens": 340,
+        "latency_s": 3.5
+      }
+    },
+    {
+      "name": "s13-nineteen-fixture",
+      "status": "match",
+      "expected": "borderline",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return LLM.chat(messages=[note], response_schema=ClaimExtraction.model_json_schema(), mode=\"strict\")"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction.model_validate(data)"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction(claim_id=rec[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=reason)"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "log.error(\"FALLBACK claim_id=%s reason='%s'\", rec[\"claim_id\"], reason)"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "assert len(out) == len(RECS)          # conservation: N in, N out"
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2224,
+        "completion_tokens": 310,
+        "latency_s": 8.03
+      }
+    },
+    {
+      "name": "s14-artifact-evidence",
+      "status": "match",
+      "expected": "borderline",
+      "judged": "pass",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "resp = LLM.chat(messages=[note], response_schema=ClaimExtraction.model_json_schema(), mode=\"strict\")"
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction.model_validate(data)"
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "return ClaimExtraction(claim_id=rec[\"claim_id\"], claim_type=\"other\", severity=\"low\", extraction_failed=True, failure_reason=reason)"
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "log.error(\"FALLBACK claim_id=%s reason='%s'\", rec[\"claim_id\"], reason)"
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "out.jsonl contains exactly 20 lines, one per claim, demonstrating 20-in/20-out."
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2997,
+        "completion_tokens": 298,
+        "latency_s": 3.77
+      }
+    },
+    {
+      "name": "s15-manual-validation",
+      "status": "match",
+      "expected": "borderline",
+      "judged": "fail",
+      "criteria": [
+        {
+          "criterion": "schema-constrained-generation",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The call to the provider is: LLM.chat(messages=[note], response_schema=ClaimExtraction.model_json_schema(), mode=\"strict\")."
+        },
+        {
+          "criterion": "pydantic-validation-boundary",
+          "expected": "fail",
+          "judged": "fail",
+          "match": true,
+          "evidence": "The code parses model output with json.loads(raw) and then manually checks fields, but never calls ClaimExtraction.model_validate or model_validate_json on the model output."
+        },
+        {
+          "criterion": "defined-fallback",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "On error, the except branch returns ClaimExtraction(..., extraction_failed=True, failure_reason=reason)."
+        },
+        {
+          "criterion": "failures-logged",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The log line is: log.error(\"FALLBACK claim_id=%s reason='%s'\", rec[\"claim_id\"], reason)."
+        },
+        {
+          "criterion": "conservation-tested",
+          "expected": "pass",
+          "judged": "pass",
+          "match": true,
+          "evidence": "The test asserts: assert len(RECS) == 20 and len(out) == 20."
+        }
+      ],
+      "meta": {
+        "model": "gpt-4.1-2025-04-14",
+        "prompt_tokens": 2276,
+        "completion_tokens": 333,
+        "latency_s": 5.9
+      }
+    }
+  ],
+  "summary": {
+    "total": 15,
+    "overall_matches": 15,
+    "overall_agreement_pct": 100.0,
+    "criterion_matches": 75,
+    "criterion_total": 75,
+    "criterion_agreement_pct": 100.0,
+    "errors": 0,
+    "prompt_tokens": 34132,
+    "completion_tokens": 4916
+  }
+}

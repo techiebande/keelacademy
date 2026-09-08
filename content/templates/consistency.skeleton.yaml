@@ -1,0 +1,9 @@
+# Facts that must agree across every file of this unit (read by check-unit-consistency.py).
+numbers:
+  - "<about 4,000>"
+  - "<2 to 3 days>"
+  - "<4520 cents>"
+  - "<CLM-20841>"
+documents:
+  - "<order receipt>"
+worked_example_uses_other_documents: true

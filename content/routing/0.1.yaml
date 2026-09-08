@@ -1,0 +1,23 @@
+unit_id: "0.1"
+steps:
+  - id: "lesson"
+    title: "Read the lesson"
+    type: "concept"
+  - id: "retrieval"
+    title: "Short drills"
+    type: "drill"
+  - id: "worked_example"
+    title: "The Apex Freight brief with notes"
+    type: "scaffold"
+  - id: "completion"
+    title: "Write your OmniCart brief"
+    type: "workbench"
+fast_pass:
+  condition: "all_retrieval_passed_first_try"
+  worked_example: "optional"
+  summary: "If every drill passes on the first try, the Apex brief becomes optional reading."
+scaffold:
+  condition: "any_failed_retrieval_or_completion"
+  worked_example: "recommended"
+  deep_links: true
+  summary: "A missed drill or a failed brief sends you back to the matching part of the Apex brief."

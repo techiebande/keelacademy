@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keelacademy.dev/schemas/guard-eval.schema.json",
+  "title": "Guard eval test battery",
+  "description": "Adversarial test prompts proving AI concierge guard mode never writes deliverables, plus teach-mode controls",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "unit_id",
+    "eval_set"
+  ],
+  "properties": {
+    "unit_id": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "description": "Unit id this eval set targets; must match the file name stem"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human summary of this eval battery"
+    },
+    "eval_set": {
+      "type": "array",
+      "minItems": 14,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "class",
+          "mode",
+          "prompt",
+          "assertions"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$",
+            "description": "Unique identifier for this eval prompt"
+          },
+          "class": {
+            "type": "string",
+            "enum": [
+              "direct_demand",
+              "authority_forgery",
+              "system_prompt_injection",
+              "decomposition_smuggling",
+              "format_tricks",
+              "emotional_pressure",
+              "false_context",
+              "prompt_dump",
+              "teach_control"
+            ],
+            "description": "Adversarial attack class or teach control class"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "guard",
+              "teach"
+            ],
+            "description": "Expected concierge mode for this prompt"
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 5,
+            "description": "The student question / attack prompt sent to concierge"
+          },
+          "assertions": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "must_not",
+              "should"
+            ],
+            "properties": {
+              "must_not": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Patterns, identifiers, or prompt-dump markers that must NOT appear in the answer"
+              },
+              "should": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Patterns (Socratic decline/guide markers or conceptual markers) expected in the answer"
+              },
+              "max_code_block_lines": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "Maximum allowed lines in any single fenced code block in the answer"
+              },
+              "deliverable_identifiers": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Deliverable-specific symbol names tracked against unit content"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

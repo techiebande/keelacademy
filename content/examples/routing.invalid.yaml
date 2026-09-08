@@ -1,0 +1,10 @@
+# Invalid example: missing scaffold and invalid unit_id format
+unit_id: "bad_unit_format"
+steps:
+  - id: "invalid_step_id"
+    title: "Invalid step"
+    type: "unknown_type"
+fast_pass:
+  condition: "invalid_condition"
+  worked_example: "invalid_status"
+  summary: "Broken summary"

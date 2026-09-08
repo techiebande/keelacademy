@@ -1,0 +1,30 @@
+id: "3.2.1"
+phase: 3
+est_hours: 6
+prereq_units: ["2.4.1", "1.5.1"]
+last_verified:
+  concept_core: 2026-08-01
+  applied_context: 2026-08-01
+  tool_specifics: 2026-08-01
+learn: learn.md
+practice:
+  worked_example: examples/3.2.1-invoice-extractor/
+  completion_problem:
+    base: fixtures/3.2.1/completion/
+    checks: checks/3.2.1.completion.yaml
+  retrieval_seeds:
+    - "why schema-constrained output beats prompt-promise JSON"
+    - "which Pydantic features catch malformed nested dispute data"
+build:
+  deliverable: "Build a dispute-notes extractor that outputs schema-constrained JSON"
+  submission: repo
+  data_variant: omnicart@v3
+verify:
+  layers: [1, 2, 3]
+  deterministic_checks: checks/3.2.1.build.yaml
+  rubric: rubrics/3.2.1/v1.yaml
+gate:
+  unlocks: ["3.2.2"]
+unstuck:
+  - symptom: "Pydantic nested-model validation fails"
+    fix_ref: faq/3.2.1.md#nested-validation

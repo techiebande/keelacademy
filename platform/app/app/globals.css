@@ -1,0 +1,1891 @@
+@import "tailwindcss";
+
+/*
+  Keel Academy design system: a dark engineering-console language.
+  Near-black canvas, green-tinted grey type, one rationed lime accent that
+  behaves like an LED status indicator. Depth comes from surface-value steps
+  (#000 -> #0f1211 -> #151918) and 1px hairlines, never shadows. Space Grotesk
+  (Goga stand-in) for headings, Inter for UI chrome, Fira Mono for code.
+
+  Every text token here clears 4.9:1 on every surface above it, so any
+  combination the pages compose is WCAG 2.2 AA at body size.
+*/
+
+@theme {
+  /* Surfaces: the ladder. Depth comes from these steps plus 1px hairlines. */
+  --color-void-black: #000000;
+  --color-ground-iron: #0f1211;
+  --color-carbon-veil: #151918;
+  --color-mint-frost: #1c261e;
+
+  /* Hairlines */
+  --color-phosphor-blue-black: #151e22;
+  --color-circuit-border: #283327;
+
+  /* The one rationed accent */
+  --color-lime-pulse: #7fee64;
+
+  /* Text ladder. Five deliberate steps, each >= 4.9:1 on every surface above. */
+  --color-phosphor-white: #f4f4f6;
+  --color-moss-80: #d5dad2;
+  --color-moss-70: #b0b8ac;
+  --color-sage-60: #96a091;
+  --color-sage-40: #8a9585;
+
+  /* Links: lime-tinted so they are not carried by colour alone plus underline */
+  --color-fern-link: #a9d79b;
+
+  /* Typography */
+  --font-goga: 'Goga', var(--font-grotesk), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-inter-variable: 'Inter Variable', var(--font-inter-var), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-code-mono: var(--font-fira-mono), ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Typography — Scale */
+  --text-caption: 12px;
+  --leading-caption: 1.33;
+  --tracking-caption: 0.6px;
+  --text-body-sm: 14px;
+  --leading-body-sm: 1.43;
+  --tracking-body-sm: -0.364px;
+  --text-body: 16px;
+  --leading-body: 1.5;
+  --tracking-body: -0.352px;
+  --text-subheading: 20px;
+  --leading-subheading: 1.5;
+  --tracking-subheading: -0.36px;
+  --text-heading-sm: 24px;
+  --leading-heading-sm: 1.3;
+  --tracking-heading-sm: -0.312px;
+  --text-heading: 30px;
+  --leading-heading: 1.2;
+  --tracking-heading: -0.36px;
+  --text-heading-lg: 42px;
+  --leading-heading-lg: 1.05;
+  --tracking-heading-lg: -0.336px;
+  --text-display: 64px;
+  --leading-display: 1;
+  --tracking-display: -0.448px;
+
+  /* Border Radius: 0 everywhere */
+  --radius-xs: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+  --radius-4xl: 0px;
+  --radius-full: 0px;
+}
+
+:root {
+  /* Layout */
+  --page-max-width: 1280px;
+  --section-gap: 80px;
+  --card-padding: 32px;
+  /* One line of lesson prose, about 70 characters at the lesson's body size. */
+  --lesson-measure: 35em;
+
+  /* Named radii: 0 everywhere */
+  --radius-cards: 0px;
+  --radius-pills: 0px;
+  --radius-inputs: 0px;
+  --radius-buttons: 0px;
+
+  /* Semantic aliases referenced from TSX arbitrary values */
+  --line-on-dark: var(--color-phosphor-blue-black);
+  --line-on-dark-strong: var(--color-circuit-border);
+  --text-muted-on-dark: var(--color-sage-60);
+  --text-faint-on-dark: var(--color-sage-40);
+}
+
+/* Light reading mode: user-toggled, persists in localStorage.
+   Default remains dark per direction; light swaps the surface ladder and
+   text ladder, and transforms the electric lime accent into a crisp, deep
+   forest green (#166534) that clears 6.9:1 WCAG AAA contrast against light grounds. */
+html[data-theme="light"] {
+  --color-void-black: #f8f9f7;
+  --color-ground-iron: #ffffff;
+  --color-carbon-veil: #f1f3f1;
+  --color-mint-frost: #eef4ee;
+  --color-phosphor-blue-black: #e6ece6;
+  --color-circuit-border: #d6e0d6;
+  --color-phosphor-white: #0d1210;
+  --color-moss-80: #1f2a26;
+  --color-moss-70: #3a4540;
+  --color-sage-60: #56665f;
+  --color-sage-40: #758781;
+  --color-fern-link: #245a12;
+  --color-lime-pulse: #166534;
+  --line-on-dark: #e6ece6;
+  --line-on-dark-strong: #d6e0d6;
+  --text-muted-on-dark: #56665f;
+  --text-faint-on-dark: #758781;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-void-black: #f8f9f7;
+    --color-ground-iron: #ffffff;
+    --color-carbon-veil: #f1f3f1;
+    --color-mint-frost: #eef4ee;
+    --color-phosphor-blue-black: #e6ece6;
+    --color-circuit-border: #d6e0d6;
+    --color-phosphor-white: #0d1210;
+    --color-moss-80: #1f2a26;
+    --color-moss-70: #3a4540;
+    --color-sage-60: #56665f;
+    --color-sage-40: #758781;
+    --color-fern-link: #245a12;
+    --color-lime-pulse: #166534;
+    --line-on-dark: #e6ece6;
+    --line-on-dark-strong: #d6e0d6;
+    --text-muted-on-dark: #56665f;
+    --text-faint-on-dark: #758781;
+  }
+}
+
+/* ---------- Base ---------- */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-void-black);
+  color: var(--color-sage-60);
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  font-feature-settings: "cv11";
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-lime-pulse);
+  color: var(--color-void-black);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-goga);
+  font-weight: 500;
+  color: var(--color-phosphor-white);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+code, pre, kbd {
+  font-family: var(--font-code-mono);
+}
+
+/* Motion: one coherent 300ms ease-out across the whole color set */
+.btn,
+.chip,
+.card-dark,
+.nav-link,
+.eyebrow,
+a {
+  transition:
+    color 300ms ease-out,
+    background-color 300ms ease-out,
+    border-color 300ms ease-out,
+    fill 300ms ease-out,
+    stroke 300ms ease-out,
+    text-decoration-color 300ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-lime-pulse);
+  outline-offset: 2px;
+  border-radius: 0;
+}
+
+/* ---------- Layout primitives ---------- */
+
+.shell {
+  max-width: var(--page-max-width);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.section {
+  padding-block: clamp(56px, 8vw, var(--section-gap));
+}
+
+.section-tight {
+  padding-block: clamp(40px, 5vw, 56px);
+}
+
+/* ---------- Type helpers ---------- */
+
+.eyebrow {
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+  color: var(--color-moss-70);
+}
+
+.display-heading {
+  font-family: var(--font-goga);
+  font-size: clamp(36px, 5.5vw, var(--text-display));
+  font-weight: 500;
+  line-height: var(--leading-display);
+  letter-spacing: -0.008em;
+}
+
+.heading-xl {
+  font-family: var(--font-goga);
+  font-size: clamp(24px, 3.2vw, var(--text-heading));
+  font-weight: 500;
+  line-height: var(--leading-heading);
+  letter-spacing: -0.012em;
+}
+
+.heading-lg {
+  font-family: var(--font-goga);
+  font-size: clamp(21px, 2.4vw, var(--text-heading-sm));
+  font-weight: 500;
+  line-height: var(--leading-heading-sm);
+  letter-spacing: -0.013em;
+}
+
+.heading-md {
+  font-family: var(--font-goga);
+  font-size: var(--text-subheading);
+  font-weight: 500;
+  line-height: var(--leading-subheading);
+  letter-spacing: var(--tracking-subheading);
+}
+
+.lead {
+  font-size: var(--text-subheading);
+  font-weight: 400;
+  line-height: var(--leading-subheading);
+  letter-spacing: var(--tracking-subheading);
+  color: var(--color-moss-80);
+  max-width: 62ch;
+}
+
+.muted {
+  color: var(--color-sage-60);
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius-buttons);
+  padding: 12px 28px;
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-body);
+  font-weight: 500;
+  letter-spacing: var(--tracking-body);
+  line-height: 1.2;
+  cursor: pointer;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Three visually distinct tiers.
+   accent  = lime fill, one per viewport, for the single primary action
+   primary = carbon fill + bright hairline + bright label
+   ghost   = no fill + dim hairline + dim label */
+.btn-primary {
+  background: var(--color-carbon-veil);
+  border-color: var(--color-phosphor-white);
+  color: var(--color-phosphor-white);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-mint-frost);
+}
+
+.btn-accent {
+  background: var(--color-lime-pulse);
+  color: var(--color-void-black);
+  border-color: var(--color-lime-pulse);
+}
+
+.btn-accent:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+html[data-theme="light"] .btn-accent,
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .btn-accent {
+    color: #ffffff;
+  }
+}
+
+html[data-theme="light"] .btn-accent:hover:not(:disabled),
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .btn-accent:hover:not(:disabled) {
+    background: #14532d;
+    border-color: #14532d;
+    filter: none;
+    color: #ffffff;
+  }
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: var(--color-circuit-border);
+  color: var(--color-moss-70);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  border-color: var(--color-moss-70);
+  color: var(--color-phosphor-white);
+}
+
+/* Quiet text action on dark surfaces */
+.btn-quiet {
+  background: transparent;
+  color: var(--color-fern-link);
+  padding: 10px 16px;
+}
+
+.btn-quiet:hover:not(:disabled) {
+  color: var(--color-phosphor-white);
+}
+
+/* Compact actions (tables, cards) */
+.btn-sm {
+  padding: 8px 20px;
+  font-size: var(--text-body-sm);
+  letter-spacing: var(--tracking-body-sm);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+/* ---------- Cards ---------- */
+
+.card-dark {
+  background: var(--color-ground-iron);
+  border: 1px solid var(--color-circuit-border);
+  border-radius: var(--radius-cards);
+  padding: var(--card-padding);
+}
+
+@media (max-width: 720px) {
+  .card-dark {
+    padding: 24px;
+  }
+}
+
+/* ---------- Chips and status labels ---------- */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--radius-pills);
+  padding: 4px 12px;
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caption);
+  white-space: nowrap;
+}
+
+.chip-outline {
+  border: 1px solid var(--color-circuit-border);
+  color: var(--color-moss-70);
+}
+
+/* Status LED: active / live / running. Rationed */
+.chip-live {
+  background: var(--color-lime-pulse);
+  color: var(--color-void-black);
+}
+
+html[data-theme="light"] .chip-live,
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) .chip-live {
+    color: #ffffff;
+  }
+}
+
+/* Attention state that must not read as "live": filled surface, bright label */
+.chip-alert {
+  background: var(--color-mint-frost);
+  border: 1px solid var(--color-circuit-border);
+  color: var(--color-phosphor-white);
+}
+
+/* ---------- Stats ---------- */
+
+.stat-number {
+  font-family: var(--font-goga);
+  font-size: clamp(30px, 3.5vw, var(--text-heading-lg));
+  font-weight: 500;
+  line-height: var(--leading-heading-lg);
+  letter-spacing: -0.008em;
+  color: var(--color-phosphor-white);
+}
+
+.stat-label {
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+  color: var(--color-moss-70);
+  margin-top: 10px;
+}
+
+/* ---------- Tables ---------- */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.data-table th {
+  text-align: left;
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+  color: var(--color-moss-70);
+  padding: 10px 16px 10px 0;
+  border-bottom: 1px solid var(--color-phosphor-blue-black);
+}
+
+.data-table td {
+  padding: 12px 16px 12px 0;
+  border-bottom: 1px solid var(--color-phosphor-blue-black);
+  vertical-align: top;
+}
+
+
+/* ---------- Forms ---------- */
+
+.field-label {
+  display: block;
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+  color: var(--color-moss-70);
+  margin-bottom: 8px;
+}
+
+.field-input {
+  width: 100%;
+  background: var(--color-ground-iron);
+  border: 1px solid var(--color-circuit-border);
+  border-radius: var(--radius-inputs);
+  color: var(--color-phosphor-white);
+  font-family: var(--font-inter-variable);
+  font-size: 15px;
+  padding: 12px 14px;
+}
+
+.field-input::placeholder {
+  color: var(--color-sage-40);
+}
+
+/* Keyboard focus keeps the global ring; the border shift is an extra cue only.
+   Never set outline: none here. */
+.field-input:focus-visible {
+  border-color: var(--color-lime-pulse);
+}
+
+textarea.field-input {
+  resize: vertical;
+}
+
+/* ---------- Code and terminal panels ---------- */
+
+.code-block {
+  background: var(--color-ground-iron);
+  border-radius: var(--radius-buttons);
+  border: 1px solid var(--color-circuit-border);
+  padding: 20px 24px;
+  overflow-x: auto;
+  font-family: var(--font-code-mono);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-moss-80);
+}
+
+/* Terminal window chrome: traffic-light dots rendered in pure CSS */
+.code-window {
+  position: relative;
+  padding-top: 44px;
+}
+
+.code-window::before {
+  content: "";
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  background: #ff5f56;
+  box-shadow: 16px 0 0 #febc2e, 32px 0 0 #28c840;
+}
+
+.code-window .code-title {
+  position: absolute;
+  top: 14px;
+  right: 20px;
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caption);
+  color: var(--color-moss-70);
+}
+
+code.code-inline {
+  background: var(--color-carbon-veil);
+  border-radius: var(--radius-md);
+  padding: 2px 7px;
+  font-size: 0.88em;
+  color: var(--color-moss-80);
+}
+
+/* ---------- Rendered lesson markdown (content-as-data) ---------- */
+
+.lesson-prose {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--color-sage-60);
+}
+
+@media (max-width: 640px) {
+  .lesson-prose {
+    line-height: 1.45;
+  }
+}
+
+.lesson-prose h1, .lesson-prose h2, .lesson-prose h3, .lesson-prose h4 {
+  font-family: var(--font-goga);
+  font-weight: 500;
+  color: var(--color-phosphor-white);
+  line-height: 1.25;
+}
+
+.lesson-prose h1 { font-size: 30px; }
+.lesson-prose h2 { font-size: 24px; }
+.lesson-prose h3 { font-size: 20px; }
+.lesson-prose h4 { font-size: 17px; }
+
+.lesson-prose strong {
+  color: var(--color-phosphor-white);
+}
+
+.lesson-prose ul, .lesson-prose ol {
+  padding-left: 1.4em;
+}
+
+.lesson-prose ul { list-style: disc; }
+.lesson-prose ol { list-style: decimal; }
+
+.lesson-prose li {
+  margin-block: 0.35em;
+}
+
+.lesson-prose a {
+  color: var(--color-fern-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.lesson-prose a:hover {
+  color: var(--color-phosphor-white);
+}
+
+.lesson-prose code {
+  font-family: var(--font-code-mono);
+  background: var(--color-carbon-veil);
+  border-radius: var(--radius-md);
+  padding: 2px 7px;
+  font-size: max(0.85em, 13px);
+  color: var(--color-moss-80);
+  /* The longest inline token in the lessons is 34 characters, which is wider
+     than a 320px screen inside a callout. Let it break rather than push the
+     page sideways. */
+  overflow-wrap: anywhere;
+}
+
+.lesson-prose pre {
+  background: var(--color-ground-iron);
+  border: 1px solid var(--color-circuit-border);
+  border-radius: var(--radius-buttons);
+  padding: 20px 24px;
+  overflow-x: auto;
+  font-family: var(--font-code-mono);
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.lesson-prose pre code {
+  background: none;
+  padding: 0;
+  color: var(--color-moss-80);
+  /* A code block scrolls, so its lines are not broken. */
+  overflow-wrap: normal;
+}
+
+/* A quoted beat is never less legible than the prose around it, so this sits a
+   step above body text rather than below it. */
+.lesson-prose blockquote {
+  border-left: 3px solid var(--color-circuit-border);
+  padding-left: 16px;
+  color: var(--color-moss-70);
+}
+
+.lesson-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.lesson-prose th, .lesson-prose td {
+  border: 1px solid var(--color-phosphor-blue-black);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.lesson-prose th {
+  font-family: var(--font-inter-variable);
+  font-weight: 500;
+  color: var(--color-phosphor-white);
+}
+
+.lesson-prose hr {
+  border: none;
+  border-top: 1px solid var(--color-phosphor-blue-black);
+}
+
+/* Element spacing, and only element spacing, is guarded against `.flow`.
+   Inside the reading grid the prose blob *is* a grid container, and grid items do
+   not collapse their margins, so `.lesson-prose p { margin-block }` would stack on
+   top of the flow rhythm and double every gap. Outside the grid, in the worked
+   example, the FAQ answers and the callouts, these are still the only spacing
+   there is. Every typography rule above stays unguarded. */
+.lesson-prose:not(.flow) h1,
+.lesson-prose:not(.flow) h2,
+.lesson-prose:not(.flow) h3,
+.lesson-prose:not(.flow) h4 {
+  margin-top: 1.6em;
+  margin-bottom: 0.5em;
+}
+
+.lesson-prose:not(.flow) :is(p, ul, ol) {
+  margin-block: 0.9em;
+}
+
+.lesson-prose:not(.flow) blockquote {
+  margin-block: 1.2em;
+}
+
+.lesson-prose:not(.flow) table {
+  margin-block: 1.2em;
+}
+
+.lesson-prose:not(.flow) hr {
+  margin-block: 1.8em;
+}
+
+/* Wide tables inside prose keep their semantics and scroll on their own, so a
+   72ch measure does not force the page sideways. */
+.table-scroll {
+  overflow-x: auto;
+  margin-block: 1.2em;
+}
+
+/* ---------- Code and diagram figures ---------- */
+
+/* A fenced block in a lesson is a figure, not a loose <pre>: a hairline frame, a
+   mono head naming the file and the language, and tokenised code under it. The
+   head is the whole chrome. Everything here is scoped tighter than the
+   `.lesson-prose pre` rules above, which still serve the plain fences inside
+   cards, so a figure is not framed twice. */
+.code-fig {
+  margin: 0;
+  border: 1px solid var(--color-phosphor-blue-black);
+  border-radius: var(--radius-buttons);
+  background: var(--color-ground-iron);
+  overflow: hidden;
+}
+
+.code-fig-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 9px 20px 8px;
+  border-bottom: 1px solid var(--color-phosphor-blue-black);
+  font-family: var(--font-code-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+}
+
+/* The name takes the left edge and the remaining space, so the language label and
+   the copy button stay grouped at the right however long the filename is. */
+.code-fig-name {
+  margin-right: auto;
+  color: var(--color-moss-70);
+  overflow-wrap: anywhere;
+}
+
+.code-fig-lang {
+  color: var(--color-sage-40);
+  white-space: nowrap;
+}
+
+.code-fig-copy {
+  font-family: var(--font-code-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: var(--color-sage-40);
+  background: none;
+  border: none;
+  padding: 0 2px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 300ms ease-out;
+}
+
+.code-fig-copy:hover {
+  color: var(--color-phosphor-white);
+}
+
+/* Shiki puts the theme's own background and foreground inline on the <pre>. Both
+   are Keel tokens, so they land on the frame's surface instead of fighting it and
+   nothing here has to override them. */
+.code-fig pre.shiki {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  padding-block: 16px;
+  padding-inline: 0;
+  overflow-x: auto;
+  font-family: var(--font-code-mono);
+  font-size: var(--lesson-code, 13.5px);
+  line-height: 1.7;
+}
+
+/* One grid row per line, which is what lets a highlighted line span the whole
+   row rather than stopping at the end of its text. The inline padding moves off
+   the <pre> and onto the lines for the same reason. */
+.code-fig pre.shiki code {
+  display: grid;
+  background: none;
+  padding: 0;
+  overflow-wrap: normal;
+}
+
+.code-fig pre.shiki .line {
+  border-left: 2px solid transparent;
+  padding-inline: 20px 22px;
+}
+
+/* `{3,7-9}` in a fence, and the `[!code highlight]` comment form. A surface step
+   plus a marker in the gutter, so the emphasis is not carried by colour alone. */
+.code-fig pre.shiki .line.highlighted {
+  background: var(--color-mint-frost);
+  border-left-color: var(--color-sage-40);
+}
+
+/* Line numbers on line-highlighted figures (U8): only where a range is authored */
+.code-fig pre.shiki.has-line-numbers code {
+  counter-reset: line;
+}
+
+.code-fig pre.shiki.has-line-numbers .line::before {
+  counter-increment: line;
+  content: counter(line);
+  display: inline-block;
+  width: 1.8rem;
+  margin-right: 1.25rem;
+  text-align: right;
+  color: var(--color-sage-40);
+  user-select: none;
+  opacity: 0.55;
+}
+
+.code-fig pre.shiki.has-line-numbers .line.highlighted::before {
+  color: var(--color-moss-80);
+  opacity: 1;
+  font-weight: 500;
+}
+
+/* The escaped fallback when a grammar throws: same frame, no tokens. */
+.code-fig pre.shiki-plain {
+  padding-inline: 22px;
+  color: var(--color-moss-80);
+}
+
+/* A diagram is drawn in the browser, so what the server sends is the diagram's
+   own source inside the same frame. That is what a reader sees with no
+   JavaScript, and it is the whole fallback: no spinner, no empty box. */
+.diagram {
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.diagram-frame {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--color-circuit-border);
+  border-left: 2px solid var(--color-moss-70);
+  border-radius: var(--radius-cards);
+  background: #0f1211 !important;
+  color: #d5dad2 !important;
+  padding: 20px 24px;
+  overflow-x: auto;
+}
+
+.diagram-frame pre.diagram-source {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  background: none;
+  color: var(--color-moss-70);
+  font-size: var(--lesson-code, 13.5px);
+  line-height: 1.7;
+}
+
+.diagram-svg {
+  /* Block, not flex: a diagram wider than the column must be able to scroll
+     inside .diagram-frame instead of being squeezed or clipped on the left. */
+  display: block;
+  width: 100%;
+  color: #d5dad2;
+}
+
+.diagram-svg svg {
+  display: block;
+  margin: 0 auto;
+  height: auto;
+}
+
+/* Colour only, never typography. Mermaid measures every label with the font
+   settings passed in themeVariables (mermaid-runtime.tsx) BEFORE it draws the
+   boxes. A stylesheet that changes font-family, font-size or line-height after
+   that makes the text bigger than the rectangle it was measured for, which is
+   exactly the "text overflows the box" bug this replaces. */
+.diagram-svg text,
+.diagram-svg tspan {
+  fill: #d5dad2;
+}
+
+.diagram-svg foreignObject div,
+.diagram-svg foreignObject span,
+.diagram-svg foreignObject p,
+.diagram-svg .nodeLabel,
+.diagram-svg .label {
+  color: #d5dad2;
+  opacity: 1;
+}
+
+.diagram-svg foreignObject b,
+.diagram-svg foreignObject strong,
+.diagram-svg .nodeLabel b,
+.diagram-svg .nodeLabel strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.diagram-svg .edgeLabel,
+.diagram-svg .edgeLabel span,
+.diagram-svg .edgeLabel p,
+.diagram-svg .edgeLabel div {
+  color: #cbd5e1;
+  background-color: #0f1211;
+}
+
+.diagram-svg .edgeLabel rect {
+  fill: #0f1211;
+  opacity: 0.85;
+}
+
+.diagram-svg .cluster-label text,
+.diagram-svg .cluster-label span {
+  fill: #ffffff;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* The caption is directly under the figure, so the source disclosure below it
+   drops the rule .reveal would otherwise draw. */
+.diagram-reveal {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 12px;
+}
+
+.diagram-reveal .reveal-body {
+  overflow-x: auto;
+}
+
+.figure-caption {
+  margin-top: 10px;
+  font-family: var(--font-inter-variable);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-moss-80);
+}
+
+.figure-caption::before {
+  content: "FLOW DIAGRAM · ";
+  font-family: var(--font-inter-variable);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+  color: var(--color-moss-70);
+}
+
+/* ---------- Lesson delivery ---------- */
+
+/* The reading measure. Set in em rather than ch: `ch` is the width of a zero,
+   which in Inter is wider than its average lowercase letter, so a 72ch column
+   actually runs to the high eighties. 35em lands in the 65 to 75 band the prose
+   is set for. Deliberately not on .lesson-prose itself: the worked example
+   reuses that class for a comparison table that needs the shell width. */
+.lesson-measure {
+  max-width: var(--lesson-measure);
+}
+
+/* Contents rail beside the lesson from lg up, stacked above it below that. */
+.lesson-layout {
+  display: grid;
+  gap: 32px;
+}
+
+@media (min-width: 1024px) {
+  .lesson-layout {
+    grid-template-columns: 216px minmax(0, 1fr);
+    gap: 48px;
+  }
+}
+
+/* Prose is measured at 35em; code blocks and tables get a little more room but
+   stay in one column rather than running the full width of the shell. */
+.lesson-body {
+  max-width: 46em;
+}
+
+.lesson-body > * + * {
+  margin-top: 32px;
+}
+
+.lesson-checked {
+  font-family: var(--font-code-mono);
+  font-size: 12.5px;
+  color: var(--color-sage-40);
+}
+
+/* ---------- The lesson canvas: a breakout grid, symmetric about the text ---------- */
+
+/*
+  A script page is one column of writing with things breaking out around it. The
+  text sits on the page's centre line by construction rather than by arithmetic:
+  the fixed tracks either side of it are mirror images, so the reading column
+  cannot drift when one of the numbers changes.
+
+  Nine tracks, four of which a child can claim:
+
+    1fr | rail 192 | 52 | bleed 84 | TEXT 703 | bleed 84 | 52 | 192 | 1fr
+
+    text  703px   prose, headings, callouts, checkpoints, asides
+    wide  871px   code figures, diagrams, prose tables
+    body 1115px   apparatus: the workbench, the drill, the checks, the rubric
+    full  edge    the chapter opener band
+
+  `body` is the one asymmetric tier. It reaches into the empty mirror of the rail
+  on the right, because that space is doing nothing and a data panel is the one
+  thing on the page wide enough to want it.
+*/
+.lesson-canvas {
+  --rail: 192px;
+  --rail-gap: 52px;
+  --bleed: 0px;
+
+  /* One fluid size drives the whole scale. 19px from about 1000px up. */
+  --lesson-body: clamp(16.5px, 1rem + 0.3vw, 19px);
+  --lesson-code: clamp(13px, 0.8rem + 0.22vw, 14.5px);
+  /* 37 lines up at about 74 characters of Inter. Multiplied out rather than
+     written as 37em, because `em` would resolve against each grid container's own
+     font size and the nested grids would stop lining up with the outer one. */
+  --measure: calc(37 * var(--lesson-body));
+  --flow-gap: calc(var(--lesson-body) * 1.05);
+
+  /* The page has no second sticky bar, so the rail and the deep links only have
+     the 64px site header to clear. */
+  --rail-top: 88px;
+
+  padding-inline: 20px;
+}
+
+@media (min-width: 640px) {
+  .lesson-canvas {
+    --bleed: clamp(16px, 6vw, 84px);
+    padding-inline: 24px;
+  }
+}
+
+/* The track template. It goes on the canvas, on each phase section, and on each
+   prose blob, which is how a `<pre>` three levels deep still lands in the `wide`
+   track: a nested `.flow` claims `full`, so it is exactly as wide as its parent
+   grid and resolves to identical track pixels. No subgrid needed. */
+.flow {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(0, 1fr)
+    [body-start wide-start] var(--bleed)
+    [text-start] min(var(--measure), 100%) [text-end]
+    var(--bleed) [wide-end body-end]
+    minmax(0, 1fr) [full-end];
+}
+
+/* The rail cannot coexist with a 703px centred column below about 1440px, so
+   above that width the two mirror tracks appear and the rail moves into the left
+   one. Nothing is lost when they go: the chapter opener lists the same beats at
+   every width. */
+@media (min-width: 1440px) {
+  .flow {
+    grid-template-columns:
+      [full-start] minmax(0, 1fr)
+      [rail-start] var(--rail) [rail-end]
+      var(--rail-gap)
+      [body-start wide-start] var(--bleed)
+      [text-start] min(var(--measure), 100%) [text-end]
+      var(--bleed) [wide-end]
+      var(--rail-gap) var(--rail) [body-end]
+      minmax(0, 1fr) [full-end];
+  }
+}
+
+/* Which tier each kind of child claims.
+   All sections, apparatus, artifacts, code blocks, diagrams, tables, and callouts share
+   one uniform width matching the reading text column, with equal spacing left and right. */
+.flow > * {
+  grid-column: text;
+  min-width: 0;
+}
+
+.flow > figure,
+.flow > figure.code-fig,
+.flow > figure.diagram,
+.flow > .table-scroll,
+.flow > .flow-apparatus,
+.flow > .callout,
+.flow > .apparatus {
+  grid-column: text;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.flow > .flow,
+.flow > .flow-band {
+  grid-column: full;
+}
+
+/* Vertical rhythm. Grid items do not collapse margins, which is why the prose
+   element margins are guarded off inside `.flow` and every gap on the page comes
+   from these rules instead. */
+.flow > * + * {
+  margin-top: var(--flow-gap);
+}
+
+.flow > * + h2 {
+  margin-top: calc(var(--flow-gap) * 2.4);
+}
+
+.flow > * + h3 {
+  margin-top: calc(var(--flow-gap) * 1.8);
+}
+
+.flow > :is(h2, h3, h4) + * {
+  margin-top: calc(var(--flow-gap) * 0.55);
+}
+
+.flow > * + figure,
+.flow > figure + *,
+.flow > * + .table-scroll,
+.flow > .table-scroll + * {
+  margin-top: calc(var(--flow-gap) * 1.5);
+}
+
+.flow > .table-scroll {
+  margin-block: 0;
+}
+
+.flow > * + .callout,
+.flow > .callout + * {
+  margin-top: calc(var(--flow-gap) * 1.6);
+}
+
+/* Apparatus is the widest thing on the page and the biggest change of activity,
+   so it gets the most air either side of it. */
+.flow > * + .flow-apparatus,
+.flow > .flow-apparatus + * {
+  margin-top: calc(var(--flow-gap) * 2.2);
+}
+
+/* ---------- Unit script: one authored lesson, phase by phase ---------- */
+
+/* The lesson starts far enough below the opener band that the two read as
+   separate movements rather than one long header. */
+.unit-script-layout {
+  padding-block: 64px 0;
+}
+
+/* The rail and the phases share grid row 1, so the rail's grid area is as tall as
+   the whole script and `position: sticky` has somewhere to travel. They overlap by
+   design: the phases claim `full`, which spans the rail track, but nothing inside
+   them is ever placed there. The rail is positioned with a z-index so it stays
+   clickable through the overlap. */
+.unit-script-layout > .lesson-contents {
+  grid-column: rail;
+  grid-row: 1;
+  z-index: 1;
+  margin-top: 0;
+}
+
+.unit-script-layout > .unit-script-body {
+  grid-column: full;
+  grid-row: 1;
+  margin-top: 0;
+}
+
+@media (max-width: 1439px) {
+  .unit-script-layout > .lesson-contents {
+    display: none;
+  }
+}
+
+/* A change of activity is a section break. The break is air, not a rule: 96px
+   against the 20px inside a phase, so the step is unmistakable without the script
+   having to announce itself or draw a line across the reading column. */
+.unit-script-body > .unit-script-phase + .unit-script-phase {
+  margin-top: 96px;
+}
+
+/* The phase-boundary exit marker (spec U2): one quiet mono line closing the
+   phase that just ended. No border and no card, because the spacing above the
+   next phase is already the section break and this line only says the break is
+   a clean place to stop. It sits in the text track like any prose child, so it
+   stays inside the reading measure, and it carries the same scroll offset as
+   the headings because it is an anchor target resume links to. */
+.unit-boundary {
+  font-family: var(--font-code-mono);
+  font-size: 12.5px;
+  letter-spacing: 0.07em;
+  color: var(--color-sage-40);
+  scroll-margin-top: var(--rail-top, 140px);
+}
+
+/* A script authors the page's own section headings, so its deep links land on
+   h2s and h3s rather than the h4s a shifted lesson produces. */
+.unit-script-body h2,
+.unit-script-body h3 {
+  scroll-margin-top: var(--rail-top, 140px);
+}
+
+/* The lesson's beats, numbered in the left margin. The ordinals index the
+   author's own headings, so they are the same eight entries the rail lists and
+   the chapter opener prints. Counter rather than markup: the headings arrive as
+   one HTML string per prose blob and there is no element to hang a number on. */
+.unit-script-body {
+  counter-reset: beat;
+}
+
+.lesson-prose.flow > h2 {
+  counter-increment: beat;
+  position: relative;
+}
+
+.lesson-prose.flow > h2::before {
+  content: counter(beat, decimal-leading-zero);
+  font-family: var(--font-code-mono);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--color-sage-40);
+}
+
+@media (min-width: 1440px) {
+  .lesson-prose.flow > h2::before {
+    position: absolute;
+    right: 100%;
+    top: 0.55em;
+    margin-right: 26px;
+  }
+}
+
+/* Below the rail's breakpoint the margins are gone, so the ordinal comes inline
+   above its heading rather than off the side of the page. */
+@media (max-width: 1439px) {
+  .lesson-prose.flow > h2::before {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+/* The fluid scale, applied only to prose inside the reading grid. The same class
+   in a card keeps the size it has, because a 19px measure in a 1115px panel is
+   not a reading column. */
+.lesson-prose.flow {
+  font-size: var(--lesson-body);
+  line-height: 1.6;
+  color: var(--color-moss-70);
+}
+
+@media (max-width: 640px) {
+  .lesson-prose.flow {
+    line-height: 1.45;
+  }
+}
+
+.lesson-prose.flow h2 {
+  font-size: clamp(25px, 1.35rem + 1.05vw, 34px);
+  line-height: 1.2;
+  margin-top: calc(3 * 1.6 * var(--lesson-body, 17px));
+  margin-bottom: var(--lesson-body, 17px);
+}
+
+.lesson-prose.flow h3 {
+  font-size: clamp(20px, 1.15rem + 0.42vw, 23px);
+}
+
+.lesson-prose.flow h4 {
+  font-size: clamp(17px, 1rem + 0.2vw, 18.5px);
+}
+
+/* The learn phase's first paragraph is the lesson's opening, so it is set as one.
+   Not new copy: the author's own first sentence, one step up. */
+.unit-script-phase:first-of-type > .lesson-prose.flow > p:first-of-type {
+  font-size: clamp(18.5px, 1.05rem + 0.5vw, 23px);
+  line-height: 1.55;
+  color: var(--color-moss-80);
+}
+
+/* A boxed beat sets one step under the body text it interrupts, so the box reads
+   as an interruption without the text inside it reading as a footnote. */
+.flow .callout > .lesson-prose {
+  font-size: calc(var(--lesson-body) * 0.94);
+}
+
+/* ---------- The chapter opener: the head of a lesson ---------- */
+
+/* A full-bleed band on the ground surface, with everything inside it in the
+   reading column, so the lesson's title sits exactly above the lesson's first
+   line. */
+.chapter-opener {
+  background: var(--color-ground-iron);
+  border-bottom: 1px solid var(--color-phosphor-blue-black);
+  padding-block: 56px 44px;
+}
+
+.chapter-crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-code-mono);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  color: var(--color-sage-40);
+}
+
+.chapter-crumbs a {
+  color: var(--color-sage-40);
+  text-decoration: none;
+  transition: color 300ms ease-out;
+}
+
+.chapter-crumbs a:hover {
+  color: var(--color-phosphor-white);
+}
+
+.chapter-crumb-here {
+  color: var(--color-moss-70);
+}
+
+.chapter-title {
+  font-size: clamp(32px, 1.6rem + 2.2vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  margin-top: 22px;
+}
+
+/* The unit's measurable facts, as one line. Hairlines between the segments rather
+   than a separator character: a screen reader has nothing extra to announce, and
+   the rest of the language already draws its divisions this way. */
+.chapter-specs {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: 8px;
+  margin-top: 24px;
+  font-family: var(--font-code-mono);
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  color: var(--color-sage-40);
+}
+
+.chapter-specs > span + span {
+  border-left: 1px solid var(--color-circuit-border);
+  margin-left: 14px;
+  padding-left: 14px;
+}
+
+.chapter-beats {
+  margin-top: 34px;
+  border-top: 1px solid var(--color-phosphor-blue-black);
+  padding-top: 22px;
+}
+
+.chapter-beats-title {
+  font-size: 11px;
+  margin-bottom: 16px;
+}
+
+.chapter-beats-list {
+  list-style: none;
+  display: grid;
+  gap: 10px 32px;
+}
+
+@media (min-width: 640px) {
+  .chapter-beats-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.chapter-beat {
+  display: flex;
+  gap: 12px;
+  color: var(--color-moss-70);
+  text-decoration: none;
+  font-size: 13.5px;
+  line-height: 1.4;
+  transition: color 300ms ease-out;
+}
+
+.chapter-beat:hover {
+  color: var(--color-phosphor-white);
+}
+
+.chapter-beat-index {
+  flex: none;
+  font-family: var(--font-code-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--color-sage-40);
+  padding-top: 2px;
+}
+
+/* ---------- Apparatus: the app's own instruments inside the lesson ---------- */
+
+/* One rule decides whether a panel gets a border: you operate it. The workbench,
+   the drill, the concierge and the submission contract take input or report state,
+   so they keep `.card-dark`. Everything that only presents what the unit already
+   declares loses the box and keeps a hairline and a mono label, which is enough
+   to say "this is the app talking, not the lesson". */
+.apparatus {
+  border-top: 1px solid var(--color-circuit-border);
+  padding-top: 20px;
+}
+
+/* The instrument plate: what this thing is on the left, its one data-state chip
+   on the right. Both sit in the mono register, so the row reads as a plate on a
+   panel rather than as a heading in the lesson's own voice. The head carries the
+   spacing, so a card can put its content in a `space-y-*` block underneath
+   without the two margins stacking. */
+.apparatus-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 18px;
+  margin-bottom: 18px;
+}
+
+.apparatus-label {
+  font-family: var(--font-code-mono);
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-sage-40);
+}
+
+/* An apparatus card's prose is the app describing its own instrument, so it sits
+   a step below the lesson's body size and keeps the reading measure it had inside
+   the old card. */
+.apparatus-note {
+  max-width: 68ch;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-phosphor-white);
+}
+
+.lesson-section > * + * {
+  margin-top: 20px;
+}
+
+.lesson-section-title {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-size: clamp(21px, 2.4vw, var(--text-heading-sm));
+  line-height: var(--leading-heading-sm);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--color-phosphor-blue-black);
+  scroll-margin-top: 140px;
+}
+
+.lesson-section-index {
+  font-family: var(--font-code-mono);
+  font-size: 12px;
+  color: var(--color-lime-pulse);
+}
+
+/* Lesson subheadings are h4s once shifted, so they need their own scroll offset
+   for the rail's deep links to land below the two sticky bars. */
+.lesson-body h4 {
+  scroll-margin-top: 140px;
+}
+
+/* The contents rail: a marginal index, not a panel.
+   No border, no fill, no bar. It sits in the page's left margin and names the
+   beats in the order they were written, which is the only navigation a script
+   page has. `aria-current` says where the reader is; the accent marker beside the
+   active entry is the same statement in the visual language. */
+.lesson-contents {
+  align-self: start;
+}
+
+@media (min-width: 1024px) {
+  .lesson-contents {
+    position: sticky;
+    /* Clears the site header plus, in the fixed layout, the unit's own sticky
+       section nav. A script page has no second bar and overrides --rail-top. */
+    top: var(--rail-top, 136px);
+    max-height: calc(100vh - var(--rail-top, 136px) - 40px);
+    overflow-y: auto;
+  }
+}
+
+.lesson-contents-title {
+  font-size: 11px;
+  margin-bottom: 16px;
+}
+
+.lesson-contents-list,
+.lesson-contents-sublist {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.lesson-contents-list {
+  gap: 14px;
+}
+
+.lesson-contents-sublist {
+  gap: 8px;
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 1px solid var(--color-phosphor-blue-black);
+  font-size: 13px;
+}
+
+.lesson-contents-link {
+  display: flex;
+  gap: 10px;
+  color: var(--color-sage-60);
+  text-decoration: none;
+  font-size: 12.5px;
+  line-height: 1.4;
+  /* Room for the active marker, so the label does not shift when it appears. */
+  border-left: 1px solid transparent;
+  padding-left: 11px;
+  margin-left: -12px;
+  transition: color 300ms ease-out;
+}
+
+.lesson-contents-link-top {
+  color: var(--color-moss-70);
+}
+
+.lesson-contents-index {
+  flex: none;
+  font-family: var(--font-code-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--color-sage-40);
+  padding-top: 1px;
+}
+
+.lesson-contents-link:hover,
+.lesson-contents-link[aria-current="true"] {
+  color: var(--color-phosphor-white);
+}
+
+/* Active state is the one job the accent has here. */
+.lesson-contents-link[aria-current="true"] {
+  border-left-color: var(--color-lime-pulse);
+}
+
+.lesson-contents-link[aria-current="true"] .lesson-contents-index {
+  color: var(--color-moss-70);
+}
+
+/* Scroll position through the lesson, and nothing more. Not the accent: this is
+   a readout, not a live status. */
+.lesson-progress {
+  margin-top: 20px;
+  height: 2px;
+  background: var(--color-phosphor-blue-black);
+}
+
+.lesson-progress-fill {
+  display: block;
+  height: 100%;
+  background: var(--color-moss-70);
+}
+
+/* ---------- Lesson callouts: gotchas, checkpoints, practice prompts ---------- */
+
+.callout {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: var(--color-ground-iron);
+  border: 1px solid var(--color-circuit-border);
+  border-radius: var(--radius-cards);
+  padding: 20px 24px;
+}
+
+.callout > * + * {
+  margin-top: 12px;
+}
+
+.callout-gotcha {
+  border-left: 2px solid var(--color-moss-70);
+}
+
+/* The one beat that asks the reader to stop and answer gets the accent. */
+.callout-checkpoint {
+  border-left: 2px solid var(--color-lime-pulse);
+  width: 100%;
+  max-width: 100%;
+}
+
+.callout-label,
+.callout-scratch-label {
+  font-family: var(--font-inter-variable);
+  font-size: var(--text-caption);
+  font-weight: 500;
+  letter-spacing: var(--tracking-caption);
+  text-transform: uppercase;
+  color: var(--color-moss-70);
+}
+
+.callout-label-accent {
+  color: var(--color-lime-pulse);
+}
+
+.callout-title {
+  font-family: var(--font-goga);
+  font-size: 18px;
+  line-height: 1.3;
+  color: var(--color-phosphor-white);
+}
+
+.callout-body,
+.callout-question {
+  font-size: 15.5px;
+}
+
+.callout-question {
+  color: var(--color-moss-80);
+}
+
+.callout-body > :first-child,
+.callout-question > :first-child,
+.reveal-body > :first-child {
+  margin-top: 0;
+}
+
+.callout-body > :last-child,
+.callout-question > :last-child,
+.reveal-body > :last-child {
+  margin-bottom: 0;
+}
+
+.callout-scratch {
+  border-top: 1px solid var(--color-phosphor-blue-black);
+  padding-top: 16px;
+}
+
+.callout-scratch-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.callout-scratch-note {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-sage-40);
+}
+
+/* Native details, so a checkpoint still works with no JavaScript. */
+.reveal {
+  border-top: 1px solid var(--color-phosphor-blue-black);
+  padding-top: 14px;
+}
+
+/* Inside a card that already has a rule above it, the reveal drops its own. */
+.reveal-flush {
+  border-top: none;
+  padding-top: 0;
+}
+
+.reveal > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-inter-variable);
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--color-moss-80);
+  padding: 2px 4px;
+  margin-inline-start: -4px;
+}
+
+.reveal > summary::-webkit-details-marker {
+  display: none;
+}
+
+.reveal > summary::before {
+  content: "+";
+  font-family: var(--font-code-mono);
+  color: var(--color-lime-pulse);
+}
+
+.reveal[open] > summary::before {
+  content: "\2212";
+}
+
+.reveal > summary:hover {
+  color: var(--color-phosphor-white);
+}
+
+.reveal-body {
+  margin-top: 14px;
+  font-size: 15.5px;
+}
+
+/* ---------- Lesson asides: the digression a reader can skip ---------- */
+
+/* Composed from .callout and .reveal so an aside sits on the same surface as the
+   other beats and reuses the disclosure affordance. Declared after both, because
+   it has to put back the top padding .reveal-flush zeroes out. Marked with a
+   hairline rather than the accent: an aside is optional reading, not a beat to
+   stop for. */
+.callout-aside {
+  border-left: 2px solid var(--color-phosphor-blue-black);
+  padding-top: 18px;
+}
+
+/* The authored title is the whole interface of an aside, so it is set like a
+   heading rather than like the "Show the answer" link a checkpoint reveals. */
+.callout-aside > summary {
+  font-family: var(--font-goga);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--color-moss-80);
+}
+
+.callout-aside[open] > summary,
+.callout-aside > summary:hover {
+  color: var(--color-phosphor-white);
+}
+
+/* ---------- TL;DR recap: the beat's own summary ---------- */
+
+/* A recap is the author's one-sentence answer after a long beat, not a digression
+   and not a checkpoint. It keeps the mint surface so it reads as a synthesis
+   rather than a warning (gotcha) or a stop (checkpoint), and stays behind no
+   disclosure because the point is to be seen while scanning. */
+.callout-recap {
+  border-left: 2px solid var(--color-sage-40);
+  background: var(--color-mint-frost);
+}
+
+/* ---------- Lesson Coda: closing design-note card (U9) ---------- */
+.callout-coda {
+  border-left: 2px solid var(--color-moss-80);
+  background: var(--color-carbon-veil);
+}
+
+/* ---------- Beat time chips ---------- */
+
+/* The per-beat read estimate. Mono, faint, at the end of the row so the title
+   stays scannable and the time is an affordance for planning, not a heading. */
+.chapter-beat-time {
+  margin-left: auto;
+  padding-left: 16px;
+  font-family: var(--font-code-mono);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  color: var(--color-sage-40);
+  white-space: nowrap;
+}
+
+.chapter-beat-text {
+  flex: 1;
+}
+
+.lesson-contents-time {
+  margin-left: auto;
+  padding-left: 10px;
+  font-family: var(--font-code-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  color: var(--color-sage-40);
+  white-space: nowrap;
+}
+
+.lesson-contents-label {
+  flex: 1;
+}
+
+/* ---------- Theme toggle ---------- */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--color-circuit-border);
+  background: var(--color-ground-iron);
+  color: var(--color-moss-70);
+  border-radius: var(--radius-pills);
+  padding: 6px 12px;
+  font-family: var(--font-code-mono);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  transition: border-color 300ms ease-out, color 300ms ease-out;
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-moss-70);
+  color: var(--color-phosphor-white);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-lime-pulse);
+  outline-offset: 2px;
+}
+
+/* ---------- Details / summary accordions ---------- */
+
+details.faq-item summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+details.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+details.faq-item summary .faq-chevron {
+  transition: transform 140ms ease;
+  flex-shrink: 0;
+}
+
+details.faq-item[open] summary .faq-chevron {
+  transform: rotate(90deg);
+}
+
+/* ---------- Nav link (header/footer) ---------- */
+
+.nav-link {
+  color: var(--color-phosphor-white);
+  font-size: var(--text-body-sm);
+  font-weight: 500;
+  letter-spacing: var(--tracking-body-sm);
+  text-decoration: none;
+  padding: 8px 2px;
+}
+
+.nav-link:hover {
+  color: var(--color-moss-80);
+}
+
+
+/* ---------- Utilities kept semantic ---------- */
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--color-lime-pulse);
+  color: var(--color-void-black);
+  padding: 10px 18px;
+  border-radius: var(--radius-pills);
+  z-index: 100;
+}
+
+.skip-link:focus {
+  left: 16px;
+  top: 16px;
+}
+
+.divider-dark {
+  border-top: 1px solid var(--color-phosphor-blue-black);
+}

@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keelacademy.dev/schemas/commitment.schema.json",
+  "title": "Commitment declaration",
+  "description": "The plain, honest statement of workload, guarantees, and requirements signed by students prior to payment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workload",
+    "format",
+    "guarantees",
+    "acknowledgments"
+  ],
+  "properties": {
+    "workload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_hours_min",
+        "total_hours_max",
+        "months_min",
+        "months_max",
+        "hours_per_week_min",
+        "hours_per_week_max",
+        "summary"
+      ],
+      "properties": {
+        "total_hours_min": { "type": "integer", "minimum": 1 },
+        "total_hours_max": { "type": "integer", "minimum": 1 },
+        "months_min": { "type": "integer", "minimum": 1 },
+        "months_max": { "type": "integer", "minimum": 1 },
+        "hours_per_week_min": { "type": "integer", "minimum": 1 },
+        "hours_per_week_max": { "type": "integer", "minimum": 1 },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "format": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "style",
+        "finish_line",
+        "teaching_delivery",
+        "summary"
+      ],
+      "properties": {
+        "style": { "type": "string", "minLength": 1 },
+        "finish_line": { "type": "string", "minLength": 1 },
+        "teaching_delivery": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "guarantees": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "client_guarantee",
+        "what_we_guarantee",
+        "summary"
+      ],
+      "properties": {
+        "client_guarantee": { "type": "string", "minLength": 1 },
+        "what_we_guarantee": { "type": "string", "minLength": 1 },
+        "summary": { "type": "string", "minLength": 1 }
+      }
+    },
+    "acknowledgments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "required"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

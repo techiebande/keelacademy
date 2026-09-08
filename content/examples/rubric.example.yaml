@@ -1,0 +1,14 @@
+id: rubric-3.2.1
+version: 4
+pass_rule: all
+judge:
+  prompt: prompts/judge-3.2.1.md
+  model_tier: mid
+golden_set: golden/3.2.1/
+criteria:
+  - id: valid-schema
+    description: "All 20 outputs parse as valid ClaimExtraction; failures logged, not dropped"
+    evidence: "quote the log line or code path"
+  - id: no-silent-drops
+    description: "Malformed inputs are reported rather than skipped"
+    evidence: "quote the failure-handling branch"

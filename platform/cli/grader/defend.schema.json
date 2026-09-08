@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Defend-your-work question set",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["submission_ref", "tier", "questions", "meta"],
+  "properties": {
+    "submission_ref": {"type": "string", "minLength": 1},
+    "tier": {"enum": ["low", "mid", "high"]},
+    "questions": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "question", "anchors"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "question": {"type": "string", "minLength": 1},
+          "anchors": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "prompt_tokens", "completion_tokens", "latency_s"],
+      "properties": {
+        "model": {"type": "string"},
+        "prompt_tokens": {"type": "integer", "minimum": 0},
+        "completion_tokens": {"type": "integer", "minimum": 0},
+        "latency_s": {"type": "number", "minimum": 0}
+      }
+    }
+  }
+}

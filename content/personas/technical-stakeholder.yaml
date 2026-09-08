@@ -1,0 +1,19 @@
+id: technical-stakeholder
+role: reviewer
+grounding:
+  refs:
+    - curriculum.md#14-final-capstone-defense--credentialing-criteria
+    - school-architecture.md#6-the-business-simulation-engine--phase-11-as-reps-not-templates
+    - school-architecture.md#7-the-graduation-credential--what-keel-issues
+rubric_ref: rubrics/simulations/technical-stakeholder.yaml
+scoring:
+  pass_rule: weighted
+  criteria:
+    - id: eval-and-accuracy-rigor
+      weight: 0.30
+    - id: cost-and-latency-engineering
+      weight: 0.25
+    - id: security-and-failure-governance
+      weight: 0.25
+    - id: architecture-justification
+      weight: 0.20

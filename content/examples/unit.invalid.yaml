@@ -1,0 +1,27 @@
+# Intentionally invalid: phase out of range, missing required `verify` block,
+# and a typo'd field name (`est_hors`) that additionalProperties:false must catch.
+id: "3.2.1"
+phase: 99
+est_hors: 6
+prereq_units: ["2.4.1"]
+last_verified:
+  concept_core: 2026-08-01
+  applied_context: 2026-08-01
+  tool_specifics: 2026-08-01
+learn: learn.md
+practice:
+  worked_example: examples/3.2.1-invoice-extractor/
+  completion_problem:
+    base: fixtures/3.2.1/completion/
+    checks: checks/3.2.1.completion.yaml
+  retrieval_seeds:
+    - "why schema-constrained output beats prompt-promise JSON"
+build:
+  deliverable: "Build a dispute-notes extractor"
+  submission: repo
+  data_variant: omnicart@v3
+gate:
+  unlocks: ["3.2.2"]
+unstuck:
+  - symptom: "Pydantic nested-model validation fails"
+    fix_ref: faq/3.2.1.md#nested-validation

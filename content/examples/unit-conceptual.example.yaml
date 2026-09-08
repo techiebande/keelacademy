@@ -1,0 +1,31 @@
+kind: conceptual
+id: "0.1.1"
+phase: 0
+est_hours: 4
+prereq_units: []
+last_verified:
+  concept_core: 2026-08-25
+  applied_context: 2026-08-25
+  tool_specifics: 2026-08-25
+learn: learn.md
+practice:
+  worked_example: worked-example/
+  completion_problem:
+    prompt: "Explain how next-token prediction produces coherent multi-step reasoning."
+    instructions: "Provide a 2-3 paragraph synthesis demonstrating token decoding and probabilistic selection."
+    rubric: rubrics/0.1.1/v1.yaml
+  retrieval_seeds:
+    - "explain next-token prediction"
+    - "why temperature 0 is deterministic for greedy decoding"
+build:
+  deliverable: "Submit a written analysis of prompt decomposition."
+  submission: file
+  data_variant: omnicart@v0
+verify:
+  layers: [2]
+  rubric: rubrics/0.1.1/v1.yaml
+gate:
+  unlocks: ["0.1.2"]
+unstuck:
+  - symptom: "Confusing token prediction with conscious planning"
+    fix_ref: faq/0.1.1.md#next-token-mechanics

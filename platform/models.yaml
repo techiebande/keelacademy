@@ -1,0 +1,21 @@
+# Single source of truth for model tiers (improvement plan M4.3).
+# Read by platform/cli/grader/llm.py (MODEL_TIERS) and
+# platform/grading/proxy/server.py (ALLOWED_MODELS) through
+# platform/models_loader.py. If this file is missing or unparseable, both fall
+# back to the loader's built-in defaults (the values below).
+#
+# price_in / price_out: approximate USD list price per 1M tokens (prompt /
+# completion). Used only for the stderr cost trace, never for billing.
+tiers:
+  low:
+    model: gpt-4o-mini
+    price_in: 0.15
+    price_out: 0.60
+  mid:
+    model: gpt-4.1
+    price_in: 2.00
+    price_out: 8.00
+  high:
+    model: o3
+    price_in: 2.00
+    price_out: 8.00

@@ -1,0 +1,11 @@
+id: omnicart@v3
+generator:
+  script: generators/omnicart_v3.py
+parameters:
+  - name: dispute_count
+    range: { min: 120, max: 400 }
+    description: "number of dispute notes in the corpus"
+  - name: contract_clause_set
+    range: { values: ["standard", "expanded", "adversarial"] }
+seed_rule:
+  per_student: hash(student_id, unit_id)

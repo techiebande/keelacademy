@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keelacademy.dev/schemas/ledger.schema.json",
+  "title": "Cumulative curriculum ledger",
+  "description": "The cumulative curriculum ledger tracking global project architecture, conventions, and unit-by-unit progression states.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "project",
+    "units"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "anchor_client",
+        "parallel_entity",
+        "canonical_conventions"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "anchor_client": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "description",
+            "pain_point",
+            "stakeholders"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "pain_point": {
+              "type": "string"
+            },
+            "stakeholders": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "parallel_entity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "description",
+            "role"
+          ],
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "role": {
+              "type": "string"
+            }
+          }
+        },
+        "canonical_conventions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "monetary_values",
+            "identifier_prefixes",
+            "stack_evolution"
+          ],
+          "properties": {
+            "monetary_values": {
+              "type": "string"
+            },
+            "identifier_prefixes": {
+              "type": "object"
+            },
+            "stack_evolution": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "units": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "unit",
+          "title",
+          "concepts_unlocked",
+          "anti_prerequisites",
+          "project_working_tree",
+          "retrieval_seeds"
+        ],
+        "properties": {
+          "unit": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+          },
+          "title": {
+            "type": "string"
+          },
+          "concepts_unlocked": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "anti_prerequisites": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "project_working_tree": {
+            "type": "object",
+            "properties": {
+              "added_files": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "contracts_established": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "retrieval_seeds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "narrative_anchor": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

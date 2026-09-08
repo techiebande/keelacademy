@@ -1,0 +1,10 @@
+# Gate rule (S2.7): unit 0.2 gate. A passing verdict on unit 0.2 unlocks unit 0.3.
+gate_id: unit-0-2
+title: Unit 0.2 gate
+unit_id: "0.2"
+unlocks: ["0.3"]
+rebate: false
+summary: >-
+  A passing verdict on unit 0.2 clears this gate. Unit 0.2 is the curriculum
+  orientation: the student reads the map and builds a progress tracker covering
+  all 56 modules. Clearing this gate unlocks unit 0.3, the Docker setup.

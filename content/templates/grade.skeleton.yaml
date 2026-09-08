@@ -1,0 +1,8 @@
+submission: <slug>
+expected: <pass | fail>
+criteria:
+  <criterion-id>: <pass | fail>
+overall: <pass | fail>
+grader_notes: "<Two to four plain sentences quoting the deciding phrase.>"
+graded_by: human
+graded_on: <YYYY-MM-DD>

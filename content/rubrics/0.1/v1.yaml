@@ -1,0 +1,23 @@
+id: rubric-0.1
+version: 1
+pass_rule: all
+judge:
+  prompt: prompts/judge-0.1.md
+  model_tier: mid
+golden_set: golden/0.1/
+criteria:
+  - id: no-technology-words
+    description: "The brief never uses the words AI, agent, LLM, model, prompt, or automation. The check is case insensitive and covers plural forms such as agents. Do not accept a job title like support agent, since the student should write clerk or specialist."
+    evidence: "Quote each banned word with the words around it, or quote the five headings and state that no banned word appears."
+  - id: problem-stated-plainly
+    description: "The problem section uses at most three sentences. It states the monthly volume, about 4,000 cases, and the current wait of 2 to 3 days. Do not accept a fourth sentence, a missing number, or wording like many cases or too long."
+    evidence: "Quote the sentence that gives the volume and the sentence that gives the wait, or quote the extra or vague sentence."
+  - id: three-stakeholders-differ
+    description: "The Who cares and why section names the VP of Operations, the CFO, and the Trust and Safety Officer. Each role wants a different outcome, such as speed, exact money tracking, or policy enforcement. Do not accept a missing role or three roles who all want the same thing."
+    evidence: "Quote the phrase that states what each of the three roles wants, or quote the section heading and name the missing role or the shared want."
+  - id: current-process-traceable
+    description: "The How it works today section lists 4 to 7 numbered steps in the order a clerk performs them. The steps name the order receipt, the delivery slip, the unboxing photo, and the return policy. Do not accept 3 or fewer steps, 8 or more steps, steps out of order, or unnamed documents."
+    evidence: "Quote the first and last numbered step and state the step count, or quote the step that breaks the order or leaves a document unnamed."
+  - id: target-process-measurable
+    description: "The How it should work section lists 4 to 7 numbered steps and a target time of under 1 hour. It states that a person reviews hard cases and gives one money amount as integer cents, such as 4520 cents. Do not accept a missing target, no human review, or dollars like $45.20 with no integer cents anywhere."
+    evidence: "Quote the target time, the human review step, and the integer cents amount, or quote the section heading and name what is missing."

@@ -1,0 +1,170 @@
+#!/usr/bin/env bash
+# post-receive hook — keelacademy push -> verdict pipeline (S1.9, Part B).
+#
+# Installed by push-demo-setup.sh into the scratch bare repo (the @...@
+# placeholders below are substituted at install time; this file is the
+# template, never executed from the repo). On each pushed ref update:
+#
+#   1. pre-stage the pushed tree into <submissions>/.incoming-* — the dot
+#      prefix keeps it invisible to the worker, which only ever looks at
+#      <submissions>/<submission_id>
+#   2. POST a GitHub-shaped, HMAC-SHA256-signed webhook to the intake
+#      server; pusher identity comes from the hook-side pusher-map
+#      (repo name -> registered student email)
+#   3. as soon as intake answers with the submission id, atomically rename
+#      the staged tree to <submissions>/<submission_id> so the worker's
+#      GRADE step finds it with no extra input
+#   4. guard the insert->rename race: if the worker claimed the row inside
+#      that sub-second window and errored on the missing tree, requeue it
+#      once (the tree is in place by then); real grading errors happen an
+#      order of magnitude later and are left untouched
+#
+# Idempotency: intake dedupes on (student, unit, commit_sha); a re-push of
+# the same commit answers newly_inserted=false, the existing checkout is
+# kept, and the hook exits calmly — no duplicate submission, no duplicate
+# verdict. The hook never fails the push: infrastructure problems are
+# reported to the pusher and exit 0.
+set -u
+
+INTAKE_URL="@INTAKE_URL@"
+SECRET_FILE="@SECRET_FILE@"
+SUBS_DIR="@SUBS_DIR@"
+PUSHER_MAP="@PUSHER_MAP@"
+DB_CMD='@DB_CMD@'
+CLONE_URL="@CLONE_URL@"
+REPO_NAME="@REPO_NAME@"
+
+while read -r oldrev newrev refname; do
+    # An all-zero newrev is a ref deletion (e.g. re-push choreography that
+    # deletes then re-creates the branch): nothing to grade.
+    case "$newrev" in
+        *[!0]*) ;;
+        *) echo "keel: $refname deleted — nothing to do"; continue ;;
+    esac
+
+    email="$(awk -v r="$REPO_NAME" '$1 == r { print $2; exit }' "$PUSHER_MAP" 2>/dev/null)"
+    if [ -z "$email" ]; then
+        echo "keel: repo '$REPO_NAME' has no registered pusher in the pusher map — push accepted, no submission created"
+        continue
+    fi
+
+    stage="$SUBS_DIR/.incoming-$$-$(date +%s)"
+    if ! mkdir -p "$stage" || ! git --git-dir=. archive "$newrev" | tar -x -C "$stage"; then
+        echo "keel: checkout of $newrev into $stage failed — no submission created"
+        rm -rf "$stage"
+        continue
+    fi
+
+    KEEL_HOOK_STAGE="$stage" \
+    KEEL_HOOK_NEWREV="$newrev" \
+    KEEL_HOOK_REF="$refname" \
+    KEEL_HOOK_INTAKE="$INTAKE_URL" \
+    KEEL_HOOK_SECRET="$SECRET_FILE" \
+    KEEL_HOOK_SUBS="$SUBS_DIR" \
+    KEEL_HOOK_REPO="$REPO_NAME" \
+    KEEL_HOOK_CLONE="$CLONE_URL" \
+    KEEL_HOOK_PUSHER="$email" \
+    KEEL_HOOK_DB_CMD="$DB_CMD" \
+    python3 <<'KEEL_HOOK_PY'
+import hashlib
+import hmac
+import json
+import os
+import shlex
+import shutil
+import subprocess
+import sys
+import time
+import urllib.error
+import urllib.request
+
+stage = os.environ["KEEL_HOOK_STAGE"]
+newrev = os.environ["KEEL_HOOK_NEWREV"]
+ref = os.environ["KEEL_HOOK_REF"]
+intake_url = os.environ["KEEL_HOOK_INTAKE"]
+secret_file = os.environ["KEEL_HOOK_SECRET"]
+subs = os.environ["KEEL_HOOK_SUBS"]
+repo = os.environ["KEEL_HOOK_REPO"]
+clone = os.environ["KEEL_HOOK_CLONE"]
+email = os.environ["KEEL_HOOK_PUSHER"]
+db = shlex.split(os.environ["KEEL_HOOK_DB_CMD"]) + ["-v", "ON_ERROR_STOP=1", "-q", "-tA"]
+
+
+def sql(script: str) -> str:
+    proc = subprocess.run(db, input=script.encode(), stdout=subprocess.PIPE,
+                          stderr=subprocess.PIPE)
+    return proc.stdout.decode().strip()
+
+
+def give_up(msg: str) -> None:
+    shutil.rmtree(stage, ignore_errors=True)
+    print("keel: %s — no submission created" % msg)
+
+
+# GitHub push-event shape: intake reads repository.full_name (unit id is
+# derived from the keel-<unit>-* repo name), repository.clone_url,
+# head_commit.id, and pusher.email. The signature is HMAC-SHA256 over the
+# RAW body bytes with the shared webhook secret (intake/server.py contract).
+payload = {
+    "repository": {"full_name": "keel-academy/" + repo, "clone_url": clone},
+    "head_commit": {"id": newrev},
+    "pusher": {"email": email},
+    "ref": ref,
+}
+body = json.dumps(payload).encode()
+with open(secret_file) as fh:
+    secret = fh.read().strip().encode()
+sig = "sha256=" + hmac.new(secret, body, hashlib.sha256).hexdigest()
+req = urllib.request.Request(
+    intake_url, data=body, method="POST",
+    headers={"Content-Type": "application/json", "X-Hub-Signature-256": sig})
+
+try:
+    with urllib.request.urlopen(req, timeout=30) as resp:
+        out = json.load(resp)
+except urllib.error.HTTPError as exc:
+    detail = exc.read().decode(errors="replace")[:200]
+    give_up("intake rejected the push event (HTTP %d): %s" % (exc.code, detail))
+    sys.exit(0)
+except OSError as exc:
+    give_up("intake unreachable: %s" % exc)
+    sys.exit(0)
+
+if not out.get("ok") or not out.get("known_pusher"):
+    give_up("pusher %s is not a registered student" % email)
+    sys.exit(0)
+
+sid = int(out["submission_id"])
+target = os.path.join(subs, str(sid))
+if os.path.isdir(target):
+    # Same (student, unit, commit) as before: intake kept the existing row,
+    # the checkout already exists, nothing for the worker to do.
+    shutil.rmtree(stage, ignore_errors=True)
+    print("keel: submission %d already holds commit %s — idempotent re-push, "
+          "no new submission, no new verdict" % (sid, newrev[:12]))
+    sys.exit(0)
+
+# Atomic publish under the id the worker's GRADE step expects.
+os.rename(stage, target)
+if out.get("newly_inserted"):
+    print("keel: submission %d created for %s (commit %s) — tree checked out, "
+          "worker grading" % (sid, email, newrev[:12]))
+else:
+    print("keel: submission %d predates this push; tree restored from commit %s"
+          % (sid, newrev[:12]))
+
+# Race guard: a worker claim that landed between intake's insert and the
+# rename above would have errored on the missing tree (~0.3s in). Wait past
+# that, and if the row says 'error' put it back in the queue — the tree is
+# in place now. Statuses of healthy runs (queued/grading/graded) and real
+# grading errors (which take far longer to surface) are left untouched.
+time.sleep(1)
+status = sql("BEGIN;\nSELECT status FROM submissions WHERE id = %d;\nCOMMIT;\n" % sid)
+if status == "error":
+    sql("BEGIN;\nUPDATE submissions SET status = 'queued' "
+        "WHERE id = %d AND status = 'error';\nCOMMIT;\n" % sid)
+    print("keel: requeued submission %d (worker raced the checkout)" % sid)
+KEEL_HOOK_PY
+done
+
+exit 0

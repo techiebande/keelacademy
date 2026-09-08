@@ -1,0 +1,12 @@
+submission: s07-minimal-pass
+expected: pass
+criteria:
+  no-technology-words: pass
+  problem-stated-plainly: pass
+  three-stakeholders-differ: pass
+  current-process-traceable: pass
+  target-process-measurable: pass
+overall: pass
+grader_notes: "Every criterion passes at the minimum. Both process sections have exactly four steps and name the four documents. The target gives 'under 1 hour', a 'human specialist', and exactly one amount, '4520 cents'. The prose is terse but complete."
+graded_by: human
+graded_on: 2026-09-06

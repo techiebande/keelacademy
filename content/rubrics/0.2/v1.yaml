@@ -1,0 +1,20 @@
+id: rubric-0.2
+version: 1
+pass_rule: all
+judge:
+  prompt: prompts/judge-0.2.md
+  model_tier: mid
+golden_set: golden/0.2/
+criteria:
+  - id: all-modules-present
+    description: "The tracker has exactly 56 rows, one per module, with no duplicates and no gaps. Do not accept a tracker with fewer than 56 rows or with any module number appearing twice."
+    evidence: "Quote the first and last module row and state the count, or quote the missing or duplicate module number."
+  - id: required-columns-present
+    description: "The table header row contains exactly these four column names in this order: Module, Status, Hours spent, Deliverable. Matching is case sensitive. Do not accept renamed columns such as Time or Link."
+    evidence: "Quote the header row, or quote the header row and name the missing or renamed column."
+  - id: phase-0-done
+    description: "The rows for modules 0.1, 0.2, and 0.3 each have a status of done. Do not accept not started, in progress, or a blank cell in any Phase 0 row."
+    evidence: "Quote the status cell for each of the three Phase 0 rows, or quote the row that shows a status other than done."
+  - id: tracker-path-correct
+    description: "The Deliverable column for the module 0.2 row contains the exact text omnicart-system/docs/progress-tracker.md. Do not accept a different path, a partial path, or a blank cell."
+    evidence: "Quote the Deliverable cell for the 0.2 row, or quote the cell and state what is wrong with it."

@@ -1,0 +1,11 @@
+submission: s04-phase0-not-done
+expected: fail
+criteria:
+  all-modules-present: pass
+  required-columns-present: pass
+  phase-0-done: fail
+  tracker-path-correct: pass
+overall: fail
+grader_notes: "Fails phase-0-done. Row 0.2 shows 'in progress' and row 0.3 shows 'not started'. Both must show 'done'. Row 0.1 shows 'done', which is correct. The 56 rows are present, column names are correct, and the 0.2 path is correct."
+graded_by: human
+graded_on: 2026-09-07

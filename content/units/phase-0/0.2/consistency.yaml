@@ -1,0 +1,10 @@
+# Facts that must agree across every file of this unit.
+# Read by content/tools/check-unit-consistency.py. The ubd_architect writes this
+# from the design brief; every later agent is checked against it.
+numbers:
+  - "13 phases"
+  - "56 modules"
+documents:
+  - "progress-tracker.md"
+# The worked example is on Apex Freight and names different documents on purpose.
+worked_example_uses_other_documents: true

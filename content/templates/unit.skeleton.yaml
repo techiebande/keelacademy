@@ -1,0 +1,33 @@
+kind: <code | conceptual>
+id: "<id>"
+phase: <N>
+est_hours: <number>
+prereq_units: [<"id", ...>]
+last_verified:
+  concept_core: <YYYY-MM-DD>
+  applied_context: <YYYY-MM-DD>
+  tool_specifics: <YYYY-MM-DD>
+learn: learn.md
+practice:
+  worked_example: worked-example/
+  completion_problem:
+    # conceptual units: prompt + instructions + rubric. code units: base: completion/
+    prompt: "<one or two plain sentences>"
+    instructions: "<one or two plain sentences>"
+    rubric: rubrics/<id>/v1.yaml
+  retrieval_seeds:
+    - "<one plain sentence, 20 words or fewer>"
+    - "<...>"
+    - "<...>"
+build:
+  deliverable: "<one sentence: what to submit and where>"
+  submission: <file | repo | recording>
+  data_variant: omnicart@v0
+verify:
+  layers: [<1, 2>]
+  rubric: rubrics/<id>/v1.yaml
+gate:
+  unlocks: ["<next id>"]
+unstuck:
+  - symptom: "<plain phrase a student would say>"
+    fix_ref: faq/<id>.md#<anchor>

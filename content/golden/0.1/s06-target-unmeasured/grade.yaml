@@ -1,0 +1,12 @@
+submission: s06-target-unmeasured
+expected: fail
+criteria:
+  no-technology-words: pass
+  problem-stated-plainly: pass
+  three-stakeholders-differ: pass
+  current-process-traceable: pass
+  target-process-measurable: fail
+overall: fail
+grader_notes: "How it should work has no target time and no integer cents. It ends with 'much faster than today' instead of under 1 hour. Step 3 writes the refund as '$45.20 for ORD-8821' and no integer cents amount appears anywhere in the brief. The other four sections pass."
+graded_by: human
+graded_on: 2026-09-06

@@ -1,0 +1,71 @@
+# Valid diagnostic placement fixture
+id: "diagnostic-example"
+title: "Example Diagnostic Assessment"
+est_minutes: 20
+passing_threshold_pct: 75.0
+pass_skip_units:
+  - "1.3"
+  - "1.4"
+  - "1.5"
+fail_baseline_units:
+  - "0.1"
+  - "1.1"
+  - "1.2"
+
+categories:
+  - id: "python_core"
+    title: "Python Core"
+    weight: 0.5
+  - id: "async_apis"
+    title: "Async & APIs"
+    weight: 0.5
+
+questions:
+  - id: "q1"
+    category: "python_core"
+    type: "concept"
+    points: 1
+    prompt: "What is a dict comprehension in Python?"
+    options:
+      - id: "opt_a"
+        label: "{k: v for k, v in items}"
+      - id: "opt_b"
+        label: "[k for k in items]"
+    correct_answer: "opt_a"
+    explanation: "Key-value pair in braces creates a dictionary."
+  - id: "q2"
+    category: "python_core"
+    type: "code_analysis"
+    points: 1
+    prompt: "What does list.pop() return?"
+    options:
+      - id: "opt_a"
+        label: "The removed element"
+      - id: "opt_b"
+        label: "None"
+    correct_answer: "opt_a"
+    explanation: "pop() removes and returns the element."
+  - id: "q3"
+    category: "async_apis"
+    type: "concept"
+    points: 1
+    prompt: "What does await do?"
+    options:
+      - id: "opt_a"
+        label: "Suspends execution of the coroutine until the awaitable is complete"
+      - id: "opt_b"
+        label: "Spawns a new process"
+    correct_answer: "opt_a"
+    explanation: "await pauses the coroutine yield to the event loop."
+  - id: "q4"
+    category: "async_apis"
+    type: "code_analysis"
+    points: 1
+    prompt: "Which status code means Unauthorized?"
+    options:
+      - id: "opt_a"
+        label: "401"
+      - id: "opt_b"
+        label: "404"
+    correct_answer: "opt_a"
+    explanation: "401 is Unauthorized."

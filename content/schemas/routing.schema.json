@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keelacademy.dev/schemas/routing.schema.json",
+  "title": "Routing rules",
+  "description": "Adaptive practice routing rules for a unit: ordered steps, fast-pass skip conditions, scaffold remedial conditions, and worked example treatments.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "unit_id",
+    "steps",
+    "fast_pass",
+    "scaffold"
+  ],
+  "properties": {
+    "unit_id": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "description": "The unit id this routing rule applies to; must equal the file name stem"
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "enum": [
+              "lesson",
+              "retrieval",
+              "worked_example",
+              "completion"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "concept",
+              "drill",
+              "scaffold",
+              "workbench"
+            ]
+          }
+        }
+      },
+      "description": "Ordered steps for the unit practice loop"
+    },
+    "fast_pass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "condition",
+        "worked_example",
+        "summary"
+      ],
+      "properties": {
+        "condition": {
+          "type": "string",
+          "enum": [
+            "all_retrieval_passed_first_try"
+          ],
+          "description": "Condition required to activate fast-pass (all retrieval seeds passed on first try with no prior failures)"
+        },
+        "worked_example": {
+          "type": "string",
+          "enum": [
+            "optional"
+          ],
+          "description": "Treatment of the worked example when fast pass condition holds"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Plain explanation of what fast pass grants"
+        }
+      }
+    },
+    "scaffold": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "condition",
+        "worked_example",
+        "deep_links",
+        "summary"
+      ],
+      "properties": {
+        "condition": {
+          "type": "string",
+          "enum": [
+            "any_failed_retrieval_or_completion"
+          ],
+          "description": "Condition that activates scaffold remedial routing"
+        },
+        "worked_example": {
+          "type": "string",
+          "enum": [
+            "recommended",
+            "required"
+          ],
+          "description": "Treatment of worked example when scaffold condition is triggered"
+        },
+        "deep_links": {
+          "type": "boolean",
+          "description": "Whether deterministic scaffold deep links into worked example are generated"
+        },
+        "summary": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Plain explanation of remedial scaffold routing"
+        }
+      }
+    }
+  }
+}

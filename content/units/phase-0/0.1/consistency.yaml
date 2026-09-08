@@ -1,0 +1,18 @@
+# Facts that must agree across every file of this unit.
+# Read by content/tools/check-unit-consistency.py. The ubd_architect writes this
+# from the design brief; every later agent is checked against it.
+numbers:
+  - "about 4,000"
+  - "2 to 3 days"
+  - "under 1 hour"
+  - "4520 cents"
+  - "CLM-20841"
+  - "ORD-8821"
+  - "14 day"
+documents:
+  - "order receipt"
+  - "delivery slip"
+  - "unboxing photo"
+  - "return policy"
+# The worked example is on Apex Freight and names different papers on purpose.
+worked_example_uses_other_documents: true

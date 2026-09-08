@@ -1,0 +1,12 @@
+submission: s02-technology-words
+expected: fail
+criteria:
+  no-technology-words: fail
+  problem-stated-plainly: pass
+  three-stakeholders-differ: pass
+  current-process-traceable: pass
+  target-process-measurable: pass
+overall: fail
+grader_notes: "The brief uses two banned words. Step 2 says 'One of our support agents opens the order receipt' and the target section says 'The first pass is pure automation'. The student should write clerk or specialist. Everything else passes, including '12999 cents' and 'under 1 hour'."
+graded_by: human
+graded_on: 2026-09-06

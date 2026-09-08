@@ -1,0 +1,18 @@
+id: discovery-call
+role: prospect
+grounding:
+  refs:
+    - curriculum.md#1151-running-a-discovery-call
+    - school-architecture.md#6-the-business-simulation-engine--phase-11-as-reps-not-templates
+rubric_ref: rubrics/simulations/discovery-call.yaml
+scoring:
+  pass_rule: weighted
+  criteria:
+    - id: uncovered-underlying-problem
+      weight: 0.35
+    - id: explored-process-metrics
+      weight: 0.25
+    - id: avoided-premature-pitching
+      weight: 0.20
+    - id: accurate-problem-summary
+      weight: 0.20

@@ -1,0 +1,53 @@
+# /etc/caddy/Caddyfile — TLS termination and path routing for the grading
+# host. $KEEL_HOSTNAME is substituted by 40-caddy.sh. Everything behind this
+# file binds 127.0.0.1 only; the proxy, worker, and rebate loop have no public
+# route at all.
+#
+# When code units go live, route GitHub webhooks to the intake service:
+#   handle /webhook/github* { reverse_proxy 127.0.0.1:8787 }
+
+{$KEEL_HOSTNAME} {
+	encode zstd gzip
+
+	handle /webhook/paddle* {
+		reverse_proxy 127.0.0.1:8791
+	}
+
+	handle /webhook/stripe* {
+		# Stripe signs the raw body; Caddy passes it through untouched.
+		reverse_proxy 127.0.0.1:8791
+	}
+
+	handle /auth/* {
+		reverse_proxy 127.0.0.1:8791
+	}
+
+	handle /checkout/* {
+		reverse_proxy 127.0.0.1:8791
+	}
+
+	handle /subscription/* {
+		reverse_proxy 127.0.0.1:8791
+	}
+
+	handle /students/* {
+		reverse_proxy 127.0.0.1:8791
+	}
+
+	handle /enroll* {
+		reverse_proxy 127.0.0.1:8791
+	}
+
+	handle /reader/* {
+		reverse_proxy 127.0.0.1:8790
+	}
+
+	handle /practice/* {
+		reverse_proxy 127.0.0.1:8792
+	}
+
+	handle {
+		# Nothing else is public; an honest 404, not a leak.
+		respond "not found" 404
+	}
+}

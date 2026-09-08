@@ -1,0 +1,38 @@
+name: rubric-gate
+
+# S1.6 merge-blocking gate: any PR touching rubrics, the golden set, or the
+# grader must prove the judge still agrees with the human golden grades.
+on:
+  pull_request:
+    paths:
+      - "content/rubrics/**"
+      - "content/golden/**"
+      - "content/prompts/**"
+      - "platform/cli/grader/**"
+
+jobs:
+  rubric-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install grader deps
+        run: pip install -e platform/cli
+      - name: Validate rubrics
+        run: python content/tools/validate-rubrics.py
+      - name: Golden-set regression gate (unit 3.2.1)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          RUBRIC=$(python -c "from grader.rubric_version import resolve_active_rubric; print(resolve_active_rubric('3.2.1'))")
+          echo "gating on active rubric: $RUBRIC"
+          python -m grader.gate --golden content/golden/3.2.1 \
+            --rubric "$RUBRIC" \
+            --json platform/cli/gate-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gate-report
+          path: platform/cli/gate-report.json

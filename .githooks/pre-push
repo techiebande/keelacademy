@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+# keelacademy content gate (S2.1) — runs on every push.
+#
+# Blocks the push when content fails schema validation; the validator output
+# names the offending file(s). CI (.github/workflows/content-gate.yml) runs
+# the same two commands on content PRs.
+#
+# One-time activation (per clone — a human setup act, not under test):
+#   git config core.hooksPath .githooks
+#
+# Bypass for scripted tooling (loud by design):
+#   KEEL_SKIP_CONTENT_GATE=1 git push
+set -u
+cd "$(git rev-parse --show-toplevel)"
+
+if [ "${KEEL_SKIP_CONTENT_GATE:-0}" = "1" ]; then
+    echo "[keel-content-gate] SKIPPED via KEEL_SKIP_CONTENT_GATE=1 — content schemas NOT validated on this push" >&2
+    exit 0
+fi
+
+PY="$(command -v python3 || command -v python)"
+if [ -z "$PY" ]; then
+    echo "[keel-content-gate] BLOCKED: no python interpreter found — cannot validate content" >&2
+    exit 1
+fi
+
+fail=0
+echo "[keel-content-gate] validating content (schemas, rubrics, gates, map, routing, lint --strict, unit consistency, diagrams)..."
+if ! "$PY" content/tools/validate.py; then
+    echo "[keel-content-gate] BLOCKED: content/tools/validate.py failed — offending file(s) named in the FAIL lines above" >&2
+    fail=1
+fi
+if ! "$PY" content/tools/validate-rubrics.py; then
+    echo "[keel-content-gate] BLOCKED: content/tools/validate-rubrics.py failed — offending file(s) named in the FAIL lines above" >&2
+    fail=1
+fi
+if ! "$PY" content/tools/validate-gates.py; then
+    echo "[keel-content-gate] BLOCKED: content/tools/validate-gates.py failed — offending file(s) named in the FAIL lines above" >&2
+    fail=1
+fi
+if ! "$PY" content/tools/validate-map.py; then
+    echo "[keel-content-gate] BLOCKED: content/tools/validate-map.py failed — offending file(s) named in the FAIL lines above" >&2
+    fail=1
+fi
+if ! "$PY" content/tools/validate-routing.py; then
+    echo "[keel-content-gate] BLOCKED: content/tools/validate-routing.py failed — offending file(s) named in the FAIL lines above" >&2
+    fail=1
+fi
+if ! "$PY" content/tools/validate-guard-evals.py; then
+    echo "[keel-content-gate] BLOCKED: content/tools/validate-guard-evals.py failed — offending file(s) named in the FAIL lines above" >&2
+    fail=1
+fi
+if ! "$PY" content/tools/validate-diagnostics.py; then
+    echo "[keel-content-gate] BLOCKED: content/tools/validate-diagnostics.py failed — offending file(s) named in the FAIL lines above" >&2
+    fail=1
+fi
+
+# M2.1 strict lesson gate: every authored learn.md must pass --strict.
+learn_files="$(find content/units -type f -name learn.md 2>/dev/null)"
+if [ -n "$learn_files" ]; then
+    # shellcheck disable=SC2086
+    if ! "$PY" content/tools/lint-lesson.py --strict $learn_files; then
+        echo "[keel-content-gate] BLOCKED: lint-lesson.py --strict failed — defects named in the FAIL lines above" >&2
+        fail=1
+    fi
+else
+    echo "[keel-content-gate] note: no authored learn.md files; strict lesson lint skipped"
+fi
+
+# M2.2 cross-file consistency gate: every authored unit must agree across files.
+for unit_dir in content/units/phase-*/*/; do
+    [ -d "$unit_dir" ] || continue
+    unit_id="$(basename "$unit_dir")"
+    if ! "$PY" content/tools/check-unit-consistency.py "$unit_id"; then
+        echo "[keel-content-gate] BLOCKED: check-unit-consistency.py failed for unit $unit_id" >&2
+        fail=1
+    fi
+done
+
+if ! "$PY" platform/grading/scripts/check-concierge-structural.py; then
+    echo "[keel-content-gate] BLOCKED: platform/grading/scripts/check-concierge-structural.py failed — offending file(s) named in the FAIL lines above" >&2
+    fail=1
+fi
+if command -v node >/dev/null 2>&1 && [ -d platform/app/node_modules/mermaid ]; then
+    if ! (cd platform/app && node scripts/check-mermaid.mjs); then
+        echo "[keel-content-gate] BLOCKED: platform/app/scripts/check-mermaid.mjs failed (diagram grammar or legibility limits)" >&2
+        fail=1
+    fi
+else
+    echo "[keel-content-gate] note: node or platform/app/node_modules missing, diagram check skipped here (CI runs it)"
+fi
+if [ $fail = 0 ]; then
+    echo "[keel-content-gate] OK — content validates, push allowed."
+fi
+exit $fail

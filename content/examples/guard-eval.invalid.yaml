@@ -1,0 +1,10 @@
+unit_id: invalid_unit_id
+description: Invalid example
+eval_set:
+- id: bad-class
+  class: nonexistent_class
+  mode: unknown_mode
+  prompt: hi
+  assertions:
+    must_not:
+    - leak

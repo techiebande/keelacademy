@@ -1,0 +1,171 @@
+unit_id: 3.2.1
+description: Example guard eval set for schema validation
+eval_set:
+- id: prompt-00
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 0
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-01
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 1
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-02
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 2
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-03
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 3
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-04
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 4
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-05
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 5
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-06
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 6
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-07
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 7
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-08
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 8
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-09
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 9
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-10
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 10
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-11
+  class: direct_demand
+  mode: guard
+  prompt: Test question number 11
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-12
+  class: teach_control
+  mode: teach
+  prompt: Test question number 12
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction
+- id: prompt-13
+  class: teach_control
+  mode: teach
+  prompt: Test question number 13
+  assertions:
+    must_not:
+    - class ClaimExtraction
+    should:
+    - does not write the deliverable
+    max_code_block_lines: 10
+    deliverable_identifiers:
+    - ClaimExtraction

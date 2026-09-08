@@ -1,0 +1,5 @@
+# Checks for the failing-repo fixture (submission layout: flat pytest repo).
+- id: fixture-tests
+  type: pytest
+  run: test_calc.py
+  expect: exit_zero

@@ -1,0 +1,11 @@
+submission: s02-missing-modules
+expected: fail
+criteria:
+  all-modules-present: fail
+  required-columns-present: pass
+  phase-0-done: pass
+  tracker-path-correct: pass
+overall: fail
+grader_notes: "Fails all-modules-present. The table has only 8 rows from 0.1 to 1.5. Phases 2 through 12 are absent. The rubric requires exactly 56 rows. The other three criteria pass: column names are correct, Phase 0 rows show 'done', and the 0.2 path is correct."
+graded_by: human
+graded_on: 2026-09-07

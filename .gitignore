@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+
+# Temporary review/diagnostic scripts created by the review loop
+.review-*
+.verify-*
+.check-*
+.diag-*
+.patch-*
+.inspect-*
+.cleanup-*
+.doc-audit/
+
+# Never commit secrets
+*.env
+.env*
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

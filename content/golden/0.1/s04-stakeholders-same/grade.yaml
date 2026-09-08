@@ -1,0 +1,12 @@
+submission: s04-stakeholders-same
+expected: fail
+criteria:
+  no-technology-words: pass
+  problem-stated-plainly: pass
+  three-stakeholders-differ: fail
+  current-process-traceable: pass
+  target-process-measurable: pass
+overall: fail
+grader_notes: "All three roles are named but they want the same thing. The CFO 'too wants each dispute decided in under 1 hour' and the Trust and Safety Officer 'wants every claim resolved in under 1 hour'. Nobody asks for integer cents tracking or policy enforcement. The other four sections pass."
+graded_by: human
+graded_on: 2026-09-06

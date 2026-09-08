@@ -1,0 +1,176 @@
+id: "placement-phase-1"
+title: "Phase 1 Foundations Placement Diagnostic"
+est_minutes: 20
+passing_threshold_pct: 75.0
+pass_skip_units:
+  - "1.3"
+  - "1.4"
+  - "1.5"
+fail_baseline_units:
+  - "0.1"
+  - "1.1"
+  - "1.2"
+
+categories:
+  - id: "syntax_data_structures"
+    title: "Python Syntax & Data Structures"
+    weight: 0.25
+  - id: "structured_data_validation"
+    title: "JSON & Data Validation"
+    weight: 0.25
+  - id: "async_concurrency"
+    title: "Async & Concurrency"
+    weight: 0.25
+  - id: "apis_testing"
+    title: "APIs & Testing Architecture"
+    weight: 0.25
+
+questions:
+  - id: "q1_python_comprehension"
+    category: "syntax_data_structures"
+    type: "code_analysis"
+    points: 1
+    prompt: |
+      Given the following Python snippet:
+      ```python
+      disputes = [{"id": 1, "type": "damage"}, {"id": 2, "type": "shortage"}, {"id": 3, "type": "damage"}]
+      damage_ids = {d["id"] for d in disputes if d.get("type") == "damage"}
+      ```
+      What is the type and exact value of `damage_ids`?
+    options:
+      - id: "opt_a"
+        label: "list with value [1, 3]"
+      - id: "opt_b"
+        label: "set with value {1, 3}"
+      - id: "opt_c"
+        label: "dict with value {1: 'damage', 3: 'damage'}"
+      - id: "opt_d"
+        label: "tuple with value (1, 3)"
+    correct_answer: "opt_b"
+    explanation: "Braces with a comprehension `{d['id'] for d in ...}` produce a set containing the extracted elements {1, 3}."
+
+  - id: "q2_dict_mutation"
+    category: "syntax_data_structures"
+    type: "concept"
+    points: 1
+    prompt: |
+      In Python, if a dictionary `d = {"a": [1, 2]}` is copied via shallow copy `c = d.copy()`, and you run `c["a"].append(3)`, what is `d["a"]`?
+    options:
+      - id: "opt_a"
+        label: "[1, 2] (original is unmodified)"
+      - id: "opt_b"
+        label: "[1, 2, 3] (nested mutable list reference is shared)"
+      - id: "opt_c"
+        label: "Raises a TypeError"
+      - id: "opt_d"
+        label: "[3] (replaces list)"
+    correct_answer: "opt_b"
+    explanation: "Shallow copies create a new outer container but copy references to nested mutable objects, so modifying the inner list mutates both."
+
+  - id: "q3_pydantic_validation"
+    category: "structured_data_validation"
+    type: "code_analysis"
+    points: 1
+    prompt: |
+      In Pydantic v2, what is the primary difference between directly instantiating a model `Claim(id=raw_id)` and using `Claim.model_validate(raw_dict)`?
+    options:
+      - id: "opt_a"
+        label: "model_validate enforces runtime schema validation and parsing over input data structures, whereas direct keyword instantiation can bypass strict boundary parsing when type validation is relaxed."
+      - id: "opt_b"
+        label: "model_validate only works on XML documents."
+      - id: "opt_c"
+        label: "Direct instantiation is asynchronous, model_validate is synchronous."
+      - id: "opt_d"
+        label: "There is no difference; they are exact aliases."
+    correct_answer: "opt_a"
+    explanation: "model_validate is the canonical Pydantic v2 enforcement boundary for validating and coercing untrusted dictionaries or objects into validated models."
+
+  - id: "q4_json_deserialization"
+    category: "structured_data_validation"
+    type: "concept"
+    points: 1
+    prompt: |
+      Why is wrapping `json.loads()` in a try/except block essential before passing extracted model strings into downstream data pipelines?
+    options:
+      - id: "opt_a"
+        label: "json.loads() terminates the Python interpreter process if input is invalid."
+      - id: "opt_b"
+        label: "LLM output non-determinism can emit invalid syntax, trailing commentary, or markdown fences, raising json.JSONDecodeError."
+      - id: "opt_c"
+        label: "json.loads() requires network access to validate schema tokens."
+      - id: "opt_d"
+        label: "To convert snake_case keys into camelCase automatically."
+    correct_answer: "opt_b"
+    explanation: "Free-text generation from probabilistic models may produce malformed JSON syntax or commentary, raising JSONDecodeError that must be caught gracefully."
+
+  - id: "q5_asyncio_gather"
+    category: "async_concurrency"
+    type: "code_analysis"
+    points: 1
+    prompt: |
+      Consider two coroutines `fetch_claim_a()` (takes 2.0s) and `fetch_claim_b()` (takes 2.0s). If executed via `await asyncio.gather(fetch_claim_a(), fetch_claim_b())` on a running event loop, what is the approximate elapsed wall-clock time?
+    options:
+      - id: "opt_a"
+        label: "4.0 seconds"
+      - id: "opt_b"
+        label: "2.0 seconds (concurrent I/O non-blocking execution)"
+      - id: "opt_c"
+        label: "0.0 seconds (instantaneous)"
+      - id: "opt_d"
+        label: "Raises a ConcurrencyError"
+    correct_answer: "opt_b"
+    explanation: "asyncio.gather schedules both I/O-bound coroutines concurrently on the event loop, taking max(t_a, t_b) ≈ 2.0s rather than their sum."
+
+  - id: "q6_blocking_in_async"
+    category: "async_concurrency"
+    type: "concept"
+    points: 1
+    prompt: |
+      What happens when a synchronous blocking operation (e.g. `time.sleep(5)` or standard `urllib.request.urlopen`) is called inside an async route handler without offloading?
+    options:
+      - id: "opt_a"
+        label: "The OS automatically spins up a background thread."
+      - id: "opt_b"
+        label: "It blocks the entire event loop thread, starving all other concurrent requests from progressing."
+      - id: "opt_c"
+        label: "FastAPI rejects the route definition at startup."
+      - id: "opt_d"
+        label: "The request is canceled after 1 millisecond."
+    correct_answer: "opt_b"
+    explanation: "Python's asyncio runs on a single thread event loop; calling blocking synchronous I/O freezes the entire loop for all concurrent tasks."
+
+  - id: "q7_http_status_semantics"
+    category: "apis_testing"
+    type: "concept"
+    points: 1
+    prompt: |
+      When an API client makes a request with an invalid or expired authentication token, which HTTP status code must the server return according to RFC 9110 standards?
+    options:
+      - id: "opt_a"
+        label: "400 Bad Request"
+      - id: "opt_b"
+        label: "401 Unauthorized"
+      - id: "opt_c"
+        label: "403 Forbidden"
+      - id: "opt_d"
+        label: "404 Not Found"
+    correct_answer: "opt_b"
+    explanation: "401 Unauthorized is defined for missing or invalid authentication credentials, whereas 403 Forbidden is used when credentials are valid but lack permission."
+
+  - id: "q8_pytest_fixtures"
+    category: "apis_testing"
+    type: "code_analysis"
+    points: 1
+    prompt: |
+      In pytest, what is the default scope of a `@pytest.fixture` when no explicit `scope` argument is provided?
+    options:
+      - id: "opt_a"
+        label: "session"
+      - id: "opt_b"
+        label: "module"
+      - id: "opt_c"
+        label: "function (instantiated fresh for each test function)"
+      - id: "opt_d"
+        label: "package"
+    correct_answer: "opt_c"
+    explanation: "Pytest fixtures default to function scope, ensuring each test function receives an isolated fixture instance."

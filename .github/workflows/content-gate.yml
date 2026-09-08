@@ -1,0 +1,89 @@
+name: content-gate
+
+# S2.1 schema gate: any PR touching content (or the validators themselves)
+# must pass both content validators — the same two commands the local
+# .githooks/pre-push gate runs (see .githooks/README.md for activation).
+# S2.2 adds a third step: the unit's deterministic checks are dry-run against
+# the reference solution, so a content change that breaks Layer 1 fails the
+# PR (platform/grading/scripts/dryrun-unit-checks.py).
+# Caveat, same as rubric-gate.yml: this workflow cannot execute until the
+# repo is live on GitHub with Actions enabled — shape recorded here first.
+on:
+  pull_request:
+    paths:
+      - "content/**"
+      # content/** already covers the two lines below; listed explicitly so
+      # the gate keeps firing on the validators if the glob ever narrows.
+      - "content/tools/validate.py"
+      - "content/tools/validate-rubrics.py"
+      - "platform/app/scripts/check-mermaid.mjs"
+      - ".github/workflows/content-gate.yml"
+
+jobs:
+  content-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install validator deps
+        run: pip install jsonschema pyyaml
+      - name: Validate units, examples, variants, personas
+        run: python content/tools/validate.py
+      - name: Validate rubrics
+        run: python content/tools/validate-rubrics.py
+      - name: Validate gate rules
+        run: python content/tools/validate-gates.py
+      - name: Validate curriculum map
+        run: python content/tools/validate-map.py
+      - name: Validate routing rules
+        run: python content/tools/validate-routing.py
+      - name: Validate guard evals
+        run: python content/tools/validate-guard-evals.py
+      - name: Validate diagnostic assessments and commitment declarations
+        run: python content/tools/validate-diagnostics.py
+      - name: Strict lesson lint (M2.1 gate)
+        run: |
+          files=$(find content/units -type f -name learn.md)
+          if [ -n "$files" ]; then
+            python content/tools/lint-lesson.py --strict $files
+          else
+            echo "no authored learn.md files; strict lesson lint skipped"
+          fi
+      - name: Cross-file unit consistency (M2.2 gate)
+        run: |
+          for d in content/units/phase-*/*/; do
+            [ -d "$d" ] || continue
+            python content/tools/check-unit-consistency.py "$(basename "$d")"
+          done
+      - name: Concierge structural contract and spoof-immunity checks (keyless)
+        run: python platform/grading/scripts/check-concierge-structural.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: platform/app/package-lock.json
+      - name: Install app deps (for the mermaid grammar and legibility check)
+        run: npm ci --no-audit --no-fund
+        working-directory: platform/app
+      - name: Diagram grammar and legibility limits
+        run: node scripts/check-mermaid.mjs
+        working-directory: platform/app
+      - name: Dry-run unit 3.2.1 checks against the reference solution
+        # Needs docker (present on ubuntu-latest) + the keel-runner:0.1 image
+        # (S0.3 definition: python:3.12-slim + pydantic 2.13.4 + pytest 9.1.1;
+        # built inline if absent). Offline — Layer 1 only, no judge, no API
+        # key. Local runs of the same script need Docker Desktop running.
+        # Same no-remote caveat as the header: first executes when the repo
+        # is live on GitHub with Actions enabled.
+        env:
+          KEEL_SANDBOX_IMAGE: keel-runner:0.1
+        run: |
+          docker image inspect keel-runner:0.1 >/dev/null 2>&1 || \
+            docker build -q -t keel-runner:0.1 - <<'EOF'
+          FROM python:3.12-slim
+          RUN pip install --no-cache-dir pydantic==2.13.4 pytest==9.1.1
+          WORKDIR /work
+          EOF
+          python platform/grading/scripts/dryrun-unit-checks.py

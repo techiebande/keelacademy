@@ -1,0 +1,27 @@
+# Adaptive routing rules (S3.4): each student's practice path adapts to
+# demonstrated performance. A clean first-try retrieval sweep makes the
+# worked example optional (fast pass); any failed attempt routes through
+# the worked example scaffold with deterministic deep links.
+unit_id: "3.2.1"
+steps:
+  - id: "lesson"
+    title: "Study the lesson"
+    type: "concept"
+  - id: "retrieval"
+    title: "Retrieval drills"
+    type: "drill"
+  - id: "worked_example"
+    title: "Annotated worked example"
+    type: "scaffold"
+  - id: "completion"
+    title: "Completion problem workbench"
+    type: "workbench"
+fast_pass:
+  condition: "all_retrieval_passed_first_try"
+  worked_example: "optional"
+  summary: "Passing all retrieval drills on first attempt marks the worked example optional."
+scaffold:
+  condition: "any_failed_retrieval_or_completion"
+  worked_example: "recommended"
+  deep_links: true
+  summary: "A failed retrieval drill or completion problem routes to specific worked example sections and files for review."

@@ -1,0 +1,19 @@
+id: business-owner
+role: reviewer
+grounding:
+  refs:
+    - curriculum.md#14-final-capstone-defense--credentialing-criteria
+    - school-architecture.md#6-the-business-simulation-engine--phase-11-as-reps-not-templates
+    - school-architecture.md#7-the-graduation-credential--what-keel-issues
+rubric_ref: rubrics/simulations/business-owner.yaml
+scoring:
+  pass_rule: weighted
+  criteria:
+    - id: quantified-business-value
+      weight: 0.30
+    - id: zero-jargon-communication
+      weight: 0.25
+    - id: error-and-risk-mitigation
+      weight: 0.25
+    - id: implementation-feasibility
+      weight: 0.20

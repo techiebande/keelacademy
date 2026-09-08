@@ -1,0 +1,28 @@
+# Valid commitment declaration fixture
+workload:
+  total_hours_min: 700
+  total_hours_max: 950
+  months_min: 9
+  months_max: 15
+  hours_per_week_min: 12
+  hours_per_week_max: 15
+  summary: "Example valid workload commitment."
+
+format:
+  style: "Self-directed, text-first."
+  finish_line: "Production-grade system."
+  teaching_delivery: "Sandboxes and rubric judges."
+  summary: "Example valid format summary."
+
+guarantees:
+  client_guarantee: "No placement promises."
+  what_we_guarantee: "Rigorous verification."
+  summary: "Example guarantees summary."
+
+acknowledgments:
+  - id: "workload_ack"
+    label: "I acknowledge the 700-950 hour requirement."
+    required: true
+  - id: "honesty_ack"
+    label: "I acknowledge no-client-guarantee honesty."
+    required: true

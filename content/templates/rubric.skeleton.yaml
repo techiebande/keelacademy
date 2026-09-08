@@ -1,0 +1,11 @@
+id: rubric-<id>
+version: 1
+pass_rule: all
+judge:
+  prompt: prompts/judge-<id>.md
+  model_tier: mid
+golden_set: golden/<id>/
+criteria:
+  - id: <kebab-case-id>
+    description: "<Two or three sentences, 20 words or fewer each: exactly what passes. Last sentence starts 'Do not' and states the anti-criterion.>"
+    evidence: "<What the judge must quote, or what to quote when the evidence is absence.>"

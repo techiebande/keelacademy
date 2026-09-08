@@ -1,0 +1,27 @@
+kind: conceptual
+id: "0.1.1"
+phase: 0
+est_hours: 4
+prereq_units: []
+last_verified:
+  concept_core: 2026-08-25
+  applied_context: 2026-08-25
+  tool_specifics: 2026-08-25
+learn: learn.md
+practice:
+  worked_example: worked-example/
+  completion_problem:
+    base: fixtures/invalid/
+  retrieval_seeds:
+    - "explain next-token prediction"
+build:
+  deliverable: "Submit a written analysis."
+  submission: file
+  data_variant: omnicart@v0
+verify:
+  layers: [2]
+gate:
+  unlocks: ["0.1.2"]
+unstuck:
+  - symptom: "Confusing token prediction with conscious planning"
+    fix_ref: faq/0.1.1.md#next-token-mechanics

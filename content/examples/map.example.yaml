@@ -1,0 +1,367 @@
+version: 1
+phases:
+- phase: 0
+  id: phase-0
+  title: Orientation & Environment Setup
+  est_hours: 9
+  why: Environment setup is where self-taught learners quietly drop off. We treat
+    sandboxing, tooling, and your first drill as the initial deliverable completed
+    in your first session.
+  outcome: 'Your isolated Docker environment runs, and you meet OmniCart: the
+    anchor client you serve across all thirteen phases.'
+  pipeline_role: Docker runner and initial invoice and dispute fixtures.
+  modules:
+  - id: '0.1'
+    title: 'Meet the client: OmniCart Operations'
+    description: Domain overview of B2B invoice intake, supplier SLAs, return disputes,
+      and triage failure modes.
+  - id: '0.2'
+    title: How the curriculum and grading loop work
+    description: How automated checks, rubric review, and defence questions combine
+      into one verdict.
+  - id: '0.3'
+    title: One-click Docker environment setup
+    description: Isolated containerized workspace with Python 3.12, Pytest, and Pydantic.
+- phase: 1
+  id: phase-1
+  title: Software Engineering Foundations
+  est_hours: 100
+  why: Every subsequent phase stands on engineering fundamentals. Python, git workflows,
+    HTTP APIs, async programming, and pytest are taught as components of the operations
+    intake pipeline.
+  outcome: You structure, test, and containerize asynchronous backend code ready for
+    high-throughput model pipelines.
+  pipeline_role: Asynchronous intake API and schema validation backend.
+  note: Experienced programmers can take a 20-minute adaptive diagnostic to place
+    straight into Phase 2.
+  modules:
+  - id: '1.1'
+    title: Python for AI engineering
+    description: Type hints, Pydantic data models, and functional collection pipelines.
+  - id: '1.2'
+    title: Version control and collaborative git workflows
+    description: Branching strategies, conventional commits, and automated hook pipelines.
+  - id: '1.3'
+    title: Working with HTTP APIs, webhooks, and rate limits
+    description: HTTP protocol semantics, exponential backoff, and idempotent webhook
+      intake.
+  - id: '1.4'
+    title: Asynchronous programming, event loops and concurrency
+    description: Asyncio task scheduling, worker queues, and connection pool management.
+  - id: '1.5'
+    title: Testing suites, code quality and pytest fixtures
+    description: Deterministic unit tests, parameterized fixtures, and mock isolation.
+- phase: 2
+  id: phase-2
+  title: LLM Fundamentals & Model Physics
+  est_hours: 60
+  why: Most prompt fragility comes from flawed mental models. When models are treated
+    as magic, non-deterministic failures feel impossible to debug.
+  outcome: 'You predict model behavior: tokenization nuances, context compression,
+    attention mechanics, provider differences, and engineered API handling.'
+  pipeline_role: Model abstraction layer and per-call token telemetry.
+  modules:
+  - id: '2.1'
+    title: How transformer models work practically
+    description: Next-token prediction, vocabulary distributions, and sampling temperature
+      physics.
+  - id: '2.2'
+    title: Tokens, context windows and model degradation patterns
+    description: Tokenization edge cases, context dilution, and attention decay across
+      long dispute dossiers.
+  - id: '2.3'
+    title: The model provider landscape and trade-off matrices
+    description: Frontier versus open-weight models, pricing curves, and provider
+      latency benchmarks.
+  - id: '2.4'
+    title: Calling LLM APIs with retries, backoff, and timeouts
+    description: Resilient API clients, transient rate limit recovery, and structured
+      error boundaries.
+- phase: 3
+  id: phase-3
+  title: Prompt Engineering as a Discipline
+  est_hours: 80
+  badge: Unit 3.2.1 live
+  why: Prompts you cannot diff, test, and version in git are incantations, not engineering.
+    We treat prompts as strict software artifacts.
+  outcome: You author versioned, schema-constrained prompts with deterministic JSON
+    outputs that parse every time or fail with structured error logs.
+  pipeline_role: Strict structured invoice and dispute extraction engine.
+  note: Unit 3.2.1 is live and accepting submissions today with full automated grading.
+  modules:
+  - id: '3.1'
+    title: System prompt design and role conditioning
+    description: Deterministic system prompts, context isolation, and anti-jailbreak
+      conditioning.
+  - id: '3.2'
+    title: Structured outputs and schema-constrained generation
+    description: JSON schema mode, instructor paradigms, and strict type enforcement.
+  - id: 3.2.1
+    title: Structured extraction with JSON mode and Pydantic
+    description: Author schema-constrained parser handling messy invoice and dispute notes.
+  - id: '3.3'
+    title: Few-shot exemplars and dynamic in-context retrieval
+    description: Representative exemplar curation, token budget management, and selection
+      heuristics.
+  - id: '3.4'
+    title: 'Prompts as code: versioning, CI testing and regression gates'
+    description: Git prompt versioning, golden set test assertions, and automated
+      PR merge barriers.
+- phase: 4
+  id: phase-4
+  title: Retrieval-Augmented Generation (RAG) & Grounding
+  est_hours: 80
+  why: 'Retrieval fails quietly: the model prioritizes fluent generation over accurate
+    grounding unless explicitly anchored to verified documents.'
+  outcome: You ground answers in OmniCart store policy documents and warranty terms using hybrid search, chunking
+    strategies, dense embeddings, and cross-encoder rerankers.
+  pipeline_role: Vendor agreement grounding and hybrid retrieval index (BM25 + vector).
+  modules:
+  - id: '4.1'
+    title: Semantic chunking, metadata extraction and PDF parsing
+    description: Document boundary preservation, table extraction, and header hierarchy
+      indexing.
+  - id: '4.2'
+    title: Dense vector embeddings and vector databases
+    description: Embedding model calibration, vector distance metrics, and Qdrant
+      index configuration.
+  - id: '4.3'
+    title: Hybrid search and reciprocal rank fusion
+    description: Dense vector plus BM25 sparse lexical search merged via reciprocal
+      rank fusion.
+  - id: '4.4'
+    title: Agentic retrieval loops and graph-based knowledge indices
+    description: Self-correcting query rewrites, multi-hop retrieval, and cross-encoder
+      reranking.
+- phase: 5
+  id: phase-5
+  title: Tool Use & Agent Orchestration
+  est_hours: 80
+  badge: 15% rebate gate
+  gate_id: phase-5-integration
+  rebate_pct: 15
+  why: Autonomous agents fail in infinite loops and blow through budgets. This is
+    where most builders stall; we provide explicit stop conditions and state machines.
+  outcome: You build multi-tool agents that query inventory databases, calculate price adjustments,
+    and make dispute routing decisions within strict token budgets.
+  pipeline_role: Multi-tool dispute triage agent with bounded stop conditions.
+  note: Passing the Phase 5 integration gate inside 365 days triggers your first 15%
+    completion rebate.
+  modules:
+  - id: '5.1'
+    title: Function calling schemas and structured parameter validation
+    description: Tool definition schemas, strict argument validation, and tool execution
+      dispatch.
+    is_gate: true
+  - id: '5.2'
+    title: Single-agent ReAct reasoning loops with hard stop conditions
+    description: Thought-Action-Observation loops with step caps, cycle detection,
+      and token ceilings.
+  - id: '5.3'
+    title: Multi-agent orchestration and hierarchical routing
+    description: Supervisor agent routing disputes to specialized SKU damage and supplier SLA
+      sub-agents.
+  - id: '5.4'
+    title: Orchestration frameworks and protocol interoperability
+    description: State graph architectures, checkpointing, and structured transitions.
+  - id: '5.5'
+    title: Persistent conversation memory and state compaction
+    description: Context summarization, rolling memory windows, and long-term key-value
+      state.
+- phase: 6
+  id: phase-6
+  title: Fine-Tuning & Model Adaptation
+  est_hours: 60
+  why: Fine-tuning is frequently misapplied to fix retrieval problems. We teach you
+    when fine-tuning is economically justified and how to execute parameter-efficient
+    tuning.
+  outcome: You know when to prompt, when to retrieve, and when to fine-tune. You prepare
+    instruction datasets and train LoRA adapters on open models.
+  pipeline_role: Domain-adapted open model for B2B catalog and SKU terminology classification.
+  modules:
+  - id: '6.1'
+    title: 'Decision framework: Prompting vs RAG vs Fine-tuning'
+    description: Economic and operational trade-off framework for model customization.
+  - id: '6.2'
+    title: Dataset preparation, data synthesis and formatting
+    description: Instruction dataset curation, loss masking, and synthetic sample
+      generation.
+  - id: '6.3'
+    title: Hands-on LoRA and QLoRA parameter-efficient training
+    description: Quantized low-rank adaptation on open-weight LLMs with loss monitoring.
+  - id: '6.4'
+    title: Preference optimization for domain tone alignment
+    description: Direct Preference Optimization (DPO) aligning model output to commercial
+      procurement standards.
+- phase: 7
+  id: phase-7
+  title: Evaluation & Production Observability
+  est_hours: 70
+  badge: The school's core discipline
+  why: This is the cornerstone discipline of the entire school. Keel grades your work
+    using the exact evaluation methodology taught in this phase.
+  outcome: You build golden evaluation datasets, calibrate LLM judges against human
+    baselines, instrument distributed traces, and wire automated CI regression gates.
+  pipeline_role: Automated regression evaluation and distributed tracing harness.
+  modules:
+  - id: '7.1'
+    title: Curating representative golden evaluation datasets
+    description: Adversarial test cases, boundary conditions, and stratified sample
+      collection.
+  - id: '7.2'
+    title: Heuristic and LLM-as-judge scoring with quoted evidence
+    description: Multi-criterion scoring rubrics, evidence quoting, and judge prompt
+      calibration.
+  - id: '7.3'
+    title: Distributed tracing, token cost accounting and latency telemetry
+    description: Per-call telemetry logging, prompt/completion token tracking, and
+      latency spans.
+  - id: '7.4'
+    title: CI/CD regression testing for probabilistic models
+    description: Automated PR merge gates blocking score regressions on golden evaluation
+      sets.
+- phase: 8
+  id: phase-8
+  title: Cost & Performance Engineering
+  est_hours: 50
+  why: At 4,000 transactions a month, inefficient LLM calls destroy unit economics. A system
+    that costs more than the human labor it replaces is unviable.
+  outcome: You model token costs, implement dynamic model routing from low-tier to
+    frontier models, leverage prompt caching, and optimize latency.
+  pipeline_role: Dynamic cascading model router and token budget optimizer.
+  modules:
+  - id: '8.1'
+    title: Token economics, context modeling and ROI calculations
+    description: Unit economics modeling, per-transaction cost estimation, and batching
+      trade-offs.
+  - id: '8.2'
+    title: Dynamic cascading model routers
+    description: Cheap-first classification fallbacks routing complex disputes to
+      frontier judges.
+  - id: '8.3'
+    title: Prompt prefix caching, semantic caching and batching
+    description: Prefix cache alignment, exact and semantic cache layers, and async
+      batch dispatch.
+- phase: 9
+  id: phase-9
+  title: Security, Safety & Governance
+  est_hours: 60
+  why: An automated operations system ingests untrusted vendor documents. Adversarial prompt
+    injection and data leakage must be defended systematically.
+  outcome: You build input guardrails, prevent prompt injections, enforce human-in-the-loop
+    approvals for high-value payouts, and maintain tamper-evident audit logs.
+  pipeline_role: Input guardrails and tamper-evident audit ledger.
+  modules:
+  - id: '9.1'
+    title: Direct and indirect prompt injection defense
+    description: Adversarial payload sanitization, structural delimiters, and canary
+      tokens.
+  - id: '9.2'
+    title: PII redaction, data sanitization and access policies
+    description: Automated entity redaction, data masking, and role-based invoice visibility.
+  - id: '9.3'
+    title: Human-in-the-loop checkpoints for critical decisions
+    description: Confidence thresholding, credit threshold escalation, and operations
+      review queues.
+  - id: '9.4'
+    title: Immutable audit logging and regulatory compliance trails
+    description: Event-sourced audit spines, tamper-evident logs, and compliance report
+      exports.
+- phase: 10
+  id: phase-10
+  title: Deployment & Production LLMOps
+  est_hours: 60
+  why: Deploying probabilistic systems is fundamentally different from traditional
+    web development. Latency spikes and model drift require dedicated infrastructure.
+  outcome: You wrap your system in FastAPI endpoints, containerize with Docker, deploy
+    to scalable infrastructure, and build monitoring dashboards.
+  pipeline_role: Containerized FastAPI microservice with production health telemetry.
+  modules:
+  - id: '10.1'
+    title: Packaging AI pipelines as robust REST APIs
+    description: FastAPI endpoints, streaming SSE responses, and structured error
+      responses.
+  - id: '10.2'
+    title: Ephemeral containerization and sandbox runners
+    description: Resource-capped Docker sandboxes with ephemeral storage and network
+      controls.
+  - id: '10.3'
+    title: CI/CD deployment pipelines with evaluation barriers
+    description: Automated build workflows gating container deployments on evaluation
+      passes.
+  - id: '10.4'
+    title: Production monitoring, drift alerting and on-call runbooks
+    description: Production latency alerting, model output drift detection, and automated
+      rollback.
+- phase: 11
+  id: phase-11
+  title: The Business of AI Engineering
+  est_hours: 80
+  badge: Parallel track from day one
+  why: Graduating technically competent but financially broke is the standard failure
+    mode of self-taught engineers. This track runs in parallel from week one.
+  outcome: You rehearse discovery calls against AI prospects, calculate value-based
+    pricing, draft sendable proposals with explicit exclusions, and send real outreach.
+  pipeline_role: Commercialization and client-facing scope proposal package.
+  note: Unlocked on day one alongside technical phases so business reps compound with
+    technical building.
+  modules:
+  - id: '11.1'
+    title: Positioning, niche selection and positioning statements
+    description: Niche identification, technical value positioning, and authority
+      framing.
+  - id: '11.2'
+    title: Architectural case studies and portfolio assets
+    description: Production case studies documenting business context, architecture,
+      and measured metrics.
+  - id: '11.3'
+    title: Value-based pricing models and ROI calculators
+    description: Client cost-reduction calculators, pricing anchors, and fixed-scope
+      fee models.
+  - id: '11.4'
+    title: Prospect qualification and outreach workflows
+    description: Decision-maker discovery, targeted outreach crafting, and follow-up
+      cadence.
+  - id: '11.5'
+    title: Discovery call simulations scored against rubrics
+    description: AI prospect discovery rehearsals evaluated on pain discovery and
+      diagnostic rigor.
+  - id: '11.6'
+    title: Proposals, contracts and mandatory not-included scope
+    description: SOW drafting with explicit scope exclusions, milestones, and payment
+      terms.
+  - id: '11.7'
+    title: Retainer conversion, handoff and client communication
+    description: Production handoff documentation, maintenance SLAs, and retainer
+      conversion frameworks.
+- phase: 12
+  id: phase-12
+  title: Capstone & Cross-Industry Portfolio
+  est_hours: 100
+  badge: 15% rebate gate
+  gate_id: capstone
+  rebate_pct: 15
+  why: One vertical project proves depth; three additional projects prove you can
+    architect AI systems across healthcare, finance, and legal domains.
+  outcome: The complete OmniCart operations pipeline running in production, plus
+    three cross-domain portfolio deliverables.
+  pipeline_role: End-to-end production operations dispute system and cross-industry portfolio.
+  note: Clearing the capstone gate inside 365 days triggers your final 15% completion
+    rebate.
+  modules:
+  - id: '12.1'
+    title: 'The Capstone: OmniCart Operations end to end in production'
+    description: Complete operations dispute pipeline integrating extraction, retrieval,
+      routing, and audit logs.
+    is_gate: true
+  - id: '12.2'
+    title: 'Cross-Industry Portfolio: Legal brief analyzer'
+    description: Legal brief clause extraction, precedent retrieval, and risk breakdown.
+  - id: '12.3'
+    title: 'Cross-Industry Portfolio: Healthcare clinical notes extractor'
+    description: Clinical notes summarization, ICD-10 code extraction, and HIPAA compliance
+      redaction.
+  - id: '12.4'
+    title: 'Cross-Industry Portfolio: Financial earnings report synthesizer'
+    description: SEC 10-K report parsing, financial metrics table extraction, and
+      guidance analysis.

@@ -1,0 +1,40 @@
+kind: conceptual
+id: "0.1"
+phase: 0
+est_hours: 1
+prereq_units: []
+last_verified:
+  concept_core: 2026-09-06
+  applied_context: 2026-09-06
+  tool_specifics: 2026-09-06
+learn: learn.md
+practice:
+  worked_example: worked-example/
+  completion_problem:
+    prompt: "Write the full OmniCart client brief under the five headings, in 250 to 500 words. Say what should happen, not what tool does it, and use no technology words."
+    instructions: "Use the five headings in order: the title, The problem, Who cares and why, How it works today, How it should work. Write three sentences under The problem, one line per leader, 4 to 7 numbered steps in each process section, at least one amount in whole cents, and a person who reviews hard cases."
+    rubric: rubrics/0.1/v1.yaml
+  retrieval_seeds:
+    - "OmniCart handles about 4,000 returns, claims, slips, and disputes each month."
+    - "Today a dispute waits 2 to 3 days before anyone reviews it."
+    - "The VP wants speed, the CFO wants every cent tracked, the policy officer wants rules followed."
+    - "Money is always written as whole cents, so $45.20 becomes 4520."
+    - "State the problem in plain words before you name any fix."
+build:
+  deliverable: "Submit your OmniCart client brief as omnicart-system/docs/client-brief.md."
+  submission: file
+  data_variant: omnicart@v0
+verify:
+  layers: [2]
+  rubric: rubrics/0.1/v1.yaml
+gate:
+  unlocks: ["0.2"]
+unstuck:
+  - symptom: "My problem section names a tool or a program instead of the problem"
+    fix_ref: faq/0.1.md#name-the-problem-not-the-tool
+  - symptom: "My three leaders all seem to want speed"
+    fix_ref: faq/0.1.md#three-leaders-sound-the-same
+  - symptom: "My today steps skip the four papers a clerk reads"
+    fix_ref: faq/0.1.md#steps-skip-the-four-papers
+  - symptom: "My target steps have no number or no person"
+    fix_ref: faq/0.1.md#target-needs-a-number-and-a-person

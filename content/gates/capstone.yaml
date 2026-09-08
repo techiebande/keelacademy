@@ -1,0 +1,11 @@
+# Gate rule (S2.7): the final gate. Nothing comes after the capstone, so it
+# unlocks no further units; clearing it is the end of the technical track and
+# earns the capstone rebate.
+gate_id: capstone
+title: Final capstone gate
+unit_id: "12.1"
+unlocks: []
+rebate: true
+summary: >-
+  A passing verdict on unit 12.1 clears this gate. Unit 12.1 is the capstone:
+  the complete OmniCart Operations system with its client-facing deliverables.

@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keelacademy.dev/schemas/map.schema.json",
+  "title": "Curriculum map skeleton",
+  "description": "The 13-phase curriculum map skeleton: phases, estimated hours, outcomes, the role each phase plays in the OmniCart pipeline, gates, and planned vs authored module structure.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "phases"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 13,
+      "maxItems": 13,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "phase",
+          "id",
+          "title",
+          "est_hours",
+          "why",
+          "outcome",
+          "pipeline_role",
+          "modules"
+        ],
+        "properties": {
+          "phase": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 12
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^phase-\\d+$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "est_hours": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "why": {
+            "type": "string",
+            "minLength": 1
+          },
+          "outcome": {
+            "type": "string",
+            "minLength": 1
+          },
+          "pipeline_role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "gate_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+          },
+          "rebate_pct": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "note": {
+            "type": "string"
+          },
+          "badge": {
+            "type": "string"
+          },
+          "modules": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "id",
+                "title",
+                "description"
+              ],
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "pattern": "^[0-9]+(\\.[0-9]+)*$"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "is_gate": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

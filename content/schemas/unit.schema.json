@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keelacademy.dev/schemas/unit.schema.json",
+  "title": "Unit",
+  "description": "A single teaching unit: learn, practice, build, verify, gate, unstuck.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "phase",
+    "est_hours",
+    "prereq_units",
+    "last_verified",
+    "learn",
+    "practice",
+    "build",
+    "verify",
+    "gate",
+    "unstuck"
+  ],
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": ["code", "conceptual"],
+      "description": "Unit kind: code (default) with sandbox completion problem, or conceptual with model answer and synthesis prompt"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "description": "Dotted unit id, e.g. 0.1 or 3.2.1"
+    },
+    "phase": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 12,
+      "description": "Curriculum phase this unit belongs to"
+    },
+    "est_hours": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "prereq_units": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/unitId" }
+    },
+    "last_verified": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["concept_core", "applied_context", "tool_specifics"],
+      "properties": {
+        "concept_core": { "$ref": "#/$defs/date" },
+        "applied_context": { "$ref": "#/$defs/date" },
+        "tool_specifics": { "$ref": "#/$defs/date" }
+      }
+    },
+    "learn": {
+      "type": "string",
+      "description": "Path to the MDX lesson with concept_core / applied_context / tool_specifics sections"
+    },
+    "practice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["worked_example", "completion_problem", "retrieval_seeds"],
+      "properties": {
+        "worked_example": { "type": "string" },
+        "completion_problem": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["base", "checks"],
+              "properties": {
+                "base": { "type": "string" },
+                "checks": { "type": "string" }
+              }
+            },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["prompt"],
+              "properties": {
+                "prompt": { "type": "string", "minLength": 1 },
+                "instructions": { "type": "string" },
+                "rubric": { "type": "string" }
+              }
+            }
+          ]
+        },
+        "retrieval_seeds": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deliverable", "submission", "data_variant"],
+      "properties": {
+        "deliverable": { "type": "string", "minLength": 1 },
+        "submission": { "enum": ["repo", "file", "recording"] },
+        "data_variant": { "type": "string", "minLength": 1 }
+      }
+    },
+    "verify": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layers", "rubric"],
+      "properties": {
+        "layers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "integer", "minimum": 1, "maximum": 4 }
+        },
+        "deterministic_checks": { "type": "string" },
+        "rubric": { "type": "string" }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unlocks"],
+      "properties": {
+        "unlocks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/unitId" }
+        }
+      }
+    },
+    "unstuck": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["symptom", "fix_ref"],
+        "properties": {
+          "symptom": { "type": "string", "minLength": 1 },
+          "fix_ref": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["kind"],
+        "properties": { "kind": { "const": "conceptual" } }
+      },
+      "then": {
+        "properties": {
+          "practice": {
+            "properties": {
+              "completion_problem": {
+                "required": ["prompt"]
+              }
+            }
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "practice": {
+            "properties": {
+              "completion_problem": {
+                "required": ["base", "checks"]
+              }
+            }
+          },
+          "verify": {
+            "required": ["deterministic_checks"]
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "unitId": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    }
+  }
+}

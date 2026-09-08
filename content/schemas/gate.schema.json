@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://keelacademy.dev/schemas/gate.schema.json",
+  "title": "Gate rule",
+  "description": "One curriculum gate: the unit whose passing verdict clears it, what it unlocks, and whether clearing it earns a rebate.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["gate_id", "title", "unit_id", "unlocks", "rebate", "summary"],
+  "properties": {
+    "gate_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$",
+      "description": "Stable gate identifier; must equal the file name stem (phase-5-integration, capstone)"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Plain-language gate name shown to learners"
+    },
+    "unit_id": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "description": "The unit whose PASSING verdict satisfies this gate (dotted pair or triple)"
+    },
+    "unlocks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/unitId" },
+      "description": "Units that become accessible when the gate clears; empty for the final gate"
+    },
+    "rebate": {
+      "type": "boolean",
+      "description": "Whether gate.pledged is emitted for this gate on first enrollment (rebate machine contract)"
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "description": "What clears the gate, in one plain sentence; the learner surface shows this for locked gates"
+    }
+  },
+  "$defs": {
+    "unitId": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+    }
+  }
+}

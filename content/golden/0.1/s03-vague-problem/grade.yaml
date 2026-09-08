@@ -1,0 +1,12 @@
+submission: s03-vague-problem
+expected: fail
+criteria:
+  no-technology-words: pass
+  problem-stated-plainly: fail
+  three-stakeholders-differ: pass
+  current-process-traceable: pass
+  target-process-measurable: pass
+overall: fail
+grader_notes: "The problem section has three sentences but no numbers. It says 'a lot of return requests' instead of about 4,000 a month and 'far too long' instead of 2 to 3 days. The other four sections pass, with six ordered steps and '4520 cents'."
+graded_by: human
+graded_on: 2026-09-06

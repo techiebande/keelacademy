@@ -1,0 +1,11 @@
+submission: s05-wrong-path
+expected: fail
+criteria:
+  all-modules-present: pass
+  required-columns-present: pass
+  phase-0-done: pass
+  tracker-path-correct: fail
+overall: fail
+grader_notes: "Fails tracker-path-correct. The 0.2 row Deliverable cell shows 'docs/progress-tracker.md'. The required path is 'omnicart-system/docs/progress-tracker.md'. The 'omnicart-system/' prefix is missing. The other three criteria pass."
+graded_by: human
+graded_on: 2026-09-07

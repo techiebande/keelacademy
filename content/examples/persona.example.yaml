@@ -1,0 +1,16 @@
+id: skeptical-cto
+role: reviewer
+grounding:
+  refs:
+    - curriculum.md#phase-11-reviewer-panel
+    - personas/backstory/skeptical-cto.md
+rubric_ref: rubrics/sim-reviewer-panel.yaml
+scoring:
+  pass_rule: weighted
+  criteria:
+    - id: answers-objection
+      weight: 0.5
+    - id: no-overclaiming
+      weight: 0.3
+    - id: concrete-example
+      weight: 0.2

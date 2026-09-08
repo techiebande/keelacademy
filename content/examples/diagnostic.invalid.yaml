@@ -1,0 +1,24 @@
+# Invalid diagnostic fixture (bad threshold, bad units format, missing questions)
+id: "invalid_diagnostic"
+title: "Invalid Assessment"
+est_minutes: 0
+passing_threshold_pct: 150.0
+pass_skip_units:
+  - "not_a_unit"
+fail_baseline_units:
+  - "not_a_unit"
+categories:
+  - id: "cat1"
+    title: "Cat 1"
+    weight: 2.0
+questions:
+  - id: "q1"
+    category: "cat1"
+    type: "unknown_type"
+    prompt: "hi"
+    points: 0
+    options:
+      - id: "opt_a"
+        label: "A"
+    correct_answer: "opt_a"
+    explanation: "exp"

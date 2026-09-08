@@ -1,0 +1,12 @@
+submission: s05-process-untraceable
+expected: fail
+criteria:
+  no-technology-words: pass
+  problem-stated-plainly: pass
+  three-stakeholders-differ: pass
+  current-process-traceable: fail
+  target-process-measurable: pass
+overall: fail
+grader_notes: "How it works today has only three steps and names no documents. Step 1 says the clerk 'gathers the paperwork for order ORD-8821' without naming the order receipt, delivery slip, unboxing photo, or return policy. The target section still passes with '4520 cents' and 'under 1 hour'."
+graded_by: human
+graded_on: 2026-09-06

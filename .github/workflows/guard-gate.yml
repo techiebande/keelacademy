@@ -1,0 +1,43 @@
+name: guard-gate
+
+# S3.6 merge-blocking gate: any PR touching concierge prompts, evals,
+# practice service, or the guard eval runner must prove guard mode never
+# writes deliverables against the live model.
+on:
+  pull_request:
+    paths:
+      - "content/prompts/concierge-**"
+      - "content/evals/**"
+      - "platform/grading/practice/**"
+      - "platform/grading/scripts/run-guard-eval.py"
+      - "platform/grading/scripts/check-concierge-structural.py"
+
+jobs:
+  guard-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          pip install jsonschema pyyaml
+          pip install -e platform/cli
+      - name: Validate guard evals schema and content
+        run: python content/tools/validate-guard-evals.py
+      - name: Concierge structural contract and spoof-immunity checks (keyless)
+        run: python platform/grading/scripts/check-concierge-structural.py
+      - name: Live adversarial guard evaluation (unit 3.2.1)
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          python platform/grading/scripts/run-guard-eval.py \
+            --unit 3.2.1 \
+            --eval-set content/evals/guard/3.2.1.yaml \
+            --json platform/grading/guard-eval-report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: guard-eval-report
+          path: platform/grading/guard-eval-report.json

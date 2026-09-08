@@ -1,0 +1,38 @@
+kind: conceptual
+id: "0.2"
+phase: 0
+est_hours: 0.5
+prereq_units: ["0.1"]
+last_verified:
+  concept_core: 2026-09-07
+  applied_context: 2026-09-07
+  tool_specifics: 2026-09-07
+learn: learn.md
+practice:
+  worked_example: worked-example/
+  completion_problem:
+    prompt: "Build a progress tracker for your OmniCart project. Your tracker must cover all 56 modules in 13 phases, with the four required columns and Phase 0 marked done."
+    instructions: "Use the four column names in order: Module, Status, Hours spent, Deliverable. One row per module. Phase 0 rows must say done. The row for module 0.2 must show the path omnicart-system/docs/progress-tracker.md. Write (not yet) in the Deliverable column for any module you have not reached."
+    rubric: rubrics/0.2/v1.yaml
+  retrieval_seeds:
+    - "Keel Academy has 13 phases, numbered 0 to 12, and 56 modules inside them."
+    - "Your tracker is a list of every module with a status and hours column."
+    - "Phase 0 is the only phase with no code."
+    - "The Phase 11 business track runs from day one alongside every technical phase."
+    - "Each module ends with something you turn in, and your tracker links to it."
+build:
+  deliverable: "Submit your OmniCart progress tracker as omnicart-system/docs/progress-tracker.md."
+  submission: file
+  data_variant: omnicart@v0
+verify:
+  layers: [2]
+  rubric: rubrics/0.2/v1.yaml
+gate:
+  unlocks: ["0.3"]
+unstuck:
+  - symptom: "I lost count of how many modules there are"
+    fix_ref: faq/0.2.md#how-many-modules
+  - symptom: "My column names keep changing between what I write and what is shown"
+    fix_ref: faq/0.2.md#column-names-exact
+  - symptom: "I do not know what to put in the Deliverable column for future units"
+    fix_ref: faq/0.2.md#deliverable-not-yet

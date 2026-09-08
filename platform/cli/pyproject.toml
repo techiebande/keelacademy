@@ -1,0 +1,18 @@
+[project]
+name = "keel-grader"
+version = "0.1.0"
+description = "keelacademy grading CLI: Layer-1 sandboxed checks (l1) + Layer-2 rubric judge (judge) + Layer-3 defend-your-work (defend)."
+requires-python = ">=3.12"
+dependencies = ["PyYAML>=6.0", "jsonschema>=4.19"]
+
+[project.scripts]
+keel-l1 = "grader.l1:main"
+keel-judge = "grader.judge:main"
+keel-defend = "grader.defend:main"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["grader"]

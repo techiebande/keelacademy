@@ -1,0 +1,101 @@
+version: 1
+project:
+  name: "OmniCart Operations Intake & Return Dispute Pipeline"
+  anchor_client:
+    name: "OmniCart Operations"
+    description: "120-person regional multi-brand e-commerce retailer and marketplace fulfillment hub processing thousands of customer orders across hundreds of consumer brands. Processes ~4,000 customer return requests, damaged parcel claims, courier delivery slips, and merchant payout disputes per month."
+    pain_point: "Customer support and warehouse clerks manually cross-reference order receipts, courier waybills, unboxing photos, and store return policies; disputes sit unreviewed for 2-3 days, resulting in frustrated shoppers, fraudulent refund payouts, and unrecovered courier damage claims."
+    stakeholders:
+      - "VP of Operations (Sarah Jenkins): wants return triage cycle time cut from 2-3 days to under 1 hour with zero lost customer tickets"
+      - "CFO: wants every refund, replacement, and merchant chargeback tracked down to exact integer cents with an immutable audit trail"
+      - "Trust & Safety / Policy Officer: enforces 14-day statutory return policies, warranty clauses, and photo evidence standards for damage claims"
+  parallel_entity:
+    name: "Apex Freight Logistics"
+    description: "Regional third-party logistics (3PL) freight broker and carrier audit clearinghouse headquartered in Indianapolis. Audits approximately 3,500 carrier document packages each month (rate confirmations, bills of lading, driver detention logs, damage claims, carrier invoices) across 300 active motor carriers."
+    role: "Used exclusively in worked examples and scaffolded demonstrations so students learn the exact structural pattern on a parallel domain without having the OmniCart solution spoon-fed."
+  canonical_conventions:
+    monetary_values: "Strictly integer cents (e.g., $45.20 is stored as 4520, never float 45.20)"
+    identifier_prefixes:
+      claims: "CLM-##### (e.g. CLM-20841)"
+      invoices: "INV-#####"
+      orders: "ORD-##### (e.g. ORD-8821)"
+      merchants: "MCH-#### or VND-####"
+      deliveries: "DEL-##### or TRK-#####"
+    stack_evolution:
+      phase_0: "Docker environment, plain text / markdown briefs, manual baseline triage"
+      phase_1: "Python 3.12, Pydantic v2, pytest, asyncio, FastAPI intake"
+      phase_2: "Direct LLM API calling, token math, latency/cost budgets"
+      phase_3: "Structured outputs (JSON Schema/Pydantic), retries, fallbacks, system prompts"
+      phase_4: "Chunking, embeddings, vector search (Qdrant), hybrid reranking, store policy RAG"
+      phase_5: "Tool schemas, single/multi-agent loops, state graphs (LangGraph), human-in-the-loop"
+      phase_6: "Fine-tuning, LoRA/QLoRA on customer return dispute records"
+      phase_7: "Golden datasets, LLM-as-judge evals, Langfuse observability"
+      phase_8: "Model routing, prompt caching, token cost optimization"
+      phase_9: "Prompt injection defense, return fraud guardrails, compliance audit logs"
+      phase_10: "Docker containerization, CI/CD, production deployment, telemetry"
+      phase_11: "Business scoping, proposals, pricing, discovery simulations"
+      phase_12: "Capstone end-to-end client deployment"
+
+# Chronological ledger of units.
+units:
+  - unit: "0.1"
+    title: "Meet the client: OmniCart Operations"
+    concepts_unlocked:
+      - "State a business problem in plain words before naming any fix"
+      - "Stakeholder trilemma: three leaders with three different definitions of done (speed, every cent tracked, rules followed)"
+      - "Client brief structure: the problem, who cares and why, how it works today, how it should work"
+      - "Money is written as integer cents (4520, never 45.20)"
+      - "Claim and order identifiers: CLM-##### and ORD-#####"
+      - "The four papers a clerk reads: order receipt, delivery slip, unboxing photo, return policy"
+      - "A person still reviews hard cases in the target process"
+    anti_prerequisites:
+      - "No code, no Python, no Docker, no terminal, no editor beyond plain text"
+      - "No technology vocabulary: AI, agent, LLM, model, prompt, automation, API, schema, JSON"
+      - "No knowledge of the Keel grading loop (taught in 0.2)"
+      - "No idea of how a computer could solve the problem; the student describes only"
+    project_working_tree:
+      added_files:
+        - "omnicart-system/docs/client-brief.md"
+      contracts_established:
+        - "omnicart-system/ is the fixed project root for every later unit"
+        - "docs/client-brief.md is a living file; later units append below its five headings, never replace them"
+        - "Five stable headings: # OmniCart Operations: Client Brief, ## The problem, ## Who cares and why, ## How it works today, ## How it should work"
+        - "Targets later tests check: about 4,000 cases a month, under 1 hour, integer cents"
+    retrieval_seeds:
+      - "OmniCart handles about 4,000 returns, claims, slips, and disputes each month."
+      - "Today a dispute waits 2 to 3 days before anyone reviews it."
+      - "The VP wants speed, the CFO wants every cent tracked, the policy officer wants rules followed."
+      - "Money is always written as whole cents, so $45.20 becomes 4520."
+      - "State the problem in plain words before you name any fix."
+    narrative_anchor: "7:00 AM on the OmniCart receiving dock. ORD-8821, a blender with a cracked lid, becomes claim CLM-20841 and sits on a shelf for 2 to 3 days. Parallel entity Apex Freight Logistics (Marcus Bell, Priya Nair, Dana Okafor) carries the worked example."
+
+  - unit: "0.2"
+    title: "How the curriculum and grading loop work"
+    concepts_unlocked:
+      - "Keel Academy has 13 phases (0 to 12) and 56 modules in total"
+      - "Phase 0 is the only phase with no code; it has three modules: 0.1, 0.2, 0.3"
+      - "Phase 11 is the business track and runs from day one alongside every technical phase"
+      - "The grading loop has three steps: deterministic checks, rubric review, defend-your-work questions"
+      - "Every module ends with something you turn in; the tracker links to each deliverable"
+      - "Module 3.2.1 is a sub-module inside Phase 3 (prompt design)"
+      - "Time-boxing: submit when the estimate is up; an early unit does not need to be perfect"
+    anti_prerequisites:
+      - "No code, no Python, no Docker, no terminal, no editor beyond plain text"
+      - "No technology vocabulary: AI, agent, LLM, model, prompt, automation, API, schema, JSON"
+      - "No knowledge of any specific library or tool introduced in later phases"
+    project_working_tree:
+      added_files:
+        - "omnicart-system/docs/progress-tracker.md"
+      contracts_established:
+        - "progress-tracker.md is a living file; students update it as they complete each module"
+        - "The tracker has four required columns: Module, Status, Hours spent, Deliverable"
+        - "Status values: not started, in progress, done"
+        - "Deliverable column uses (not yet) for future modules; never left blank"
+    retrieval_seeds:
+      - "Keel Academy has 13 phases, numbered 0 to 12, and 56 modules inside them."
+      - "Your tracker is a list of every module with a status and hours column."
+      - "Phase 0 is the only phase with no code."
+      - "The Phase 11 business track runs from day one alongside every technical phase."
+      - "Each module ends with something you turn in, and your tracker links to it."
+    narrative_anchor: "A blank tracking file with 56 rows to fill. Marcus Bell at Apex Freight Logistics has the same file filled in for his audit program. The student reads Marcus's version and builds their own. The parallel entity (Apex Freight, Marcus Bell, Priya Nair, Dana Okafor) carries the worked example."
+

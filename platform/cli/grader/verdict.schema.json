@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "keelacademy Layer-2 rubric-judge verdict",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["rubric_id", "rubric_version", "submission_ref", "criteria", "overall"],
+  "properties": {
+    "rubric_id": { "type": "string", "minLength": 1 },
+    "rubric_version": { "type": ["string", "integer"] },
+    "submission_ref": { "type": "string", "minLength": 1 },
+    "criteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "verdict", "evidence"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "verdict": { "enum": ["pass", "fail"] },
+          "evidence": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "overall": { "enum": ["pass", "fail"] },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "prompt_tokens", "completion_tokens", "latency_s"],
+      "properties": {
+        "model": { "type": "string", "minLength": 1 },
+        "prompt_tokens": { "type": "integer", "minimum": 0 },
+        "completion_tokens": { "type": "integer", "minimum": 0 },
+        "latency_s": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+submission: s03-wrong-column-names
+expected: fail
+criteria:
+  all-modules-present: pass
+  required-columns-present: fail
+  phase-0-done: pass
+  tracker-path-correct: pass
+overall: fail
+grader_notes: "Fails required-columns-present. The header row reads 'Module | State | Time | Link'. The required names are 'Status', 'Hours spent', and 'Deliverable'. All three are renamed. The 56 data rows are present, Phase 0 rows show 'done', and the 0.2 path is correct in the Link column."
+graded_by: human
+graded_on: 2026-09-07

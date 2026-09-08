@@ -1,0 +1,19 @@
+# Invalid commitment fixture (missing required acknowledgments, bad workload types)
+workload:
+  total_hours_min: "not_a_number"
+  total_hours_max: 950
+  months_min: 9
+  months_max: 15
+  hours_per_week_min: 12
+  hours_per_week_max: 15
+  # missing summary
+
+format:
+  style: "Self-directed"
+  # missing finish_line, teaching_delivery, summary
+
+guarantees:
+  client_guarantee: "No guarantees"
+  # missing what_we_guarantee, summary
+
+# missing acknowledgments

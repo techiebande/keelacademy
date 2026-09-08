@@ -184,8 +184,10 @@ def revoke_all_sessions(user_id: int) -> None:
 
 
 def _user_payload(uid: int, email: str, name) -> dict:
+    eid = "keelu_%d" % uid
     return {
-        "external_id": "keelu_%d" % uid,
+        "external_id": eid,
+        "externalId": eid,
         "email": email,
         "name": name if isinstance(name, str) and name.strip() else None,
     }

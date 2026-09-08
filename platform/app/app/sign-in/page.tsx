@@ -3,6 +3,7 @@ import Link from "next/link";
 import { authMode, oauthProviders } from "@/lib/auth";
 import { keelSignInAction, offlineSignInAction } from "@/app/auth/actions";
 import { OfflineAuthNote } from "@/components/auth/offline-note";
+import { SocialAuthButtons } from "@/components/auth/social-auth-buttons";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +43,6 @@ export default async function SignInPage({ searchParams }: Props) {
   const errorBody = reset === "done" ? ERRORS.done : error ? ERRORS[error] : null;
   const providers = oauthProviders();
   const action = mode === "keel" ? keelSignInAction : offlineSignInAction;
-  const nextQuery = next ? `?next=${encodeURIComponent(next)}` : "";
 
   return (
     <div className="shell section">
@@ -59,22 +59,7 @@ export default async function SignInPage({ searchParams }: Props) {
           </p>
         ) : null}
 
-        {providers.length > 0 ? (
-          <div className="mt-8 space-y-2.5">
-            {providers.map((p) => (
-              <a
-                key={p.id}
-                href={`/api/auth/${p.id}/start${nextQuery}`}
-                className="btn w-full"
-              >
-                Continue with {p.label}
-              </a>
-            ))}
-            <p className="pt-2 text-center text-[13px] text-[color:var(--text-muted-on-dark)]">
-              or use your email
-            </p>
-          </div>
-        ) : null}
+        <SocialAuthButtons providers={providers} next={next} />
 
         <form action={action} className="mt-6">
           <input type="hidden" name="next" value={next ?? "/me"} />

@@ -618,7 +618,7 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError:
             self._respond(400, {"error": "invalid JSON"})
             return
-        external_id = str(payload.get("external_id") or "")
+        external_id = str(payload.get("external_id") or payload.get("externalId") or "")
         email = str(payload.get("email") or "").strip().lower()
         name = payload.get("name")
         if not external_id or len(external_id) > 191 \

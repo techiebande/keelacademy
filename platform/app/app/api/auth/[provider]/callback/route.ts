@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { setKeelSessionCookie, keelOauthLogin } from "@/lib/auth";
+import { attachKeelSessionCookie, setKeelSessionCookie, keelOauthLogin } from "@/lib/auth";
 
 /**
  * OAuth callback: GET /api/auth/{google|github}/callback?code=...&state=...
@@ -132,6 +132,8 @@ export async function GET(
     const code2 = res.state === "rejected" ? res.code : "unreachable";
     return NextResponse.redirect(new URL(`/sign-in?error=${encodeURIComponent(code2)}`, request.url));
   }
+  const response = NextResponse.redirect(new URL(state.next, request.url));
+  attachKeelSessionCookie(response, token);
   await setKeelSessionCookie(token);
-  return NextResponse.redirect(new URL(state.next, request.url));
+  return response;
 }

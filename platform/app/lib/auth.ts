@@ -26,6 +26,7 @@
 import { createHash, createHmac, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import type { NextResponse } from "next/server";
 import { existsSync, mkdirSync, readFileSync, renameSync, writeFileSync } from "node:fs";
 import { dirname } from "node:path";
 
@@ -88,6 +89,19 @@ async function keelAuthCall(path: string, body: Record<string, unknown>): Promis
 export async function setKeelSessionCookie(sessionToken: string): Promise<void> {
   const store = await cookies();
   store.set(COOKIE_NAME, sessionToken, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: SESSION_MAX_AGE_S,
+  });
+}
+
+export function attachKeelSessionCookie(
+  response: NextResponse,
+  sessionToken: string,
+): void {
+  response.cookies.set(COOKIE_NAME, sessionToken, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
@@ -179,11 +193,28 @@ export async function keelSessionUser(): Promise<SessionUser | null> {
       body: JSON.stringify({ session_token: token }),
       cache: "no-store",
     },
-  ).then(async (r) =>
-    r.ok ? ((await r.json()) as { user?: SessionUser }) : null,
-  ).catch(() => null);
-  const user = res?.user;
-  return user && user.externalId && user.email ? user : null;
+  )
+    .then(async (r) =>
+      r.ok
+        ? ((await r.json()) as {
+            user?: {
+              external_id?: string;
+              externalId?: string;
+              email?: string;
+              name?: string | null;
+            };
+          })
+        : null,
+    )
+    .catch(() => null);
+  const rawUser = res?.user;
+  const externalId = rawUser?.externalId ?? rawUser?.external_id;
+  if (!rawUser || !externalId || !rawUser.email) return null;
+  return {
+    externalId,
+    email: rawUser.email,
+    name: rawUser.name ?? null,
+  };
 }
 
 /** The signed-in identity, or null. Safe on any page. */

@@ -4,7 +4,7 @@ import { getSessionUser } from "@/lib/auth";
 const PROGRAM_LINKS = [
   { href: "/curriculum", label: "Curriculum" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/pricing#rebates", label: "Rebates and refunds" },
+  { href: "/refunds", label: "Refunds and rebates" },
   { href: "/faq", label: "FAQ" },
 ];
 
@@ -35,6 +35,15 @@ export async function SiteFooter() {
             Learn AI engineering by building one production system end to end,
             graded for real, by automated checks and rubric review, on every
             submission.
+          </p>
+          <p className="mt-4 text-[14px] text-[color:var(--text-muted-on-dark)]">
+            Questions? Contact us at{" "}
+            <a
+              href="mailto:support@keelacademy.com"
+              className="text-phosphor-white underline underline-offset-4 hover:text-lime-pulse"
+            >
+              support@keelacademy.com
+            </a>
           </p>
         </div>
 
@@ -68,8 +77,25 @@ export async function SiteFooter() {
       </div>
 
       <div className="border-t border-[color:var(--line-on-dark)]">
-        <div className="shell flex flex-wrap items-center justify-between gap-3 py-6 text-[13.5px] text-[color:var(--text-faint-on-dark)]">
-          <p>© {new Date().getFullYear()} Keel Academy</p>
+        <div className="shell flex flex-wrap items-center justify-between gap-4 py-6 text-[13.5px] text-[color:var(--text-faint-on-dark)]">
+          <div className="flex flex-wrap items-center gap-5">
+            <p>© {new Date().getFullYear()} Keel Academy</p>
+            <Link href="/terms" className="hover:text-phosphor-white">
+              Terms
+            </Link>
+            <Link href="/privacy" className="hover:text-phosphor-white">
+              Privacy
+            </Link>
+            <Link href="/refunds" className="hover:text-phosphor-white">
+              Refunds
+            </Link>
+            <a
+              href="mailto:support@keelacademy.com"
+              className="hover:text-phosphor-white"
+            >
+              Contact
+            </a>
+          </div>
           <p>Every unit page shows what gets graded and how, before you pay.</p>
         </div>
       </div>

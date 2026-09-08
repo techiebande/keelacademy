@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireSession } from "@/lib/auth";
-import { fetchSubscriptionPrice, formatPrice } from "@/lib/enroll";
+import {
+  ensureStudent,
+  fetchProfile,
+  fetchSubscriptionPrice,
+  formatPrice,
+} from "@/lib/enroll";
 import { CommitmentForm } from "@/components/commitment-form";
 
 export const dynamic = "force-dynamic";
@@ -13,6 +18,15 @@ export const metadata: Metadata = {
 
 export default async function CheckoutPage() {
   const user = await requireSession("/checkout");
+
+  let paddleCustomerId: string | null = null;
+  const bridged = await ensureStudent(user);
+  if (bridged.state === "ok") {
+    const profile = await fetchProfile(bridged.data);
+    if (profile.state === "ok") {
+      paddleCustomerId = profile.data.subscription?.customer_id ?? null;
+    }
+  }
 
   // The same price endpoint the real charge uses, so this page cannot quote
   // a number Paddle would not bill.
@@ -87,7 +101,7 @@ export default async function CheckoutPage() {
           <h2 id="commit-title" className="heading-md">
             Three things to agree to
           </h2>
-          <CommitmentForm priceLabel={priceLabel} />
+          <CommitmentForm priceLabel={priceLabel} paddleCustomerId={paddleCustomerId} />
         </section>
       </div>
 

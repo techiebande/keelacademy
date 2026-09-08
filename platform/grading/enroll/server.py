@@ -49,6 +49,7 @@ psql-compatible) via the shared db.py helper, one session per request.
 
 import hashlib
 import hmac
+import ipaddress
 import json
 import os
 import re
@@ -265,6 +266,8 @@ def paddle_subscription_checkout(student_id, student_email, display_name,
         key = os.environ.get("PADDLE_API_KEY", "")
         if key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox":
             price_id = "pri_01kxze6b5pgnp6dyrsazhs87hk"
+        else:
+            price_id = "pri_01m219gprft33hg7rxds0w03vq"
     if not price_id:
         raise RuntimeError("paddle_not_wired")
     rows = db_sql(
@@ -343,6 +346,49 @@ def verify_paddle_signature(raw, header, secret, tolerance_s):
         secret.encode(), ("%s:" % ts).encode() + raw, hashlib.sha256
     ).hexdigest()
     return hmac.compare_digest(h1, expected)
+
+
+_PADDLE_IPS_CACHE = {"cidrs": [], "expires_at": 0.0}
+
+
+def paddle_live_ips():
+    """Fetch Paddle's current live IP CIDRs from https://api.paddle.com/ips.
+    Caches for 1 hour in memory. On error, falls back to the published list."""
+    now = time.time()
+    if _PADDLE_IPS_CACHE["cidrs"] and now < _PADDLE_IPS_CACHE["expires_at"]:
+        return _PADDLE_IPS_CACHE["cidrs"]
+    try:
+        req = urllib.request.Request(
+            "https://api.paddle.com/ips",
+            headers={"User-Agent": "keelacademy-webhook/1.0"},
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            cidrs = ((data.get("data") or {}).get("ipv4_cidrs") or [])
+            if cidrs and isinstance(cidrs, list):
+                _PADDLE_IPS_CACHE["cidrs"] = [
+                    ipaddress.ip_network(c.strip()) for c in cidrs
+                ]
+                _PADDLE_IPS_CACHE["expires_at"] = now + 3600
+                return _PADDLE_IPS_CACHE["cidrs"]
+    except Exception as exc:
+        sys.stderr.write("enroll: warning: failed to fetch paddle ips: %s\n" % exc)
+    if _PADDLE_IPS_CACHE["cidrs"]:
+        return _PADDLE_IPS_CACHE["cidrs"]
+    fallback = ["34.237.3.244/32", "34.195.105.136/32", "34.232.58.13/32",
+                "35.155.119.135/32", "34.212.5.7/32", "52.11.166.252/32"]
+    return [ipaddress.ip_network(c) for c in fallback]
+
+
+def is_paddle_ip(ip_str):
+    """Check if an IPv4 address belongs to Paddle's webhook delivery range."""
+    if not ip_str:
+        return False
+    try:
+        addr = ipaddress.ip_address(ip_str)
+        return any(addr in net for net in paddle_live_ips())
+    except ValueError:
+        return False
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -785,6 +831,8 @@ COMMIT;
             key = os.environ.get("PADDLE_API_KEY", "")
             if key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox":
                 price_id = "pri_01kxze6b5pgnp6dyrsazhs87hk"
+            else:
+                price_id = "pri_01m219gprft33hg7rxds0w03vq"
         if not price_id:
             self._respond(503, {"error": "paddle_not_wired"})
             return
@@ -991,6 +1039,19 @@ COMMIT;
                              "KEEL_PADDLE_WEBHOOK_SECRET not set\n")
             self._respond(503, {"error": "server misconfigured"})
             return
+        key = os.environ.get("PADDLE_API_KEY", "")
+        is_live = not (key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox")
+        if is_live and os.environ.get("KEEL_PADDLE_VERIFY_IP", "1") == "1":
+            client_ip = (
+                self.headers.get("X-Forwarded-For", "").split(",")[0].strip()
+                or self.headers.get("X-Real-IP", "").strip()
+                or (self.client_address[0] if self.client_address else "")
+            )
+            if client_ip not in ("127.0.0.1", "::1", "localhost"):
+                if not is_paddle_ip(client_ip):
+                    sys.stderr.write("enroll: paddle webhook rejected from unauthorized IP: %s\n" % client_ip)
+                    self._respond(403, {"error": "forbidden_ip"})
+                    return
         try:
             tolerance = int(os.environ.get("KEEL_PADDLE_TOLERANCE_S", "300"))
         except ValueError:

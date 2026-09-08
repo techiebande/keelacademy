@@ -1055,7 +1055,12 @@ COMMIT;
             else:
                 sid = int(str(sid).strip())
             customer_id = str(sub.get("customer_id") or "")
-            scheduled = sub.get("scheduled_change") or None
+            scheduled_raw = sub.get("scheduled_change")
+            scheduled = (
+                scheduled_raw.get("action")
+                if isinstance(scheduled_raw, dict)
+                else (str(scheduled_raw) if scheduled_raw else None)
+            )
             ends = ((sub.get("current_billing_period") or {}).get("ends_at")
                     or sub.get("next_billed_at") or "")
             if sid is None:

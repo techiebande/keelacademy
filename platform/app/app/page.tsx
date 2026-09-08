@@ -53,7 +53,7 @@ export default function HomePage() {
             </Link>
           </div>
           <p className="mt-5 text-[14px] text-[color:var(--text-faint-on-dark)]">
-            Enroll per unit. Clear a milestone gate. Get 15% back.
+            Monthly all-access subscription. Clear a milestone gate. Get 15% back.
           </p>
         </div>
 

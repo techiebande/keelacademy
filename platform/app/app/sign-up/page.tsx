@@ -55,7 +55,7 @@ export default async function SignUpPage({ searchParams }: Props) {
         <p className="eyebrow">Start here</p>
         <h1 className="heading-xl mt-4">Create an account</h1>
         <p className="mt-4 text-[15px] leading-relaxed text-[color:var(--text-muted-on-dark)]">
-          An account is free. You pay per unit, when you decide to start one.
+          An account is free. Subscribe when you decide to start building.
         </p>
 
         {errorBody ? (

@@ -201,8 +201,7 @@ export default function SubmitPage() {
               Accounts and payments
             </h2>
             <p className="text-[14.5px] leading-relaxed text-[color:var(--text-muted-on-dark)]">
-              An account is free. You pay per unit when you start one. Enrolling links
-              your pushes to your grading record.
+              An account is free. An active subscription links your submissions to your grading record.
             </p>
           </div>
           <div className="flex shrink-0 flex-wrap gap-3">
@@ -210,7 +209,7 @@ export default function SubmitPage() {
               Your dashboard
             </Link>
             <Link href="/pricing" className="btn btn-ghost btn-sm">
-              What a unit costs
+              Pricing and rebates
             </Link>
           </div>
         </section>

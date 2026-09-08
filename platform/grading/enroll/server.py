@@ -843,11 +843,22 @@ COMMIT;
             self._respond({"paddle_not_wired": 503}.get(code, 502),
                           {"error": code})
             return
+        is_sandbox = key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox"
+        paddle_env = "sandbox" if is_sandbox else "production"
+        client_token = os.environ.get("PADDLE_CLIENT_TOKEN", "")
+        if not client_token:
+            client_token = (
+                "test_f4a8b0e34b6454d58e3d610ee30"
+                if is_sandbox
+                else "live_668750990a827fc25057b0e8012"
+            )
         self._respond(200, {
             "price_id": price_id,
             "amount_cents": amount,
             "currency": currency,
             "interval": "month",
+            "environment": paddle_env,
+            "client_token": client_token,
         })
 
     def _handle_subscription_checkout(self):

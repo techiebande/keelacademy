@@ -64,6 +64,8 @@ export type SubscriptionPrice = {
   amount_cents: number;
   currency: string;
   interval: string;
+  environment?: "sandbox" | "production";
+  client_token?: string;
 };
 
 export type SubscriptionCheckout = {

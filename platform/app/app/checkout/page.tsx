@@ -106,7 +106,12 @@ export default async function CheckoutPage() {
           <h2 id="commit-title" className="heading-md">
             Three things to agree to
           </h2>
-          <CommitmentForm priceLabel={priceLabel} paddleCustomerId={paddleCustomerId} />
+          <CommitmentForm
+            priceLabel={priceLabel}
+            paddleCustomerId={paddleCustomerId}
+            environment={priceRes.data.environment}
+            clientToken={priceRes.data.client_token}
+          />
         </section>
       </div>
 

@@ -10,9 +10,13 @@ import {
 export function CommitmentForm({
   priceLabel,
   paddleCustomerId,
+  environment: serverEnv,
+  clientToken: serverToken,
 }: {
   priceLabel: string;
   paddleCustomerId?: string | null;
+  environment?: "sandbox" | "production";
+  clientToken?: string;
 }) {
   const [ack1, setAck1] = useState(false);
   const [ack2, setAck2] = useState(false);
@@ -21,13 +25,26 @@ export function CommitmentForm({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const paddleEnv =
-    (process.env.NEXT_PUBLIC_PADDLE_ENV as "sandbox" | "production") || "production";
+  const isKeelDomain =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "keelacademy.com" ||
+      window.location.hostname.endsWith(".keelacademy.com"));
+
+  const paddleEnv: "sandbox" | "production" =
+    serverEnv ||
+    (isKeelDomain
+      ? "production"
+      : ((process.env.NEXT_PUBLIC_PADDLE_ENV as "sandbox" | "production") || "production"));
+
   const clientToken =
-    process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN ||
-    (paddleEnv === "sandbox"
-      ? "test_f4a8b0e34b6454d58e3d610ee30"
-      : "live_668750990a827fc25057b0e8012");
+    serverToken ||
+    (paddleEnv === "production"
+      ? (process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN?.startsWith("live_")
+          ? process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
+          : "live_668750990a827fc25057b0e8012")
+      : (process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN?.startsWith("test_")
+          ? process.env.NEXT_PUBLIC_PADDLE_CLIENT_TOKEN
+          : "test_f4a8b0e34b6454d58e3d610ee30"));
 
   useEffect(() => {
     if (!clientToken) return;
@@ -35,8 +52,15 @@ export function CommitmentForm({
       token: clientToken,
       environment: paddleEnv,
       ...(paddleCustomerId ? { pwCustomer: { id: paddleCustomerId } } : {}),
+      eventCallback: (data) => {
+        if (data.name === "checkout.error") {
+          console.error("[Paddle Checkout Error]", data);
+        }
+      },
     }).then((p) => {
       if (p) setPaddle(p);
+    }).catch((err) => {
+      console.error("[Paddle Init Error]", err);
     });
   }, [clientToken, paddleEnv, paddleCustomerId]);
 

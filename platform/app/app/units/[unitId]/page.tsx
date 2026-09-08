@@ -38,7 +38,7 @@ import { ResumeBanner } from "@/components/unit/resume-banner";
 import { ReadingTracker } from "@/components/unit/reading-tracker";
 import { getSessionUser } from "@/lib/auth";
 import { fetchStudentSubmissions, parseDbTimestamp } from "@/lib/grading";
-import { ensureStudent, fetchProfile } from "@/lib/enroll";
+import { ensureStudent, enrollInUnit, fetchProfile } from "@/lib/enroll";
 import {
   fetchConciergeTurns,
   fetchPracticeAttempts,
@@ -159,9 +159,17 @@ export default async function UnitPage(props: Props) {
       studentId = studentRes.data;
       const profileRes = await fetchProfile(studentId);
       if (profileRes.state === "ok") {
+        const sub = profileRes.data.subscription;
+        const hasActiveSub = sub?.status === "active" || sub?.status === "trialing";
         isEnrolled = profileRes.data.enrollments.some(
           (e) => e.unit_id === unitId && e.status === "active",
         );
+        if (hasActiveSub && !isEnrolled) {
+          const enrollRes = await enrollInUnit({ studentId, unitId });
+          if (enrollRes.state === "ok" && enrollRes.data.enrolled) {
+            isEnrolled = true;
+          }
+        }
       }
       const attemptsRes = await fetchPracticeAttempts(studentId, unitId);
       if (attemptsRes.state === "ok") {

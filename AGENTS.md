@@ -31,7 +31,9 @@ How any session — human or AI — picks this project up without losing context
 /scripts                  helper scripts (start-docker.sh; provision/ = grading-host provisioning kit)
 /.agents/skills           repo skills: shiffman-style-lessons (voice & lesson authoring)
 /.agents/agents           Backward Design subagent team: unit_orchestrator (entry point; sequences the five below), ubd_architect, assessment_engineer, rubric_evaluator, pedagogical_author, blind_playtester
+/.agents/agents           Content Marketing subagent team: content_orchestrator (entry point; sequences the four below), content_strategist, content_writer, platform_adapter, content_reviewer
 /platform                 the code: platform/cli (grading CLI, created at S0.3), platform/grading (grading-core service + Postgres schema, created at S1.1), platform/app (learner app, created at S2.3)
 /content                  units, checks, rubrics, prompts, golden sets, faq, personas, curriculum map & ledger, gates, authoring templates, STYLE.md (created at Stage 0)
+/content/marketing        brand guide, ideas backlog, and published post batches (articles + platform adaptations)
 /scratch                  throwaway trial drafts; never ships, never validated
 ```

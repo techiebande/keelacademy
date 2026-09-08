@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { requireSession } from "@/lib/auth";
+import { redirectToCustomerPortalAction } from "@/app/auth/actions";
 import {
   ensureStudent,
   fetchOwnSubmissions,
@@ -112,11 +113,15 @@ async function EnrolledSections({ studentId }: { studentId: number }) {
   ]);
   const gateRules = loadGateRules();
   const units = listUnits();
+  const profile = profileResult.state === "ok" ? profileResult.data : null;
+  const subscription = profile?.subscription ?? null;
+  const hasActiveSub =
+    subscription?.status === "active" || subscription?.status === "trialing";
   const enrolledUnits = new Set(
-    profileResult.state === "ok" ? profileResult.data.enrollments.map((e) => e.unit_id) : [],
+    profile ? profile.enrollments.map((e) => e.unit_id) : [],
   );
-  const budget = profileResult.state === "ok" ? profileResult.data.budget : null;
-  const rebates = profileResult.state === "ok" ? profileResult.data.rebates : [];
+  const budget = profile ? profile.budget : null;
+  const rebates = profile ? profile.rebates : [];
 
   const usedTokens = budget?.tokens_used ?? 0;
   const capTokens = budget?.tokens_cap ?? 1;
@@ -124,6 +129,42 @@ async function EnrolledSections({ studentId }: { studentId: number }) {
 
   return (
     <>
+      <section aria-labelledby="sub-title" className="card-dark">
+        <div className="flex flex-wrap items-baseline justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <h2 id="sub-title" className="heading-md">
+              Subscription
+            </h2>
+            <span className={hasActiveSub ? "chip chip-live" : "chip chip-outline"}>
+              {hasActiveSub ? "ALL ACCESS" : "NO ACTIVE PLAN"}
+            </span>
+          </div>
+          {hasActiveSub ? (
+            <form action={redirectToCustomerPortalAction}>
+              <button type="submit" className="btn btn-ghost btn-sm">
+                Manage subscription
+              </button>
+            </form>
+          ) : (
+            <Link href="/checkout" className="btn btn-accent btn-sm">
+              Get all access
+            </Link>
+          )}
+        </div>
+
+        <p className="mt-4 max-w-[70ch] text-[14.5px] leading-relaxed text-[color:var(--text-muted-on-dark)]">
+          {hasActiveSub
+            ? subscription?.scheduled_change
+              ? `Your plan will ${subscription.scheduled_change} at the end of the billing period (${formatUtc(subscription.current_period_ends_at ?? "")}).`
+              : `Your monthly all-access subscription is active. Every authored unit is unlocked.${
+                  subscription?.current_period_ends_at
+                    ? ` Renews on ${formatUtc(subscription.current_period_ends_at)}.`
+                    : ""
+                }`
+            : "Subscribe to unlock all current and future units, run practice drills, and receive feedback on your code."}
+        </p>
+      </section>
+
       {budget ? (
         <section aria-labelledby="budget-title" className="card-dark">
           <div className="flex flex-wrap items-baseline justify-between gap-4">
@@ -179,7 +220,7 @@ async function EnrolledSections({ studentId }: { studentId: number }) {
               </thead>
               <tbody>
                 {units.map((unit) => {
-                  const isEnrolled = enrolledUnits.has(unit.id);
+                  const isEnrolled = enrolledUnits.has(unit.id) || hasActiveSub;
                   return (
                     <tr key={unit.id}>
                       <td className="font-code-mono text-phosphor-white">{unit.id}</td>

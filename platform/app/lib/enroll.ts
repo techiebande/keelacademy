@@ -31,10 +31,19 @@ export type Rebate = {
   expired_at: string | null;
 };
 
+export type SubscriptionInfo = {
+  status: "active" | "trialing" | "past_due" | "paused" | "canceled";
+  current_period_ends_at: string | null;
+  scheduled_change: string | null;
+  paddle_subscription_id: string;
+  customer_id: string;
+};
+
 export type StudentProfile = {
   student_id: number;
   email: string;
   display_name: string | null;
+  subscription: SubscriptionInfo | null;
   enrollments: Enrollment[];
   budget: { tokens_cap: number; tokens_used: number } | null;
   rebates: Rebate[];
@@ -210,6 +219,28 @@ export function fetchSubscriptionStatus(
   return enrollFetch<SubscriptionStatus>(
     `/subscription/status?transaction_id=${encodeURIComponent(transactionId)}`,
   );
+}
+
+export function enrollInUnit(input: {
+  studentId: number;
+  unitId: string;
+}): Promise<EnrollResult<{ ok: boolean; enrolled: boolean; newly_enrolled: boolean }>> {
+  return enrollFetch<{ ok: boolean; enrolled: boolean; newly_enrolled: boolean }>("/enroll", {
+    method: "POST",
+    body: JSON.stringify({
+      student_id: input.studentId,
+      unit_id: input.unitId,
+    }),
+  });
+}
+
+export function createCustomerPortalSession(
+  studentId: number,
+): Promise<EnrollResult<{ url: string }>> {
+  return enrollFetch<{ url: string }>("/subscription/portal", {
+    method: "POST",
+    body: JSON.stringify({ student_id: studentId }),
+  });
 }
 
 export function formatPrice(amountCents: number, currency: string): string {

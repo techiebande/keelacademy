@@ -26,6 +26,7 @@ import {
   setOfflineSessionCookie,
 } from "@/lib/auth";
 import {
+  createCustomerPortalSession,
   createSubscriptionCheckout,
   ensureStudent,
 } from "@/lib/enroll";
@@ -248,4 +249,20 @@ export async function createSubscriptionCheckoutAction(): Promise<
     transactionId: checkout.data.transaction_id,
     url: checkout.data.url,
   };
+}
+
+export async function redirectToCustomerPortalAction(): Promise<void> {
+  const user = await getSessionUser();
+  if (!user) {
+    redirect(`/sign-in?next=${encodeURIComponent("/me")}`);
+  }
+  const bridged = await ensureStudent(user);
+  if (bridged.state !== "ok") {
+    redirect("/me?error=student_bridge_failed");
+  }
+  const portal = await createCustomerPortalSession(bridged.data);
+  if (portal.state !== "ok") {
+    redirect(`/me?error=${portal.state === "rejected" ? portal.code : "unreachable"}`);
+  }
+  redirect(portal.data.url);
 }

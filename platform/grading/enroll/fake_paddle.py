@@ -219,6 +219,15 @@ class Handler(BaseHTTPRequestHandler):
             self._complete_payment(self.path[len("/pay/"):])
             return
 
+        if self.path.startswith("/customers/") and self.path.endswith("/portal-sessions"):
+            self._json(200, {"data": {
+                "id": "portal_fake_001",
+                "urls": {
+                    "general": {"overview": "https://paddle.com/fake-portal"}
+                }
+            }})
+            return
+
         self._json(404, {"error": "not found"})
 
     def _complete_payment(self, txn_id: str):

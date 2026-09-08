@@ -1,33 +1,25 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { listUnits, loadCurriculumMap } from "@/lib/content";
-import { fetchPrice, formatPrice } from "@/lib/enroll";
+import { fetchSubscriptionPrice, formatPrice } from "@/lib/enroll";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "You enroll per unit. You see the price before you pay. You get 15% back at each milestone gate you clear in time.",
+    "One monthly subscription. Every unit open. 15% back when you clear milestone gates in time.",
 };
 
 export default async function PricingPage() {
   const units = listUnits();
   const first = units[0];
 
-  // The same price endpoint checkout reads, so this page cannot quote a number
-  // the till would not charge. If it does not answer, we say so.
-  const priced = await Promise.all(
-    units.map(async (u) => {
-      const res = await fetchPrice(u.id);
-      return {
-        id: u.id,
-        phase: u.phase,
-        price: res.state === "ok" ? formatPrice(res.data.amount_cents, res.data.currency) : null,
-      };
-    }),
-  );
-  const anyPriced = priced.some((p) => p.price !== null);
+  const priceRes = await fetchSubscriptionPrice();
+  const priceLabel =
+    priceRes.state === "ok"
+      ? formatPrice(priceRes.data.amount_cents, priceRes.data.currency)
+      : "$49";
 
   const map = loadCurriculumMap();
   const totalHours = map.phases.reduce((sum, p) => sum + p.est_hours, 0);
@@ -39,81 +31,72 @@ export default async function PricingPage() {
       <header className="shell pb-14 pt-14">
         <p className="eyebrow">Pricing</p>
         <h1 className="heading-xl mt-4 max-w-[24ch]">
-          Pay per unit. Get paid back for finishing.
+          One subscription. All units open.
         </h1>
-        <p className="lead mt-5">
-          Subscriptions are how you pay for courses you never finish, so
-          there isn&rsquo;t one. You enroll unit by unit, and every unit shows its
-          exact price before you pay anything. Clear a milestone gate inside
-          its window and we refund 15% of what you paid for that unit to the
-          card you paid with.
+        <p className="lead mt-5 max-w-[62ch]">
+          Every unit stays open while your subscription is active.
+          Start with the lessons ready today, and build through newly released units as they land.
+          Clear a milestone gate inside its window and we refund 15% back to your card.
         </p>
-        {first ? (
-          <div className="mt-8 flex flex-wrap gap-4">
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Link href="/checkout" className="btn btn-accent">
+            Subscribe — {priceLabel} / month
+          </Link>
+          {first ? (
             <Link href={`/units/${first.id}`} className="btn btn-primary">
-              Open Unit {first.id}
+              Preview Unit {first.id}
             </Link>
-            <Link href="/curriculum" className="btn btn-ghost">
-              See what each unit covers
-            </Link>
-          </div>
-        ) : (
-          <div className="mt-8">
-            <Link href="/curriculum" className="btn btn-primary">
-              See the curriculum
-            </Link>
-          </div>
-        )}
+          ) : null}
+          <Link href="/curriculum" className="btn btn-ghost">
+            See what each unit covers
+          </Link>
+        </div>
       </header>
 
       <div className="shell space-y-10 pb-24">
-        <section className="card-dark p-8 lg:p-10" id="prices">
-          <p className="eyebrow">What is open today</p>
+        <section className="card-dark p-8 lg:p-10" id="access">
+          <p className="eyebrow">All-access model</p>
           <h2 className="heading-lg mt-4">
-            {priced.length === 1 ? "One unit is open" : `${priced.length} units are open`}
+            Every published unit included
           </h2>
           <p className="mt-4 max-w-[64ch] text-[16px] leading-relaxed text-[color:var(--text-muted-on-dark)]">
-            The numbers below come from the same checkout that charges you:
-            what you see is what you pay. We publish units as we finish them.
-            Each has its own price.
+            We publish units in order as we build them. Your subscription unlocks
+            all of them: the units live today and new units the moment they land.
+            There are no separate unit fees and no hidden upsells.
           </p>
-          {anyPriced ? (
-            <div className="mt-8 overflow-x-auto">
-              <table className="data-table">
-                <caption className="sr-only">Price per open unit</caption>
-                <thead>
-                  <tr>
-                    <th scope="col">Unit</th>
-                    <th scope="col">Phase</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">
-                      <span className="sr-only">Open the unit</span>
+          <div className="mt-8 overflow-x-auto">
+            <table className="data-table">
+              <caption className="sr-only">Authored units ready now</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Unit</th>
+                  <th scope="col">Phase</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">
+                    <span className="sr-only">Open the unit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {units.map((u) => (
+                  <tr key={u.id}>
+                    <th scope="row">
+                      <span className="font-code-mono text-[13px] text-lime-pulse">{u.id}</span>
                     </th>
+                    <td>Phase {u.phase}</td>
+                    <td>
+                      <span className="chip chip-live">READY NOW</span>
+                    </td>
+                    <td>
+                      <Link href={`/units/${u.id}`} className="btn btn-ghost btn-sm">
+                        Open unit
+                      </Link>
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {priced.map((u) => (
-                    <tr key={u.id}>
-                      <th scope="row">
-                        <span className="font-code-mono text-[13px] text-lime-pulse">{u.id}</span>
-                      </th>
-                      <td>{u.phase}</td>
-                      <td>{u.price ?? "No price to show"}</td>
-                      <td>
-                        <Link href={`/units/${u.id}`} className="btn btn-ghost btn-sm">
-                          Open
-                        </Link>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          ) : (
-            <p className="mt-8 rounded-lg border border-circuit-border bg-carbon-veil p-4 text-[15px] leading-relaxed text-[color:var(--text-muted-on-dark)]">
-              We could not load prices. Refresh. Or open a unit. The price is on its enrollment panel.
-            </p>
-          )}
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
 
         {/* Rebate mechanic */}
@@ -154,9 +137,9 @@ export default async function PricingPage() {
           </div>
         </section>
 
-        {/* What an enrollment includes */}
+        {/* What a subscription includes */}
         <section className="card-dark p-10" id="included">
-          <p className="eyebrow">Every unit enrollment includes</p>
+          <p className="eyebrow">Every subscription includes</p>
           <div className="mt-7 grid gap-x-12 gap-y-5 md:grid-cols-2">
             {[
               "The full written lesson: the concept, the client numbers, the thing you are about to build",

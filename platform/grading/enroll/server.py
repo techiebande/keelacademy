@@ -449,7 +449,11 @@ class Handler(BaseHTTPRequestHandler):
                 "        pledged_at, window_ends_at, earned_at, paid_at,\n"
                 "        forfeited_at, expired_at\n"
                 "FROM rebates WHERE student_id = %d ORDER BY id;\n"
-                "ROLLBACK;\n" % (student_id, student_id, student_id, student_id)
+                "SELECT 'SUB', status, coalesce(current_period_ends_at::text, ''),\n"
+                "        coalesce(scheduled_change, ''), paddle_subscription_id, customer_id\n"
+                "FROM subscriptions WHERE student_id = %d\n"
+                "ORDER BY created_at DESC, id DESC LIMIT 1;\n"
+                "ROLLBACK;\n" % (student_id, student_id, student_id, student_id, student_id)
             )
             student = next((r for r in rows if r[0] == "S"), None)
             if not student:
@@ -470,10 +474,19 @@ class Handler(BaseHTTPRequestHandler):
                  "forfeited_at": r[9] or None, "expired_at": r[10] or None}
                 for r in rows if r[0] == "R"
             ]
+            sub_row = next((r for r in rows if r[0] == "SUB"), None)
+            subscription = {
+                "status": sub_row[1],
+                "current_period_ends_at": sub_row[2] or None,
+                "scheduled_change": sub_row[3] or None,
+                "paddle_subscription_id": sub_row[4],
+                "customer_id": sub_row[5],
+            } if sub_row else None
             self._respond(200, {
                 "student_id": int(student[1]),
                 "email": student[2],
                 "display_name": student[3] or None,
+                "subscription": subscription,
                 "enrollments": enrollments,
                 "budget": budget,
                 "rebates": rebates,
@@ -542,6 +555,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         if self.path == "/checkout/subscription":
             self._handle_subscription_checkout()
+            return
+        if self.path == "/subscription/portal":
+            self._handle_subscription_portal()
             return
         if self.path == "/enroll":
             self._handle_enroll()
@@ -821,6 +837,45 @@ COMMIT;
             "currency": None,
             "price_id": price_id,
         })
+
+    def _handle_subscription_portal(self):
+        """Mint a Paddle customer portal session for an active subscriber to
+        manage payment method, cancel, or download invoices."""
+        ok, raw = self._read_body()
+        if not ok:
+            self._respond(413, {"error": "body too large"})
+            return
+        try:
+            payload = json.loads(raw) if raw else {}
+        except ValueError:
+            self._respond(400, {"error": "invalid JSON"})
+            return
+        student_id = payload.get("student_id")
+        if not isinstance(student_id, int):
+            self._respond(422, {"error": "student_id required"})
+            return
+        rows = db_sql(
+            "BEGIN;\n"
+            "SELECT customer_id, paddle_subscription_id FROM subscriptions\n"
+            "WHERE student_id = %d AND status IN ('active','trialing','past_due','paused')\n"
+            "ORDER BY created_at DESC, id DESC LIMIT 1;\n"
+            "ROLLBACK;\n" % student_id
+        )
+        if not rows:
+            self._respond(404, {"error": "no_active_subscription"})
+            return
+        customer_id, sub_id = str(rows[0][0]), str(rows[0][1])
+        try:
+            data = paddle_call("POST", "/customers/%s/portal-sessions" % customer_id, {
+                "subscription_ids": [sub_id] if sub_id else []
+            })
+            overview = ((data.get("urls") or {}).get("general") or {}).get("overview")
+            if not overview:
+                self._respond(502, {"error": "paddle_bad_response"})
+                return
+            self._respond(200, {"url": overview})
+        except RuntimeError as exc:
+            self._respond(502, {"error": str(exc)})
 
     def _handle_enroll(self):
         """Grant unit access because the student holds an ACTIVE

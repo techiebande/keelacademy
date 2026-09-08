@@ -85,6 +85,10 @@ export function buildProgressMap(
   const authoredUnitsList = listUnits();
   const authoredSet = new Set(authoredUnitsList.map((u) => u.id));
 
+  const hasActiveSub =
+    profile?.subscription?.status === "active" ||
+    profile?.subscription?.status === "trialing";
+
   const enrolledUnitsMap = new Map<string, Enrollment>(
     (profile?.enrollments ?? []).map((e) => [e.unit_id, e]),
   );
@@ -139,7 +143,6 @@ export function buildProgressMap(
 
     const moduleCards: ResolvedModuleCard[] = phase.modules.map((m) => {
       const isAuthored = authoredSet.has(m.id) || isUnitAuthored(m.id);
-      const isEnrolled = enrolledUnitsMap.has(m.id);
       const unitSubs = subsByUnit.get(m.id) ?? [];
       const latestSub = unitSubs[0] ?? null;
 
@@ -166,6 +169,8 @@ export function buildProgressMap(
           unitLockReason = phaseLockReason;
         }
       }
+
+      const isEnrolled = enrolledUnitsMap.has(m.id) || (hasActiveSub && isAuthored && !unitLocked);
 
       let status: ResolvedUnitStatus = "not_authored";
 

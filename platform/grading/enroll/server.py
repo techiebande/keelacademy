@@ -826,10 +826,11 @@ COMMIT;
         """All-access price for the checkout page. Sourced from the billing
         provider (fake or real Paddle API) so the number on the page is
         always the price Paddle will actually charge."""
+        key = os.environ.get("PADDLE_API_KEY", "")
+        is_sandbox = key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox"
         price_id = os.environ.get("PADDLE_PRICE_ID", "")
         if not price_id:
-            key = os.environ.get("PADDLE_API_KEY", "")
-            if key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox":
+            if is_sandbox:
                 price_id = "pri_01kxze6b5pgnp6dyrsazhs87hk"
             else:
                 price_id = "pri_01m219gprft33hg7rxds0w03vq"
@@ -843,7 +844,6 @@ COMMIT;
             self._respond({"paddle_not_wired": 503}.get(code, 502),
                           {"error": code})
             return
-        is_sandbox = key.startswith("pdl_sdbx_") or os.environ.get("KEEL_PADDLE_ENV") == "sandbox"
         paddle_env = "sandbox" if is_sandbox else "production"
         client_token = os.environ.get("PADDLE_CLIENT_TOKEN", "")
         if not client_token:

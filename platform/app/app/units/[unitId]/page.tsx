@@ -38,7 +38,8 @@ import { ResumeBanner } from "@/components/unit/resume-banner";
 import { ReadingTracker } from "@/components/unit/reading-tracker";
 import { getSessionUser } from "@/lib/auth";
 import { fetchStudentSubmissions, parseDbTimestamp } from "@/lib/grading";
-import { ensureStudent, enrollInUnit, fetchProfile } from "@/lib/enroll";
+import { ensureStudent, enrollInUnit, fetchProfile, fetchSubscriptionPrice, formatPrice } from "@/lib/enroll";
+import { UnitPaywallCard } from "@/components/unit/unit-paywall-card";
 import {
   fetchConciergeTurns,
   fetchPracticeAttempts,
@@ -144,7 +145,9 @@ export default async function UnitPage(props: Props) {
 
   const user = await getSessionUser();
   const isSignedIn = !!user;
+  const isFreeSample = unitId === "0.1";
   let isEnrolled = false;
+  let hasActiveSub = false;
   let studentId: number | null = null;
   let practiceAttempts: PracticeAttemptSummary[] = [];
   let retrievalAttempts: RetrievalAttemptSummary[] = [];
@@ -160,11 +163,11 @@ export default async function UnitPage(props: Props) {
       const profileRes = await fetchProfile(studentId);
       if (profileRes.state === "ok") {
         const sub = profileRes.data.subscription;
-        const hasActiveSub = sub?.status === "active" || sub?.status === "trialing";
+        hasActiveSub = sub?.status === "active" || sub?.status === "trialing";
         isEnrolled = profileRes.data.enrollments.some(
           (e) => e.unit_id === unitId && e.status === "active",
         );
-        if (hasActiveSub && !isEnrolled) {
+        if ((hasActiveSub || isFreeSample) && !isEnrolled) {
           const enrollRes = await enrollInUnit({ studentId, unitId });
           if (enrollRes.state === "ok" && enrollRes.data.enrolled) {
             isEnrolled = true;
@@ -202,6 +205,31 @@ export default async function UnitPage(props: Props) {
         }
       }
     }
+  }
+
+  const hasAccess = isFreeSample || hasActiveSub || isEnrolled;
+
+  if (!hasAccess) {
+    const priceRes = await fetchSubscriptionPrice();
+    const priceLabel =
+      priceRes.state === "ok"
+        ? formatPrice(priceRes.data.amount_cents, priceRes.data.currency)
+        : "$49";
+
+    return (
+      <article className="min-h-screen pb-24">
+        <ChapterOpener
+          unitId={yaml.id}
+          phase={yaml.phase}
+          title={script.title}
+          specs={unitSpecs(yaml, checks?.length ?? 0, rubric?.criteria.length ?? 0, script.estMinutes)}
+          beats={script.phases.flatMap((phase) =>
+            phase.contents.map((entry) => ({ id: entry.id, name: entry.name, estMinutes: entry.estMinutes })),
+          )}
+        />
+        <UnitPaywallCard unitId={yaml.id} priceLabel={priceLabel} />
+      </article>
+    );
   }
 
   const manifestRes = await fetchPracticeManifest(unitId);

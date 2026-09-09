@@ -170,7 +170,11 @@ export function buildProgressMap(
         }
       }
 
-      const isEnrolled = enrolledUnitsMap.has(m.id) || (hasActiveSub && isAuthored && !unitLocked);
+      const isFreeSample = m.id === "0.1";
+      const isEnrolled =
+        enrolledUnitsMap.has(m.id) ||
+        (isFreeSample && isAuthored && !unitLocked) ||
+        (hasActiveSub && isAuthored && !unitLocked);
 
       let status: ResolvedUnitStatus = "not_authored";
 

@@ -982,13 +982,14 @@ COMMIT;
         if not isinstance(student_id, int) or not UNIT_RE.match(unit_id):
             self._respond(422, {"error": "student_id and unit_id required"})
             return
+        is_free_sample = unit_id in ("0.1",)
         rows = db_sql(
             "BEGIN;\n"
             "SELECT 1 FROM subscriptions\n"
             "WHERE student_id = %d AND status IN ('active','trialing');\n"
             "ROLLBACK;\n" % student_id
         )
-        if not rows:
+        if not rows and not is_free_sample:
             # No active subscription. Distinguish an unknown student (404)
             # from a known one without access (402) so the app can show the
             # checkout page instead of an error.

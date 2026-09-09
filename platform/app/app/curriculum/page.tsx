@@ -101,6 +101,7 @@ export default function CurriculumPage() {
                 // in content/. The rest are listed as planned, not linked into a
                 // dead end.
                 const authored = isUnitAuthored(m.id);
+                const isFreeSample = m.id === "0.1";
                 return (
                   <li
                     key={m.id}
@@ -111,12 +112,19 @@ export default function CurriculumPage() {
                     </span>
                     <div className="min-w-0">
                       {authored ? (
-                        <Link
-                          href={`/units/${m.id}`}
-                          className="font-goga text-[15.5px] font-medium text-phosphor-white underline-offset-4 hover:underline"
-                        >
-                          {m.title}
-                        </Link>
+                        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
+                          <Link
+                            href={`/units/${m.id}`}
+                            className="font-goga text-[15.5px] font-medium text-phosphor-white underline-offset-4 hover:underline"
+                          >
+                            {m.title}
+                          </Link>
+                          {isFreeSample ? (
+                            <span className="chip chip-live">FREE SAMPLE</span>
+                          ) : (
+                            <span className="chip chip-outline">ALL ACCESS</span>
+                          )}
+                        </div>
                       ) : (
                         <p className="flex flex-wrap items-baseline gap-x-3 gap-y-1.5">
                           <span className="font-goga text-[15.5px] font-medium text-[color:var(--text-muted-on-dark)]">

@@ -106,6 +106,8 @@ Pod tooling + weekly digest, gallery v1, simulation service (discovery-call + tw
 ### Content production track (parallel after Stage 2)
 Lessons are authored in batches against the same schema and CI — pilot batch = Phases 0–3, then 4–5, 6–7, 8–10, then 11 simulation content. This track is the *only* work remaining once the platform-done checklist below holds.
 
+Stage gate (every unit, before it is marked complete): a structural-variety check. `python content/tools/structural-fingerprint.py <unit>` compares the finished lesson's structure (blocks present, their order, recap presence and position, heading counts) against the last 3–5 completed units. A flag is not an automatic fail: it forces a second look by the author, who restructures or justifies the shared shape; the outcome is recorded in the ledger unit's `structure` field (blocks used with reasons, blocks considered and skipped, any flag justification) so drift stays auditable. Authoring precedence (voice skill over mechanical rules) is defined in AGENTS.md.
+
 ---
 
 ## 5. Platform-done checklist (the publish-only state)

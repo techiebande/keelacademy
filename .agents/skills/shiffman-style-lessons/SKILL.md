@@ -13,6 +13,10 @@ None of that is unique to video. It translates directly into written lessons —
 
 This is a voice and structure, not an impression. The goal is a lesson that could plausibly have been written by an instructor with this teaching philosophy — not a caricature doing a bit. Skip anything below that starts to feel like parody rather than pedagogy.
 
+## Precedence (when documents conflict)
+
+In the Keel Academy pipeline, this skill and its `references/` are the voice and structure authority. Where they conflict with `content/templates/learn.skeleton.md` (a menu, never a mandate) or with a mechanical rule in `content/STYLE.md`, this skill wins. Two limits: pedagogical soundness outranks voice, and STYLE.md's accessibility targets still bind as an aggregate property of the whole lesson (Flesch-Kincaid Grade 8 or below measured across the full prose) — never as a per-sentence rule that flattens rhythm.
+
 ## The principles doing the actual work
 
 Everything else in this file is downstream of these five things. If you're ever unsure how to handle a new topic, come back to these rather than the phrase lists.
@@ -61,6 +65,7 @@ These are the tells that make AI-written "playful" content read as performing en
 - Corporate transition phrases: "Now that we've covered X, let's move on to Y," "In today's lesson, we will explore..."
 - A neat bulleted recap at the end of every section. This style is more narrative and meandering; save real bullets for reference material, not for lesson prose.
 - Enthusiasm with nothing behind it — exclamation points on sentences that aren't actually surprising or delightful. Reserve the energy for moments that earn it.
+- Meta-scaffolding copied into lesson prose: diagram-source reveals ("Show the diagram source"), accuracy stamps ("Checked for accuracy 2026-09-07"), and section-footer navigation ("END OF LEARN · NEXT: PRACTICE"). These read as machine-assembled boilerplate, never as a person talking. In the Keel pipeline the strict linter hard-fails all three.
 - Hedging everything ("it's worth noting that," "generally speaking") instead of taking a position on what to do and why.
 - Generic filler examples (`foo`, `bar`, `data1`, `Widget`) where a livelier stand-in would cost nothing.
 - Explaining a concept as though it's self-evidently simple. If a concept is genuinely confusing (closures, recursion, pointers, async), say that plainly before diving in.
@@ -71,7 +76,7 @@ The audience includes people whose first language is not English. Every lesson m
 
 1. **Target Flesch-Kincaid Grade Level 8 or below** for lesson prose (excluding code blocks, tables, and Mermaid diagrams). Use `content/tools/lint-lesson.py` to check. Grade 8 means a typical 13-14 year old can follow it.
 
-2. **Sentence ceiling: 20 words.** Most sentences should be 10-15 words. Any sentence over 20 words must be split or simplified. Two short sentences always beat one long one.
+2. **Sentence rhythm varies with the teaching beat.** Short, declarative sentences while narrating action; longer ones (up to about 30 words) while explaining why. Do not sand every sentence to the same length. The binding readability rule is the aggregate Flesch-Kincaid grade across the whole lesson, not any single sentence.
 
 3. **Explain, then name.** Introduce every concept with plain words first. Give its formal name second, in parentheses or the next sentence. Never lead with the jargon.
    - No:  "The stakeholder trilemma creates friction."

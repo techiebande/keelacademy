@@ -7,6 +7,6 @@ criteria:
   current-process-traceable: pass
   target-process-measurable: pass
 overall: fail
-grader_notes: "All three roles are named but they want the same thing. The CFO 'too wants each dispute decided in under 1 hour' and the Trust and Safety Officer 'wants every claim resolved in under 1 hour'. Nobody asks for integer cents tracking or policy enforcement. The other four sections pass."
+grader_notes: "All three leaders are named but they share the exact same objective. The CFO and the Trust and Safety Officer both repeat the operations goal of 'under 1 hour'. Neither leader describes a distinct financial or policy requirement. The other four criteria pass."
 graded_by: human
-graded_on: 2026-09-06
+graded_on: 2026-09-09

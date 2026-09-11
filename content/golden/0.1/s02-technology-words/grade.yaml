@@ -7,6 +7,6 @@ criteria:
   current-process-traceable: pass
   target-process-measurable: pass
 overall: fail
-grader_notes: "The brief uses two banned words. Step 2 says 'One of our support agents opens the order receipt' and the target section says 'The first pass is pure automation'. The student should write clerk or specialist. Everything else passes, including '12999 cents' and 'under 1 hour'."
+grader_notes: "The brief uses forbidden technology words. Step 2 says 'support software' and the target section says 'AI automation in our intake pipeline'. The student must describe processes without technology words like AI, software, or pipeline. The other four criteria pass."
 graded_by: human
-graded_on: 2026-09-06
+graded_on: 2026-09-09

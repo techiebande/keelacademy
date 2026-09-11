@@ -1,137 +1,109 @@
 # Unit 0.1: Meet the client: OmniCart Operations
 
-Before we build anything, we meet the people who need it. This unit is one hour of reading and one page of writing.
+OmniCart Operations ships thousands of parcels each week from its warehouse. When packages arrive late or broken, the intake line stalls.
 
 ::: phase learn
 
-## Seven in the morning on the receiving dock
+## A torn cardboard box at the warehouse
 
-It is 7:00 AM at OmniCart. A truck backs up to the receiving dock. Someone rolls a cart of brown boxes inside. Every box is something a shopper sent back.
+Picture the intake bay at OmniCart Operations on a Tuesday morning.
+A courier van drops forty crates onto the concrete floor.
+Near the bay door sits order ORD-8821.
+Its cardboard box is crushed at one corner, with torn tape.
+Inside sits a blue coffee grinder.
+A buyer submitted claim CLM-20841 because the glass hopper arrived cracked.
+Today, a dispute like this sits on a desk for 2 to 3 days before review begins.
+OmniCart handles about 4,000 return requests, damage claims, delivery slips, and payout disputes each month.
+With that volume, boxes pile up in aisles and customers send angry messages.
 
-Let us pick one box. The label says ORD-8821. Inside is a blender with a cracked lid. Taped to the box is a note from the shopper. The blender arrived broken, and she wants her 4520 cents back. That is 45 dollars and 20 cents, written as whole cents.
+What four documents would you check before paying this refund?
+Think about what the buyer ordered, when it arrived, what broke, and what the store promised.
 
-A clerk scans the box. The claim gets a number, CLM-20841. Then the box goes on a shelf.
+A clerk cannot just guess.
+The clerk needs the order receipt to verify what was purchased and paid.
+The clerk needs the courier delivery slip to confirm delivery date and address.
+The clerk needs the customer unboxing photo to see the cracked glass.
+Finally, the clerk needs the 14 day return policy to verify return eligibility.
 
-Here is the question. How long does CLM-20841 sit on that shelf before anyone reads the note?
-
-Take a guess before you read on.
-
-Two to three days. A clerk gets to it on Wednesday or Thursday. She opens the order and finds the delivery slip. The delivery slip is the courier's note saying when the parcel arrived. Then she looks for the unboxing photo. The unboxing photo is the picture the shopper takes when she opens the box. Then she checks the return policy. Only then does she decide to refund or deny.
-
-Now, one box is not a crisis. But OmniCart does not get one box.
-
-```text
-About 4,000 returns, claims, slips, and disputes each month
-Each one waits 2 to 3 days before review begins
-
-4,000 cases x 2.5 days of waiting = 10,000 waiting days a month
-That is more than 27 years of waiting, every single month
-```
-
-The four kinds of case are return requests, damaged parcel claims, courier delivery slips, and payout disputes.
-
-That number is hard to look at. Let us look at who feels it.
-
-The shopper refreshes her email for three days. The clerk opens a backlog of several hundred cases every morning and never sees the bottom. Somebody in finance cannot finish the month's totals because refunds are still open.
-
-::: aside Why the money is written as whole cents
-Look at 4520 again. Two clerks once typed the same refund. One wrote 45.20 and the other wrote 45.2. A third rounded it to 45. Whole cents end that. There is only one way to write 4520. From here on, every amount at OmniCart is whole cents, and the word dollars stays out of the paperwork.
-:::
-
-Now, honestly, this is where most of us want to jump. We see the pile and we think, I know what would fix this.
-
-Hold it. Do not write it down yet.
-
-Here is the trap. If we name a fix now, we start describing the fix instead of the problem. Then the fix becomes the thing we defend. And we still cannot say, in plain words, what breaks and who it hurts. You cannot fix what you cannot describe. So for this whole unit, we describe. That is the only job.
-
-::: recap One box, one long shelf
-One claim, CLM-20841, waits 2 to 3 days on a shelf. Multiply by about 4,000 a month and the wait is the problem. State the problem in plain words before you name any fix.
-:::
-
-## Three people, three finish lines
-
-Let us walk upstairs. Three leaders at OmniCart all say the same thing, that the returns process is broken. Watch what happens when we ask each one what fixed would look like.
-
-Sarah Jenkins runs the day to day work. Her title is VP of Operations. Ask her and she says speed. Under 1 hour from the box arriving to a decision. And zero lost tickets. A ticket is one case in the queue. So no claim ever falls off a shelf for good.
-
-The CFO runs the money. Ask him and he does not say speed at all. He says every cent tracked. Every refund written in whole cents, in a record nobody can change after the fact. If a refund of 4520 cents goes out, he wants to see who approved it and when.
-
-The Trust and Safety Officer keeps OmniCart honest. Ask her and she says rules followed. Every return inside the 14 day return window. Every warranty clause checked. Every damage claim backed by a photo. She would rather a case wait than a fake claim get paid.
-
-::: aside Who the Trust and Safety Officer is
-Some papers call this person the policy officer. Same job. She writes the return rules, and she answers when a fake claim gets paid. That is why photo proof matters to her. A photo of the cracked lid turns a story into a fact.
-:::
-
-Here is the part that confuses people. Do these three want the same thing?
-
-Take a second.
-
-They do not, and that is the whole point. Speed pulls against checking every rule. Checking every rule takes time. Tracking every cent adds a step to every case. Each finish line is fair. They just sit in different places.
-
-```mermaid Figure 1: The three leaders pull in three directions
+```mermaid Figure 1: Flow of an intake case
 flowchart TD
-    A["<b>Sarah Jenkins</b><br/>VP of Operations<br/>under 1 hour,<br/>zero lost tickets"]
-    B["<b>The CFO</b><br/>every cent tracked,<br/>a record nobody<br/>can change"]
-    C["<b>Trust and Safety</b><br/>14 day window,<br/>warranty terms,<br/>photo proof"]
-    P["One returns process"]
-    A --> P
-    B --> P
-    C --> P
+  A["<b>Intake dock</b><br/>parcel arrives"] --> B["<b>Document check</b><br/>match four documents"]
+  B --> C{"<b>Clean match</b><br/>decide path"}
+  C -->|yes| D["<b>Fast payout</b><br/>under 1 hour"]
+  C -->|no| E["<b>Human review</b><br/>specialist inspects"]
+  E --> F["<b>Resolution</b><br/>final ledger entry"]
+  D --> F
 ```
 
-This three way pull has a name. People call it a stakeholder trilemma. A stakeholder is anyone who cares how this turns out. A trilemma is three goals that pull against each other.
+## Three voices across the executive table
 
-A brief that says everyone wants a better process is useless. Nobody can check it. A brief that says Sarah wants under 1 hour and the CFO wants every cent tracked can be checked. Later, every design choice will please one leader and cost another something. Writing down who wants what now is how we avoid that fight later.
+When packages pile up, different leaders feel different pain.
+Sarah Jenkins is the VP of Operations.
+She watches the queue back up and sees customer ratings drop.
+Her goal is simple: cut the review wait from 2 to 3 days down to under 1 hour.
+She wants zero lost tickets in the queue.
 
-::: recap Three leaders, three answers
-The VP wants speed, the CFO wants every cent tracked, the policy officer wants rules followed. Write all three down so each one can be checked.
+Across the hall sits the CFO.
+Speed sounds nice to the CFO, but sloppy math bleeds money.
+When clerks round numbers on thousands of orders, small errors turn into large losses.
+The CFO wants every refund tracked in whole integer cents, like 4520 cents.
+The CFO also demands audit records that nobody can alter after approval.
+
+Then there is the Trust and Safety Officer.
+Neither fast reviews nor tidy math matter if buyers abuse the rules.
+The Trust and Safety Officer protects the 14 day return policy against dishonest claims.
+Every damage claim must show a clear unboxing photo before payout.
+Each leader pulls in a different direction: speed, exact accounting, and strict rules.
+
+::: aside Exact pennies on the ledger
+Why not write 45 dollars and 20 cents?
+Computers often introduce tiny rounding errors when storing fractions of dollars.
+Across about 4,000 monthly cases, those fractional cents add up.
+Integer cents avoid rounding entirely.
+A refund of 45 dollars and 20 cents is recorded as 4520 cents.
+The math stays clean, reproducible, and verifiable.
 :::
 
-## Follow one box from doorstep to refund
+## Mapping the journey from parcel intake to final settlement
 
-Now we can write. A client brief is one page that says what a company does today and what it should do instead. Ours has four parts under one title. Let us build each part, and I will say what the checks look for.
+Let us trace what happens when claim CLM-20841 arrives today.
+First, a buyer submits the claim online with a photo.
+Second, the package sits untouched in the intake queue for 2 to 3 days.
+Third, a clerk opens order ORD-8821 and searches for the order receipt.
+Fourth, the clerk pulls the delivery slip from the shipping carrier.
+Fifth, the clerk inspects the unboxing photo against the return policy.
+Sixth, the clerk types the refund into a sheet, often rounding to dollars.
+Finally, a manager approves the payout days after the package arrived.
 
-### Part one: say what breaks
+What breaks in this journey?
+The long wait is the obvious flaw, but rounding money is equally dangerous.
+When steps rely on memory and scattered documents, mistakes happen constantly.
 
-Three sentences or fewer. Two numbers must appear: about 4,000 cases a month, and a wait of 2 to 3 days. Then say who it hurts.
+Now let us look at how the journey should work.
+Clean claims with matching documents should finish in under 1 hour.
+Hard cases, like a blurry photo or a late return, must go to a human specialist.
+Every payout records integer cents, such as 4520 cents, in a permanent record.
+We describe the business problem in plain words before we choose any fix.
 
-Here is a first try. OmniCart gets a lot of returns and they take too long.
-
-Wait. That has no numbers. A lot and too long cannot be checked. Try again. OmniCart handles about 4,000 returns, claims, slips, and disputes each month. Each one waits 2 to 3 days before anyone reviews it. While it waits, the shopper has no answer and finance has no number. Three sentences, two numbers, one hurt. That passes.
-
-### Part two: one line per leader
-
-Three lines, one each. Name the role, then say what done means to that person. The three must differ. If your three lines all say faster, you have written one leader three times.
-
-### Part three: the steps a clerk takes now
-
-Write 4 to 7 numbered steps. Start when the box with the shopper's note arrives at the dock. End when the refund is paid or denied. Name the four papers a clerk reads: the order receipt, the delivery slip, the unboxing photo, and the return policy. Do not write the clerk checks the files. Name each paper.
-
-Try this now. Picture CLM-20841 and write the steps as you saw them on the dock.
-
-### Part four: how it should work
-
-Same start, same end, 4 to 7 steps. Three things must show up. The target wait, which is under 1 hour. A person who reviews the hard cases, because not every claim is clean. And at least one amount in whole cents, such as 4520 cents.
-
-```mermaid Figure 2: Clean cases move fast, hard cases go to a person
-flowchart TD
-    R["Box arrives<br/>at the dock"] --> K["Four papers<br/>checked"]
-    K --> C["<b>Clean case</b><br/>refund or deny<br/>within 1 hour"]
-    K --> H["<b>Hard case</b><br/>missing photo,<br/>late return,<br/>large amount"]
-    H --> P["A person reviews<br/>and decides"]
-```
-
-Notice what the figure does not say. It never says how the papers get checked. That is on purpose. Say what should happen, not what tool does it.
-
-::: recap Four parts, one page
-Three sentences with two numbers. One line per leader. Today in 4 to 7 steps naming four papers. Target in 4 to 7 steps with under 1 hour, a person on hard cases, and whole cents.
+::: recap The intake essentials
+We have our bearings now.
+OmniCart receives about 4,000 requests each month.
+Current cases wait 2 to 3 days on the intake dock.
+The target is review in under 1 hour.
+Every decision needs four documents: order receipt, delivery slip, unboxing photo, and return policy.
+All money is tracked as whole integer cents, like 4520 cents.
 :::
 
 ::: phase practice
 
-## Read the Apex brief before you write your own
+## Study the parallel case
 
-Below, the app shows a finished brief for a different company, Apex Freight Logistics. Read it once and read the notes under it. Then try the short drills to see whether the facts stuck.
+We learn best by seeing a complete example before building our own.
+Look at our peer company, Apex Freight Logistics.
+Apex is a freight broker in Indianapolis facing similar intake delays.
+They review carrier packages with detention slips, bills of lading, and invoices.
+Their client brief shows how to organize facts without using forbidden technical words.
+Read their document carefully to see how they handle stakeholders, steps, and integer cents.
 
 ::: route
 
@@ -143,19 +115,18 @@ Below, the app shows a finished brief for a different company, Apex Freight Logi
 
 ::: phase build
 
-## Write the one page OmniCart will keep
+## Draft the overview document
 
-Write your OmniCart client brief with these five headings, in this order. That is the title line plus the four parts.
-
-```text
-# OmniCart Operations: Client Brief
-## The problem
-## Who cares and why
-## How it works today
-## How it should work
-```
-
-Keep it between 250 and 500 words. Save it as omnicart-system/docs/client-brief.md. Give it about 40 minutes, and stop when the four parts are there.
+Now let us write the client brief for OmniCart Operations.
+Create your first project document in your text editor.
+Save the file to omnicart-system/docs/client-brief.md.
+Keep your brief between 250 to 500 words.
+Use the five required headings in exact order.
+Start with the title: OmniCart Operations: Client Brief.
+Then write: The problem, Who cares and why, How it works today, and How it should work.
+State the monthly volume of about 4,000 cases and the current wait of 2 to 3 days.
+Set your target time to under 1 hour, and record money in whole integer cents like 4520 cents.
+Remember the copy rule: zero forbidden technology words.
 
 ::: deliverable
 
@@ -163,9 +134,14 @@ Keep it between 250 and 500 words. Save it as omnicart-system/docs/client-brief.
 
 ::: phase verify
 
-## How your page gets read
+## Check every requirement
 
-Five checks, and all five must pass. The exercise page lists the five checks in plain words. The grader quotes your own words back to you, so you can see exactly which line passed or failed. One thing is a hard stop. Any banned word that names a technology fails the whole brief, no matter how good the rest is.
+Before submitting your brief, inspect it against the grading rubric.
+Your brief must pass five checks to succeed.
+The grader checks for forbidden terms first.
+Then it checks your problem statement length, your three leaders, and your step counts.
+Finally, it confirms human review for hard cases and integer cents for money.
+Take a few minutes to inspect your file line by line against the five checks.
 
 ::: prove-it
 
@@ -175,20 +151,28 @@ Five checks, and all five must pass. The exercise page lists the five checks in 
 
 ::: phase unstuck
 
-## When a part will not come out right
+## Common sticking points
 
-If one section keeps fighting you, the notes below cover the four most common snags.
+Getting stuck on your first brief is completely normal.
+Most learners trip on sentence counts or sneak in a banned word.
+If your submission fails a check, read the unstuck notes below for quick before and after examples.
 
 ::: unstuck
 
 ::: phase ask
 
-## Questions to bring to the concierge
+## Questions that stay open
 
-Ask about anything in the OmniCart story that is still fuzzy, such as which paper a clerk reads first.
+A good client brief answers key operational questions, but it also raises new ones.
+What happens when a delivery slip is missing entirely?
+How will clerks handle edge cases that fall outside the 14 day window?
+Bring your questions to our community channel and let us discuss them together.
 
 ::: ask
 
-::: coda One more paper
-We named four papers a clerk reads. There is at least one more on that dock that we skipped. Go find it, decide who reads it, and add it to your brief. Then ask which of the three leaders would care about it most. This extra step is optional and does not change the checks.
+::: coda One small experiment with your brief
+Try reading your client brief aloud to someone who does not work in logistics.
+Can they understand the problem without asking what any term means?
+This exercise is completely optional and does not change your score.
+It is simply a good way to test how clear your words really are.
 :::

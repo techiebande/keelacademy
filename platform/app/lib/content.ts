@@ -16,28 +16,6 @@ import { highlightCode, resolveLang } from "./code-highlight";
 
 const UNIT_ID_PATTERN = /^\d+\.\d+(\.\d+)?$/;
 
-export type LastVerified = { concept_core: string; applied_context: string; tool_specifics: string };
-
-/**
- * The three freshness keys in document order. This is the authoring model: the
- * concept ages slowly, the tool specifics age fastest, and each is re-checked on
- * its own schedule. Students never see these names, so lessons are free to title
- * their three sections in their own words; the dates are matched by position.
- */
-export const LAST_VERIFIED_KEYS = ["concept_core", "applied_context", "tool_specifics"] as const;
-
-/**
- * A lesson is only as current as its stalest section, so one date is the honest
- * summary of three. Returns null if none of them parse.
- */
-export function oldestVerified(lastVerified: LastVerified): string | null {
-  const dates = LAST_VERIFIED_KEYS.map((key) => lastVerified?.[key]).filter(
-    (value): value is string => typeof value === "string" && value.length > 0,
-  );
-  if (dates.length === 0) return null;
-  return dates.reduce((oldest, value) => (value < oldest ? value : oldest));
-}
-
 export type MapModule = {
   id: string;
   title: string;
@@ -134,7 +112,6 @@ export type UnitYaml = {
   phase: number;
   est_hours: number;
   prereq_units: string[];
-  last_verified: LastVerified;
   learn: string;
   practice: {
     worked_example?: string;

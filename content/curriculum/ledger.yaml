@@ -46,7 +46,7 @@ units:
       - "Client brief structure: the problem, who cares and why, how it works today, how it should work"
       - "Money is written as integer cents (4520, never 45.20)"
       - "Claim and order identifiers: CLM-##### and ORD-#####"
-      - "The four papers a clerk reads: order receipt, delivery slip, unboxing photo, return policy"
+      - "The four documents a clerk reads: order receipt, delivery slip, unboxing photo, return policy"
       - "A person still reviews hard cases in the target process"
     anti_prerequisites:
       - "No code, no Python, no Docker, no terminal, no editor beyond plain text"
@@ -62,40 +62,16 @@ units:
         - "Five stable headings: # OmniCart Operations: Client Brief, ## The problem, ## Who cares and why, ## How it works today, ## How it should work"
         - "Targets later tests check: about 4,000 cases a month, under 1 hour, integer cents"
     retrieval_seeds:
-      - "OmniCart handles about 4,000 returns, claims, slips, and disputes each month."
-      - "Today a dispute waits 2 to 3 days before anyone reviews it."
-      - "The VP wants speed, the CFO wants every cent tracked, the policy officer wants rules followed."
-      - "Money is always written as whole cents, so $45.20 becomes 4520."
-      - "State the problem in plain words before you name any fix."
-    narrative_anchor: "7:00 AM on the OmniCart receiving dock. ORD-8821, a blender with a cracked lid, becomes claim CLM-20841 and sits on a shelf for 2 to 3 days. Parallel entity Apex Freight Logistics (Marcus Bell, Priya Nair, Dana Okafor) carries the worked example."
-
-  - unit: "0.2"
-    title: "How the curriculum and grading loop work"
-    concepts_unlocked:
-      - "Keel Academy has 13 phases (0 to 12) and 56 modules in total"
-      - "Phase 0 is the only phase with no code; it has three modules: 0.1, 0.2, 0.3"
-      - "Phase 11 is the business track and runs from day one alongside every technical phase"
-      - "The grading loop has three steps: deterministic checks, rubric review, defend-your-work questions"
-      - "Every module ends with something you turn in; the tracker links to each deliverable"
-      - "Module 3.2.1 is a sub-module inside Phase 3 (prompt design)"
-      - "Time-boxing: submit when the estimate is up; an early unit does not need to be perfect"
-    anti_prerequisites:
-      - "No code, no Python, no Docker, no terminal, no editor beyond plain text"
-      - "No technology vocabulary: AI, agent, LLM, model, prompt, automation, API, schema, JSON"
-      - "No knowledge of any specific library or tool introduced in later phases"
-    project_working_tree:
-      added_files:
-        - "omnicart-system/docs/progress-tracker.md"
-      contracts_established:
-        - "progress-tracker.md is a living file; students update it as they complete each module"
-        - "The tracker has four required columns: Module, Status, Hours spent, Deliverable"
-        - "Status values: not started, in progress, done"
-        - "Deliverable column uses (not yet) for future modules; never left blank"
-    retrieval_seeds:
-      - "Keel Academy has 13 phases, numbered 0 to 12, and 56 modules inside them."
-      - "Your tracker is a list of every module with a status and hours column."
-      - "Phase 0 is the only phase with no code."
-      - "The Phase 11 business track runs from day one alongside every technical phase."
-      - "Each module ends with something you turn in, and your tracker links to it."
-    narrative_anchor: "A blank tracking file with 56 rows to fill. Marcus Bell at Apex Freight Logistics has the same file filled in for his audit program. The student reads Marcus's version and builds their own. The parallel entity (Apex Freight, Marcus Bell, Priya Nair, Dana Okafor) carries the worked example."
-
+      - "OmniCart handles about 4,000 return requests, damage claims, delivery slips, and payout disputes each month."
+      - "Today a dispute sits for 2 to 3 days before review begins."
+      - "Operations wants reviews under 1 hour, the CFO wants integer cents tracked, and compliance protects return rules."
+      - "Money is always written as integer cents, so 45 dollars and 20 cents becomes 4520 cents."
+      - "We describe the business problem in plain words before we choose any fix."
+    narrative_anchor: "Tuesday morning on the OmniCart dock. Order ORD-8821, a coffee grinder with a cracked hopper, becomes claim CLM-20841 and sits in the queue for 2 to 3 days. Parallel entity Apex Freight Logistics carries the worked example."
+    structure:
+      note: "Backfilled 2026-09-10 from the authored learn.md. Skip-reasons were not logged at authoring time; the field became mandatory for units authored after 2026-09-10 (unit_orchestrator Step 7)."
+      fingerprint: "learn headings 3; apparatus mermaid, aside, recap; recap late; coda yes; per-phase headings 3/1/1/1/1/1"
+      blocks_used:
+        - "mermaid: the intake case forks into fast payout versus human review, a genuine flow"
+        - "aside: the integer-cent rounding explanation would break the stakeholder narrative"
+        - "recap: lands after the current-versus-target process topic shift, late in the learn phase"

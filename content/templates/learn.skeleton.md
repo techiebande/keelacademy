@@ -4,56 +4,40 @@
 
 ::: phase learn
 
-## <Beat 1 heading: the concrete scene. No seed words.>
+<!-- AUTHOR NOTE — DELETE BEFORE SHIPPING
+The learn phase needs at least two ## headings. No maximum. Let the topic decide.
 
-<Open on a place, a time, one named object with an id. Ask a question, leave a line break, answer it. Arithmetic in a ```text block. Why naming the fix now is the trap.>
+Available blocks (use only when they earn their spot):
 
-::: aside <One job, said in the title>
-<40 to 90 words.>
-:::
+  ::: aside <title>    — When a term or concept needs context that would break the main flow.
+                          40 to 90 words. Not every beat needs one.
+  ::: recap <title>    — After a genuine topic shift, when the reader needs to land before
+                          the lesson turns a corner. Never in the first third of the learn phase.
+                          Never after every beat. One or two per learn phase at most.
+  ```mermaid           — When a spatial relationship, flow, or comparison is genuinely hard
+                          to say in words. At most 6 nodes. Caption in the fence info string.
+  ```text              — For arithmetic, data shapes, or anything needing fixed-width alignment.
 
-::: recap <Title>
-<One or two sentences.>
-:::
+Do NOT insert a block just to satisfy a word counter.
+Do NOT reuse the same heading count or block sequence as the prior unit.
+Write the post-learn phases fresh. No copy-paste from other units.
+-->
 
-## <Beat 2 heading: the people or the tension. No seed words.>
+## <First heading: the concrete scene>
 
-<Prose. Optional figure, at most 6 nodes:>
+<Open with a place, a time, one named object. Build from there.>
 
-```mermaid Figure 1: <What it shows>
-flowchart TD
-    A["<b>Title</b><br/>short line,<br/>short line"]
-    B["<b>Title</b><br/>short line"]
-    A --> B
-```
+## <Second heading: the tension or the people>
 
-::: aside <Title>
-<40 to 90 words.>
-:::
+<Teach the core idea. Use whatever blocks the topic needs, or none.>
 
-::: recap <Title>
-<One or two sentences.>
-:::
-
-## <Beat 3 heading: how to do the thing. No seed words.>
-
-### <Part one>
-
-<Teach against the first rubric criterion. First try, snag, fix, what passes.>
-
-### <Part two>
-
-<Teach against the second criterion.>
-
-::: recap <Title>
-<One or two sentences.>
-:::
+<!-- Add more ## headings if the topic calls for them. Stop when the topic is done. -->
 
 ::: phase practice
 
-## <One heading>
+## <Heading>
 
-<Two or three sentences: read the worked example first, then the drills.>
+<Bridge the reader into the practice material. Write this fresh for this unit.>
 
 ::: route
 
@@ -65,15 +49,9 @@ flowchart TD
 
 ::: phase build
 
-## <One heading>
+## <Heading>
 
-<What to write, where to save it, the word budget, the time.>
-
-```text
-# <Deliverable title heading>
-## <Part heading>
-## <Part heading>
-```
+<What to write, where to save it, the word budget, the time. Respond to what this unit specifically taught.>
 
 ::: deliverable
 
@@ -81,9 +59,9 @@ flowchart TD
 
 ::: phase verify
 
-## <One heading>
+## <Heading>
 
-<N checks, all must pass. The exercise page lists them. The grader quotes your words.>
+<Say what the checks look for and how the grader responds. Write in a way that fits this specific deliverable.>
 
 ::: prove-it
 
@@ -93,17 +71,17 @@ flowchart TD
 
 ::: phase unstuck
 
-## <One heading>
+## <Heading>
 
-<One or two sentences.>
+<One or two sentences that speak to this unit's specific snags.>
 
 ::: unstuck
 
 ::: phase ask
 
-## <One heading>
+## <Heading>
 
-<One or two sentences.>
+<One or two sentences. Point toward the kinds of questions this unit might leave open.>
 
 ::: ask
 

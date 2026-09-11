@@ -1,0 +1,10 @@
+# Gate rule (S2.7): unit 0.1 gate. A passing verdict on unit 0.1 unlocks unit 0.2.
+gate_id: unit-0-1
+title: Unit 0.1 gate
+unit_id: "0.1"
+unlocks: ["0.2"]
+rebate: false
+summary: >-
+  A passing verdict on unit 0.1 clears this gate. Unit 0.1 is the client brief:
+  the student describes OmniCart Operations' problem in plain language across
+  four required sections. Clearing this gate unlocks unit 0.2.

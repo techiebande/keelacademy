@@ -3,25 +3,21 @@ id: "0.1"
 phase: 0
 est_hours: 1
 prereq_units: []
-last_verified:
-  concept_core: 2026-09-06
-  applied_context: 2026-09-06
-  tool_specifics: 2026-09-06
 learn: learn.md
 practice:
   worked_example: worked-example/
   completion_problem:
-    prompt: "Write the full OmniCart client brief under the five headings, in 250 to 500 words. Say what should happen, not what tool does it, and use no technology words."
-    instructions: "Use the five headings in order: the title, The problem, Who cares and why, How it works today, How it should work. Write three sentences under The problem, one line per leader, 4 to 7 numbered steps in each process section, at least one amount in whole cents, and a person who reviews hard cases."
+    prompt: "Write a client brief for OmniCart Operations covering the current delay, the three leaders, and both process flows."
+    instructions: "Draft your brief inside omnicart-system/docs/client-brief.md using the five required headings and whole integer cents."
     rubric: rubrics/0.1/v1.yaml
   retrieval_seeds:
-    - "OmniCart handles about 4,000 returns, claims, slips, and disputes each month."
-    - "Today a dispute waits 2 to 3 days before anyone reviews it."
-    - "The VP wants speed, the CFO wants every cent tracked, the policy officer wants rules followed."
-    - "Money is always written as whole cents, so $45.20 becomes 4520."
-    - "State the problem in plain words before you name any fix."
+    - "OmniCart handles about 4,000 return requests, damage claims, delivery slips, and payout disputes each month."
+    - "Today a dispute sits for 2 to 3 days before review begins."
+    - "Operations wants reviews under 1 hour, the CFO wants integer cents tracked, and compliance protects return rules."
+    - "Money is always written as integer cents, so 45 dollars and 20 cents becomes 4520 cents."
+    - "We describe the business problem in plain words before we choose any fix."
 build:
-  deliverable: "Submit your OmniCart client brief as omnicart-system/docs/client-brief.md."
+  deliverable: "Submit your client brief document for OmniCart Operations saved to omnicart-system/docs/client-brief.md."
   submission: file
   data_variant: omnicart@v0
 verify:
@@ -30,11 +26,11 @@ verify:
 gate:
   unlocks: ["0.2"]
 unstuck:
-  - symptom: "My problem section names a tool or a program instead of the problem"
-    fix_ref: faq/0.1.md#name-the-problem-not-the-tool
-  - symptom: "My three leaders all seem to want speed"
-    fix_ref: faq/0.1.md#three-leaders-sound-the-same
-  - symptom: "My today steps skip the four papers a clerk reads"
-    fix_ref: faq/0.1.md#steps-skip-the-four-papers
-  - symptom: "My target steps have no number or no person"
-    fix_ref: faq/0.1.md#target-needs-a-number-and-a-person
+  - symptom: "The grader flags a forbidden technology word in my brief"
+    fix_ref: faq/0.1.md#forbidden-technology-words
+  - symptom: "My problem section has more than three sentences"
+    fix_ref: faq/0.1.md#too-many-sentences
+  - symptom: "The grader rejects money written as dollars"
+    fix_ref: faq/0.1.md#dollar-amounts-instead-of-cents
+  - symptom: "My steps list misses one of the four required documents"
+    fix_ref: faq/0.1.md#missing-required-documents

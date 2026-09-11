@@ -3,10 +3,6 @@ id: "0.1.1"
 phase: 0
 est_hours: 4
 prereq_units: []
-last_verified:
-  concept_core: 2026-08-25
-  applied_context: 2026-08-25
-  tool_specifics: 2026-08-25
 learn: learn.md
 practice:
   worked_example: worked-example/

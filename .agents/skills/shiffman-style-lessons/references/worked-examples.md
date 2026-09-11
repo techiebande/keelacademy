@@ -1,6 +1,12 @@
 # Worked examples: before / after
 
-Two full transformations on common early-curriculum topics. Read these when you want a concrete target to calibrate against, not just the abstract principles. Both "after" versions follow the lesson shape from SKILL.md: hook → naive plan → incremental build → snag → fix/insight → zoom out → challenge.
+Three example shapes exist. Rotate between them across units so students do not feel the same plot repeating.
+
+1. **The snag story** (shown below): hook → naive plan → incremental build → snag → fix/insight → zoom out → challenge. Best when a common beginner mistake drives the lesson.
+2. **The comparison**: two approaches side by side, weigh trade-offs, pick one with reasoning. Best when the lesson teaches a design choice rather than a single technique.
+3. **The walkthrough**: follow one real artifact from start to finish, narrate what each piece does and why. Best when the lesson introduces a new file format, data shape, or multi-step process.
+
+The two "after" versions below use Shape 1 (the snag story). They are calibration targets for voice, not the only structural option. Both follow the Shiffman voice from SKILL.md.
 
 ---
 

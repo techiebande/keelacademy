@@ -5,6 +5,13 @@ bans. Any contract, skill, or prompt that says "the lesson voice" means exactly
 this file. The plain-language and copy rules themselves live in
 `content/STYLE.md` and are not repeated here.
 
+Precedence (full order in `AGENTS.md`): on voice and structure questions, the
+skill at `.agents/skills/shiffman-style-lessons/SKILL.md` and its
+`references/` are the authority, and this file is their Keel-specific summary.
+Where this file and the skill differ, the skill governs. STYLE.md's
+accessibility targets bind in aggregate, never as a per-sentence override of
+voice.
+
 Full style guide with worked examples:
 `.agents/skills/shiffman-style-lessons/SKILL.md` and its `references/`.
 
@@ -29,16 +36,18 @@ Full style guide with worked examples:
 
 ## Plain-language layer
 
-Every sentence of lesson prose obeys `content/STYLE.md`: Flesch-Kincaid Grade
-8 or below, 20-word sentence ceiling, explain-then-name, short common words
+Lesson prose obeys `content/STYLE.md` in aggregate: Flesch-Kincaid Grade 8 or
+below across the whole lesson, explain-then-name, short common words
 (first-use substitution table in the skill's voice guide), inline definitions,
-active voice, one idea per paragraph.
+active voice, one idea per paragraph. Sentence rhythm is a voice tool, not a
+rule: short beats while narrating, longer ones while explaining why.
 
 ## Keel copy bans
 
-Zero em dashes, zero en dashes, zero exclamation marks, zero corporate
-buzzwords anywhere in lesson prose, diagram labels, headings, and codas. The
-strict gate (`content/tools/lint-lesson.py <learn.md> --strict`) exits 1 on
+Zero em dashes, zero en dashes, zero corporate buzzwords anywhere in lesson
+prose, diagram labels, headings, and codas. Exclamation marks: none as generic
+enthusiasm, at most two per lesson, and only on a genuine reaction to
+something surprising. The strict gate (`content/tools/lint-lesson.py <learn.md> --strict`) exits 1 on
 any breach.
 
 ## What the voice is not
@@ -48,3 +57,25 @@ any breach.
   happens.
 - No "Predict, then check" blockquotes or "Gotcha" beats (owner direction,
   2026-09-06). Pacing comes from asides, recaps, and text blocks.
+
+## Structural variety
+
+A consistent voice does not mean a repetitive structure. Each lesson finds
+its own shape based on what it teaches. Two consecutive lessons should not
+share the same heading count, the same block sequence, or the same post-learn
+phrasing. The voice stays the same. The form moves. A section also leads into
+the next the way continuous writing does: it picks up something the previous
+section left open, rather than announcing a hand-off.
+
+Apparatus blocks (aside, recap, diagram, text fence) are tools, not
+obligations. Use a recap after a genuine topic shift. Use a diagram when
+spatial relationships are hard to say in words. Use an aside when a side point
+would break the main flow. If the lesson flows without any of these, leave
+them out.
+
+## No housekeeping text
+
+Do not write "Show diagram source." Do not write accuracy timestamps like
+"Checked for accuracy 2026-09-07." Do not write navigation markers like
+"END OF LEARN" or "NEXT: PRACTICE." Transitions between phases should feel
+like a natural next step, not a signpost.

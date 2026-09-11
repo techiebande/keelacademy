@@ -28,9 +28,11 @@ them before writing any stylesheet or any copy. In short:
   working through bugs, ask before tell, alive examples, honest confusion,
   warm curiosity, collaborator first-person "we"/"let's", ending with an
   invitation to experiment; zero corporate buzzwords). **Readability target:
-  Flesch-Kincaid Grade 8 or below** for lesson prose; the audience includes
-  non-native English speakers; prefer short sentences (under 20 words), common
-  words, and explain-then-name for domain terms; see the plain-language rules
+  Flesch-Kincaid Grade 8 or below for lesson prose, measured across the whole
+  lesson** (the aggregate score is the binding rule, not any single sentence);
+  the audience includes non-native English speakers; sentence rhythm varies on
+  purpose (short beats while narrating, longer ones while explaining why), with
+  common words and explain-then-name for domain terms; see the plain-language rules
   in `.agents/skills/shiffman-style-lessons/SKILL.md`. Terse surfaces (dashboard,
   grading states, error copy) stay short, declarative, active, concrete.
   Internal architecture never appears in student-facing copy: no service
@@ -68,7 +70,7 @@ Also binding:
 A lesson is delivered as one continuous typeset page, not as accordions
 and not paged. The full rationale is in the repo-root `build-state.md`
 under the 2026-09-01 lesson-delivery entry. What a later session needs to
-know before touching `lib/content.ts`, `learn-section.tsx` or a
+know before touching `lib/content.ts`, the unit renderer, or a
 `learn.md`:
 
 - **`learn.md` is read by two consumers, not one.** `platform/grading/practice/server.py`
@@ -78,11 +80,11 @@ know before touching `lib/content.ts`, `learn-section.tsx` or a
   the lesson. If you do change   heading text, re-run
   `smoke-routing-checks.py` and `smoke-recheck-checks.py` and confirm all
   seeds still consistent.
-- **The three `##` sections are positional.** `last_verified` in
-  `unit.yaml` still keys `concept_core` / `applied_context` /
-  `tool_specifics`, and `lib/content.ts` maps those to the three sections
-  by index. The keys are the authoring and freshness contract; their names
-  are not student-facing and must not be printed on the page.
+- **`last_verified` and the accuracy stamp are gone** (owner direction,
+  2026-09-10). The three-key freshness model (`concept_core` /
+  `applied_context` / `tool_specifics`) and the `Checked for accuracy` line
+  it fed were removed from the schema, the renderer, and every template; do
+  not reintroduce them. Heading count is free per `content/STYLE.md`.
 - **The renderer understands three authored markers**, and treats anything
   else as prose: `> **Gotcha: <title>**`, a
   `> **Predict, then check.**` blockquote whose answer is the paragraph
@@ -90,6 +92,10 @@ know before touching `lib/content.ts`, `learn-section.tsx` or a
   `One good answer:`. Both answer forms collapse behind a reveal with a
   scratch box above them, so predict-then-check is possible to follow.
   Writing an answer as plain prose under a prompt un-teaches the beat.
+  The two blockquote forms (`Gotcha:`, `Predict, then check.`) are banned
+  from new authoring (owner direction, 2026-09-06; `docs/voice.md`); the
+  parser still understands them, and the checkpoint and answer-reveal
+  machinery they share is still live apparatus.
 - **The reading measure is `--lesson-measure` (35em), not `ch`, and not on
   `.lesson-prose`.** That class is shared with the worked example, whose
   comparison table needs the shell width.
@@ -137,12 +143,15 @@ the app owns structure, data and state.** Full rationale in the repo-root
   `h3`/`h4`. Generated ids are deduped against `SCRIPT_RESERVED_IDS`, so a
   heading called "Practice" becomes `practice-2` rather than colliding with
   the section anchor.
-- **Keep three `##` sections in the learn phase.** `last_verified` in
-  `unit.yaml` still keys `concept_core` / `applied_context` /
-  `tool_specifics`, and `lib/content.ts` maps those to the three sections by
-  index. `Checked for accuracy` is emitted automatically at the end of the
-  first phase, so an author cannot forget it.
-- **Give every other phase exactly one `##` too.** The contents rail lists a
+- **Learn-phase heading count is free** (STYLE.md: at least two, no maximum;
+  let the topic decide). `last_verified` and the `Checked for accuracy` stamp
+  it fed, the phase-boundary `END OF LEARN · NEXT: ...` marker, and the
+  `Show the diagram source` toggle are gone (owner direction, 2026-09-10:
+  system-emitted scaffolding reads as machine-assembled, not authored; the
+  spec note lives in docs/lesson-flow-spec.md). Do not reintroduce them: no
+  app-owned prose at the edges of a phase, and a drawn diagram replaces its
+  source rather than hiding it behind a toggle.
+- **Give every other phase at least one `##` too.** The contents rail lists a
   script's `##` headings across the whole page and nothing else, so a phase
   without one cannot be reached from the rail. Those headings are the only
   navigation the page has, which means they are read far more often than the

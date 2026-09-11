@@ -2,6 +2,18 @@
 
 How any session — human or AI — picks this project up without losing context.
 
+## Structure is earned, not scheduled
+
+No lesson is required to have a diagram, a recap, a worked-example block, or any other structural element by default. Every block that appears in a lesson must be there because this specific concept needed it — not because the skeleton lists it, not because the last unit had one, and not because a section "usually" goes there. If you can't state in one sentence why a specific block belongs in *this* lesson, cut it. A lesson with three blocks and one without any are both correct outcomes if that's what the material called for. Prose should read like one person explaining something to another person: sections flow into each other, they don't hand off with a label. Meta-scaffolding (navigation footers, accuracy stamps, "show source" toggles) does not belong in lesson prose at all; if the product needs that information, it belongs in `unit.yaml` metadata that the app renders as UI chrome, never as text the student reads as part of the lesson.
+
+When two instructions conflict, this precedence order decides:
+
+1. **Pedagogical soundness** — does the student actually learn the target competency? Always wins.
+2. **The lesson voice** — `.agents/skills/shiffman-style-lessons/SKILL.md` and its `references/` (with `docs/voice.md` as its Keel-specific summary). On any voice or structure question, these beat everything below.
+3. **Accessibility constraints in `content/STYLE.md`** (reading level, jargon) — real and worth keeping, but satisfied as an *aggregate* property of the whole lesson, never as a mechanical per-sentence rule that overrides voice.
+4. **`content/templates/learn.skeleton.md` structure** — a menu of options, never a mandate. Lowest precedence of anything listed here.
+5. **Prior-unit cadence** — not an authority at all. Consult prior units for scenario continuity (entity names, currency values, running characters) only, never for structure, block count, or recap placement.
+
 ## Read first, in order
 
 1. **[build-state.md](build-state.md)** — where we are; the single next action; the ten most recent decisions (compact by design; full archive in [docs/decisions/](docs/decisions/))

@@ -951,18 +951,6 @@ code.code-inline {
   font-weight: 600;
 }
 
-/* The caption is directly under the figure, so the source disclosure below it
-   drops the rule .reveal would otherwise draw. */
-.diagram-reveal {
-  border-top: none;
-  padding-top: 0;
-  margin-top: 12px;
-}
-
-.diagram-reveal .reveal-body {
-  overflow-x: auto;
-}
-
 .figure-caption {
   margin-top: 10px;
   font-family: var(--font-inter-variable);
@@ -1013,12 +1001,6 @@ code.code-inline {
 
 .lesson-body > * + * {
   margin-top: 32px;
-}
-
-.lesson-checked {
-  font-family: var(--font-code-mono);
-  font-size: 12.5px;
-  color: var(--color-sage-40);
 }
 
 /* ---------- The lesson canvas: a breakout grid, symmetric about the text ---------- */
@@ -1207,20 +1189,6 @@ code.code-inline {
    having to announce itself or draw a line across the reading column. */
 .unit-script-body > .unit-script-phase + .unit-script-phase {
   margin-top: 96px;
-}
-
-/* The phase-boundary exit marker (spec U2): one quiet mono line closing the
-   phase that just ended. No border and no card, because the spacing above the
-   next phase is already the section break and this line only says the break is
-   a clean place to stop. It sits in the text track like any prose child, so it
-   stays inside the reading measure, and it carries the same scroll offset as
-   the headings because it is an anchor target resume links to. */
-.unit-boundary {
-  font-family: var(--font-code-mono);
-  font-size: 12.5px;
-  letter-spacing: 0.07em;
-  color: var(--color-sage-40);
-  scroll-margin-top: var(--rail-top, 140px);
 }
 
 /* A script authors the page's own section headings, so its deep links land on

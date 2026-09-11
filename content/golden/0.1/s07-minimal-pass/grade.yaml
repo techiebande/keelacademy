@@ -7,6 +7,6 @@ criteria:
   current-process-traceable: pass
   target-process-measurable: pass
 overall: pass
-grader_notes: "Every criterion passes at the minimum. Both process sections have exactly four steps and name the four documents. The target gives 'under 1 hour', a 'human specialist', and exactly one amount, '4520 cents'. The prose is terse but complete."
+grader_notes: "All five criteria pass at the minimum standard. Both process sections contain exactly four steps and name the four required papers. The target process specifies 'under 1 hour', a 'human specialist', and '4520 cents'. The prose is terse but meets all rules."
 graded_by: human
-graded_on: 2026-09-06
+graded_on: 2026-09-09

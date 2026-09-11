@@ -135,20 +135,10 @@ export function MermaidRuntime() {
         }
       }
 
-      // The source moves rather than being thrown away: a reader who wants the
-      // graph as text, or wants to copy it, can still get to it. It goes last in
-      // the figure, below the caption, because the caption describes the drawing.
-      const reveal = document.createElement("details");
-      reveal.className = "reveal diagram-reveal";
-      const summary = document.createElement("summary");
-      summary.textContent = "Show the diagram source";
-      const body = document.createElement("div");
-      body.className = "reveal-body";
-      body.appendChild(source);
-      reveal.append(summary, body);
-
+      // A successful draw replaces the source with the picture. The source
+      // stays on the page in every other state: before this runs, with
+      // JavaScript disabled, and when the import or the render fails.
       frame.replaceChildren(holder);
-      (frame.parentElement ?? frame).append(reveal);
       frame.dataset.keelDrawn = "done";
     };
 

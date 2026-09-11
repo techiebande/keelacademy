@@ -15,7 +15,7 @@ The Trust and Safety Officer wants neither speed nor pennies. She wants the 14 d
 ## How it works today
 
 1. A claim such as CLM-20902 arrives in the queue tied to order ORD-9130.
-2. One of our support agents opens the order receipt to see the item, the price, and the purchase date.
+2. A clerk opens the order receipt in our support software to see the item, the price, and the purchase date.
 3. The same person finds the delivery slip in the courier system to confirm the drop date.
 4. They open the unboxing photo and decide by eye whether the damage is real and recent.
 5. They read the brand return policy to see if the claim falls inside the 14 day window.
@@ -26,7 +26,7 @@ Seven steps, five screens, and no shared checklist, so two clerks can reach oppo
 
 ## How it should work
 
-1. The first pass is pure automation: when CLM-20902 arrives, the order receipt, delivery slip, unboxing photo, and return policy are gathered onto one screen.
+1. The first pass uses AI automation in our intake pipeline: when CLM-20902 arrives, the order receipt, delivery slip, unboxing photo, and return policy are gathered onto one screen.
 2. Delivery date and return window are compared and each check is marked pass or fail with a one line reason.
 3. Clean cases get a decision right away and the refund is written as integer cents, so a refund of 12999 cents is stored as 12999 and never as a decimal.
 4. Anything unclear, like a photo with no timestamp, goes to a human specialist with the checks attached.

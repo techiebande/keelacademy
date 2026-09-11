@@ -1,6 +1,4 @@
-# Facts that must agree across every file of this unit.
-# Read by content/tools/check-unit-consistency.py. The ubd_architect writes this
-# from the design brief; every later agent is checked against it.
+# Facts that must agree across every file of this unit (read by check-unit-consistency.py).
 numbers:
   - "about 4,000"
   - "2 to 3 days"
@@ -14,5 +12,4 @@ documents:
   - "delivery slip"
   - "unboxing photo"
   - "return policy"
-# The worked example is on Apex Freight and names different papers on purpose.
 worked_example_uses_other_documents: true

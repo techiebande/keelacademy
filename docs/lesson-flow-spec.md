@@ -7,9 +7,10 @@ The invariant this spec implements, from the 2026-09-02 research synthesis:
 > The product always knows and surfaces exactly one next action, and every
 > exit is a designed stopping point, never a dead end.
 
-Three surfaces follow from it: the end of a unit is a designed exit (U1),
-every phase boundary inside a unit is a legitimate stopping point (U2), and
-returning to a unit you left mid-read resumes you where you stopped (U3).
+Two surfaces follow from it: the end of a unit is a designed exit (U1), and
+returning to a unit you left mid-read resumes you where you stopped (U3). A
+third planned surface, phase-boundary exit markers (U2), was removed by owner
+direction on 2026-09-10; see its section below.
 
 Evidence anchors: Duolingo's exit-deck and Netflix's 10-second post-play
 (lesson exits are designed surfaces); Crafting Interpreters' chapter codas
@@ -20,12 +21,12 @@ effect (stopping mid-unit is a hook, not a failure).
 ## Ground rules for all three
 
 - Content owns every word a student reads; the app owns structure, data and
-  state. U1 and U2 copy is app-owned because it is structural (names, times,
+  state. U1 copy is app-owned because it is structural (names, times,
   counts pulled from real data), not teaching. If a line needs teaching
   voice, it belongs in `learn.md`, not here.
 - Copy discipline (binding, from platform/app/AGENTS.md): Shiffman style per
   `.agents/skills/shiffman-style-lessons` on anything the student reads as prose; terse
-  surfaces (exit cards, boundary markers, error copy) stay short,
+  surfaces (exit cards, error copy) stay short,
   declarative, active, concrete. No internal architecture names. "Not
   yet", never "fail". Uppercase only for short data-state chips.
 - Honest states only: no fake progress, no invented counts, no placeholder
@@ -75,31 +76,17 @@ States to handle (all from data already loadable by the unit page):
 Done when: the card renders for 3.2.1 in all four states (forced by data
 variations), lint and build are clean, and no demo grep broke.
 
-## U2 — Phase-boundary exit markers
+## U2 — Phase-boundary exit markers (REMOVED 2026-09-10)
 
-Placement: in `UnitScript`, rendered at the end of each phase section
-except the last (the last phase's exit is the U1 card). The marker sits
-inside the existing phase boundary rhythm (the hairline plus spacing stays
-the boundary; the marker is quiet, inside the measure, not a panel).
-
-Anatomy: one mono line, data-assembled:
-
-`END OF LEARN · NEXT: PRACTICE, ABOUT 4 MIN · STOP HERE IF YOU LIKE`
-
-- Phase names uppercase as data-state chips; read time from the script's
-  own word-count estimates (already computed for the rail), summed over
-  the next phase's prose. Omit the time when it cannot be computed rather
-  than guessing.
-- One line, no border, no card. The boundary hairline already says
-  "section break"; the marker adds "this is a clean stopping point."
-- It is an anchor target too (stable id per boundary) so U3 can resume to
-  a boundary directly.
-
-Constraint: no client JavaScript. The marker is server-rendered text.
-
-Done when: markers render between every phase of 3.2.1's script, times are
-computed from real data, and the page still reads as one piece of writing
-(no visual regression at the boundary).
+Removed by owner direction. The marker line
+(`END OF LEARN · NEXT: PRACTICE, ABOUT 4 MIN · STOP HERE IF YOU LIKE`) read
+as system-generated scaffolding inserted into an authored lesson, the same
+defect the 2026-09-09 structural-variety overhaul banned in authored prose.
+The component (`unit-boundary.tsx`), its render site, and its CSS are
+deleted; a phase boundary is again carried by spacing alone. Resume (U3) is
+unaffected: it stores rail-heading anchors, and nothing ever linked the
+marker's `exit-` anchors. Do not reintroduce app-owned prose at the edges of
+a phase; `platform/app/AGENTS.md` carries the same rule.
 
 ## U3 — Resume persistence
 

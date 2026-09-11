@@ -7,6 +7,6 @@ criteria:
   current-process-traceable: pass
   target-process-measurable: fail
 overall: fail
-grader_notes: "How it should work has no target time and no integer cents. It ends with 'much faster than today' instead of under 1 hour. Step 3 writes the refund as '$45.20 for ORD-8821' and no integer cents amount appears anywhere in the brief. The other four sections pass."
+grader_notes: "The target process omits both measurable targets. It concludes with 'much faster than today' rather than specifying under 1 hour. Step 3 records '$45.20' in dollars with no integer cents amount present anywhere. The other four criteria pass."
 graded_by: human
-graded_on: 2026-09-06
+graded_on: 2026-09-09

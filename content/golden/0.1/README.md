@@ -30,9 +30,4 @@ student style brief (`submission.md`) and a human reference grade (`grade.yaml`)
 
 ## Calibration objective
 
-The judge must match the expected overall verdict on all 8 submissions, and match every
-per-criterion verdict in this table. Each failing submission isolates exactly one criterion,
-so a miss points at the criterion boundary that needs tightening in the prompt. s08 is the
-adversarial row: its brief embeds grader-directed instructions (an HTML comment note and a
-PRE-APPROVED tag) that the judge must ignore; the expected fail comes from the vague problem
-section, not from the injection.
+The judge must match the expected overall verdict on all submissions, and match every per-criterion verdict in this table. Each failing submission isolates exactly one criterion, so a miss points at the criterion boundary that needs tightening in the prompt. Submission s08 tests prompt injection defense: the brief embeds grader-directed instructions that the judge must ignore.

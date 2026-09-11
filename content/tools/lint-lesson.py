@@ -2,18 +2,24 @@
 """Advisory lesson linter (lesson UX spec U9 + plain-language rules).
 
 Checks:
-1. Apparatus pacing: advises when prose stretches exceed ~250 words without apparatus (code, checkpoint, callout).
+1. Apparatus pacing: advises when prose stretches exceed ~300 words without apparatus (code, checkpoint, callout).
 2. Coda presence: advises if ::: coda is missing.
 3. Heading cadence: advises when headings are stacked without intervening prose.
 4. Readability (FK grade): advises when Flesch-Kincaid Grade Level exceeds 9.0 (target for global audience).
-5. Long sentences: advises on any sentence exceeding 25 words.
+5. Long sentences: advises on any sentence exceeding 30 words (nudge only; the binding rule is the aggregate FK score).
 
 Default mode is ADVISORY (always exits 0).
 
 `--strict` turns the plain-language standard into a gate (exit 1 on any error):
-  FK grade over 8.0, any sentence over 20 words, a prose block over 250 words
-  without apparatus, no `::: coda`, any em or en dash, any exclamation mark,
-  a technology word in student prose, or a `##`/`###` heading that borrows a
+  FK grade over 8.0 (the aggregate score across the whole lesson is the
+  binding readability rule, per content/STYLE.md — there is deliberately no
+  per-sentence word cap, so sentence rhythm can vary), a prose block over 300
+  words without apparatus, no `::: coda`, any em or en dash, more than two
+  exclamation marks in prose (each is expected to be an earned reaction;
+  code-fence contents are exempt so `!=` never counts), a technology word in
+  student prose, any housekeeping scaffolding
+  (diagram-source reveals, accuracy stamps, END OF / NEXT markers, stop-here
+  lines), or a `##`/`###` heading that borrows a
   retrieval-seed keyword (heading hits weigh 5x in the practice server's
   excerpt selector, so such a heading steals the seed from the section that
   teaches it). The word lists live in content/STYLE.md; keep them in sync.
@@ -81,9 +87,9 @@ def lint_lesson_file(path: Path) -> list[str]:
         words = [w for w in stripped.split() if w]
         current_word_count += len(words)
 
-        if current_word_count > 250:
+        if current_word_count > 300:
             advisories.append(
-                f"{path}:{line_num}: advisory: prose block reached ~{current_word_count} words without apparatus interruption (target: <= 250 words)."
+                f"{path}:{line_num}: advisory: prose block reached ~{current_word_count} words without apparatus interruption (target: <= 300 words)."
             )
             # Reset after warning so we don't spam every line
             current_word_count = 0
@@ -140,13 +146,13 @@ def lint_readability(path: Path) -> list[str]:
     if not sentences:
         return advisories
 
-    # Long sentence check
+    # Long sentence check (advisory nudge; the binding rule is the aggregate FK score)
     for i, sent in enumerate(sentences, start=1):
         wc = len(sent.split())
-        if wc > 25:
+        if wc > 30:
             preview = sent[:100] + ("..." if len(sent) > 100 else "")
             advisories.append(
-                f"{path}: advisory: sentence {i} has {wc} words (target: <= 25): \"{preview}\""
+                f"{path}: advisory: sentence {i} has {wc} words (nudge: <= 30 while explaining why): \"{preview}\""
             )
 
     # Flesch-Kincaid Grade Level
@@ -174,7 +180,9 @@ def lint_readability(path: Path) -> list[str]:
 # ---------------------------------------------------------------------------
 
 STRICT_FK_MAX = 8.0
-STRICT_SENTENCE_MAX = 20
+# Exclamation marks are allowed as earned reactions, capped (content/STYLE.md).
+# Counted in prose only: code-fence contents are exempt so `!=` never counts.
+STRICT_EXCLAMATION_MAX = 2
 
 # Words that name a technology or a build tool. Student-facing lesson prose says
 # what should happen, not which tool does it. Mirror of the list in content/STYLE.md.
@@ -240,16 +248,45 @@ def lint_strict(path: Path) -> list[str]:
             errors.append(f"{rel}:{line_num}: error: em dash (U+2014); use a comma, colon or period.")
         if "\u2013" in line:
             errors.append(f"{rel}:{line_num}: error: en dash (U+2013); write 'to' or use a hyphen only inside ids.")
-        if "!" in line and "<!--" not in line and not line.lstrip().startswith("```"):
-            errors.append(f"{rel}:{line_num}: error: exclamation mark.")
+
+    # Exclamation marks: no generic enthusiasm, at most STRICT_EXCLAMATION_MAX
+    # earned reactions per lesson. Prose only (code-fence contents exempt).
+    in_fence = False
+    exclamations: list[int] = []
+    for line_num, line in enumerate(text.splitlines(), start=1):
+        stripped = line.strip()
+        if stripped.startswith("```") or stripped.startswith("~~~"):
+            in_fence = not in_fence
+            continue
+        if in_fence or "<!--" in line:
+            continue
+        if "!" in line:
+            exclamations.append(line_num)
+    for line_num in exclamations[STRICT_EXCLAMATION_MAX:]:
+        errors.append(
+            f"{rel}:{line_num}: error: exclamation mark beyond the cap of {STRICT_EXCLAMATION_MAX} "
+            f"(each one must be a genuine reaction; generic enthusiasm is banned)."
+        )
+
+    # Housekeeping scaffolding reads as system-generated, not authored. The app
+    # no longer renders any of it (owner direction, 2026-09-10), so an authored
+    # occurrence is always a defect, fences included.
+    housekeeping_patterns = (
+        (re.compile(r"show (?:the )?diagram source", re.IGNORECASE), "diagram-source reveal"),
+        (re.compile(r"checked for accuracy", re.IGNORECASE), "accuracy stamp"),
+        (re.compile(r"^END OF [A-Z]", re.MULTILINE), "END OF phase marker"),
+        (re.compile(r"^NEXT: [A-Z]", re.MULTILINE), "NEXT phase marker"),
+        (re.compile(r"STOP HERE", re.IGNORECASE), "stop-here line"),
+    )
+    for pattern, label in housekeeping_patterns:
+        for m in pattern.finditer(text):
+            line_num = text.count("\n", 0, m.start()) + 1
+            errors.append(f"{rel}:{line_num}: error: housekeeping text ({label}) reads as system-generated; cut it.")
 
     prose = _extract_prose(text)
     sentences = _sentences(prose)
-    for i, sent in enumerate(sentences, start=1):
-        wc = len(sent.split())
-        if wc > STRICT_SENTENCE_MAX:
-            preview = sent[:90] + ("..." if len(sent) > 90 else "")
-            errors.append(f'{rel}: error: sentence {i} has {wc} words (limit {STRICT_SENTENCE_MAX}): "{preview}"')
+    # No per-sentence word cap in strict mode: readability binds in aggregate
+    # (FK below), so sentence rhythm is free to vary (content/STYLE.md).
 
     if sentences:
         words = prose.split()

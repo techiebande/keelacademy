@@ -6,7 +6,6 @@ import {
   assertValidUnitId,
   loadCurriculumMap,
   loadUnit,
-  oldestVerified,
   type MapModule,
   type MapPhase,
   type Unit,
@@ -350,12 +349,7 @@ export default async function UnitPage(props: Props) {
       />
       <ResumeBanner unitId={yaml.id} />
       <ReadingTracker unitId={yaml.id} phases={script.phases} />
-      <UnitScript
-        phases={script.phases}
-        preamble={script.preamble}
-        slots={slots}
-        checked={oldestVerified(yaml.last_verified)}
-      />
+      <UnitScript phases={script.phases} preamble={script.preamble} slots={slots} />
       {/*
         The designed exit (lesson-flow spec U1), only for script units: it sits
         after this throw-guarded point, so a fixed-layout unit can never reach

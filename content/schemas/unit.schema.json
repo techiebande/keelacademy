@@ -10,7 +10,6 @@
     "phase",
     "est_hours",
     "prereq_units",
-    "last_verified",
     "learn",
     "practice",
     "build",
@@ -43,19 +42,9 @@
       "type": "array",
       "items": { "$ref": "#/$defs/unitId" }
     },
-    "last_verified": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["concept_core", "applied_context", "tool_specifics"],
-      "properties": {
-        "concept_core": { "$ref": "#/$defs/date" },
-        "applied_context": { "$ref": "#/$defs/date" },
-        "tool_specifics": { "$ref": "#/$defs/date" }
-      }
-    },
     "learn": {
       "type": "string",
-      "description": "Path to the MDX lesson with concept_core / applied_context / tool_specifics sections"
+      "description": "Path to the unit-script lesson (six ::: phase blocks)"
     },
     "practice": {
       "type": "object",
@@ -179,10 +168,6 @@
     "unitId": {
       "type": "string",
       "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
-    },
-    "date": {
-      "type": "string",
-      "format": "date"
     }
   }
 }

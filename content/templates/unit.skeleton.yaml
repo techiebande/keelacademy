@@ -3,10 +3,6 @@ id: "<id>"
 phase: <N>
 est_hours: <number>
 prereq_units: [<"id", ...>]
-last_verified:
-  concept_core: <YYYY-MM-DD>
-  applied_context: <YYYY-MM-DD>
-  tool_specifics: <YYYY-MM-DD>
 learn: learn.md
 practice:
   worked_example: worked-example/

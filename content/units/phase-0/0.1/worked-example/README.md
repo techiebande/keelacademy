@@ -1,65 +1,70 @@
 # Worked example: a client brief for Apex Freight Logistics
 
-This page shows a finished client brief. A client brief is a short paper that says what a company does today and what it should do instead. Read it once, then read the notes below it. Next, you will write the same kind of brief for OmniCart.
+This page shows a finished client brief for Apex Freight Logistics.
+A client brief explains what a business does today and what it needs instead.
+Read this brief first.
+You will write a matching brief for your own client next.
 
-This page already has a top title, so the brief's own headings sit one level lower than yours will.
+This page already has a top title.
+The brief headings below sit one level lower than your headings will sit.
 
 ## Apex Freight Logistics: Client Brief
 
 ### The problem
 
-Apex checks about 3,500 carrier document packages each month from 300 trucking companies. Each package waits 2 to 3 days before a person reads it. While it waits, Apex cannot pay a fair bill or fight a wrong one.
+Apex Freight Logistics checks about 3,500 carrier packages each month across 300 carriers in Indianapolis.
+Each package waits 2 to 3 days before a person reads it.
+While it waits, Apex cannot pay fair bills or dispute wrong charges.
 
 ### Who cares and why
 
-- Marcus Bell, Director of Carrier Operations, wants every package checked in under 1 hour and no package lost.
-- Priya Nair, Controller, wants every payment tracked in whole cents, such as 12500 cents. She also wants a record no one can change.
-- Dana Okafor, Claims and Compliance Lead, wants every damage claim to follow the contract rules and to have photo proof.
+- Marcus Bell, Operations Lead, wants package review cut from 2 days to under 1 hour.
+- Priya Nair, Controller, wants carrier payouts tracked to integer cents with records that cannot change.
+- Dana Okafor, Compliance Lead, wants detention pay rules and damage standards enforced fairly with proof.
 
 ### How it works today
 
-1. A trucking company sends a package of papers with an invoice id, such as INV-30417.
-2. The package sits in a shared inbox for 2 to 3 days.
-3. A clerk opens it and reads the rate sheet, the bill of lading, and the driver's wait log.
-4. The clerk finds the delivery record, such as DEL-77120, and checks the dates by hand.
-5. If there is a damage claim, such as CLM-10422, the clerk hunts through email for the photos.
-6. The clerk types the amount into a spreadsheet, often as dollars with rounding, so 125.00 becomes 125.
-7. A manager signs off, and Apex pays the trucking company or sends a dispute letter.
+1. A carrier delivers freight and sends an invoice package with invoice id INV-30417.
+2. The package waits in a shared email inbox for 2 to 3 days.
+3. A clerk opens the rate confirmation and matches it against the bill of lading.
+4. The clerk reads the driver detention log and checks delivery record DEL-77120 by hand.
+5. If the carrier files a damage claim like CLM-10422, the clerk searches email for photos.
+6. The clerk reads the carrier invoice and types numbers into a spreadsheet using rounded dollars.
+7. A manager signs off, and Apex pays the carrier or sends a dispute letter.
 
 ### How it should work
 
-1. A trucking company sends a package with its invoice id, such as INV-30417.
-2. Within minutes, Apex logs the package with a time stamp that no one can change.
-3. Apex pulls every number from the papers and stores it in whole cents, so 125.00 dollars becomes 12500 cents.
-4. Apex matches the rate, the delivery dates on DEL-77120, and any claim like CLM-10422 against the contract.
-5. Clean packages are approved and paid within 1 hour of arrival.
-6. Packages with a mismatch, a missing photo, or a claim over 50000 cents go to a reviewer. The reviewer is a person.
-7. The reviewer decides to pay or to dispute. The decision goes into the permanent record with the reviewer's name.
-
-Every step above names who acts and what they hold. The whole brief stays under 500 words. It says what should happen, not what tool does it.
+1. A carrier sends an invoice package with invoice id INV-30417.
+2. A clerk logs the package at once with a record that nobody can change.
+3. The clerk checks the rate confirmation against the bill of lading and delivery record DEL-77120.
+4. The clerk records all detention fees as integer cents, such as 12500 cents.
+5. Clean packages with matching bills are approved and paid in under 1 hour.
+6. Packages with missing photos or damage claims like CLM-10422 go to a human reviewer.
+7. The human reviewer verifies the carrier invoice, resolves disputes, and logs the final decision.
 
 ### Why this part passes: The problem
 
-- It gives the size of the work with real numbers: "3,500 carrier document packages each month" and "300 trucking companies". This meets the rule that the problem must be measured, not vague.
-- It names the pain in plain words. See "waits 2 to 3 days" and "cannot pay a fair bill or fight a wrong one". This meets the rule that the problem must say who is hurt and how.
-- It is exactly three sentences. This meets the three sentence limit.
+- "about 3,500 carrier packages each month across 300 carriers". This meets the rule to measure the work with real numbers.
+- "Each package waits 2 to 3 days before a person reads it". This meets the rule to state the delay clearly.
+- The section contains exactly three sentences. This meets the rule to keep the problem statement to three sentences or fewer.
 
 ### Why this part passes: Who cares and why
 
-- Each line names one person, their job, and one wish. This meets the rule of one line per leader.
-- The three wishes are different: speed for Marcus Bell, exact money for Priya Nair, rules and proof for Dana Okafor. This meets the rule that the three must not repeat each other.
-- Priya's line uses "12500 cents". This meets the rule that money appears at least once in whole cents.
+- The section names Marcus Bell, Priya Nair, and Dana Okafor. This meets the rule to name three stakeholders.
+- Each person wants a different goal. Marcus wants speed, Priya wants exact accounting, and Dana wants fair rules.
+- "integer cents with records that cannot change". This meets the rule to demand whole cents and unchangeable records.
 
 ### Why this part passes: How it works today
 
-- The steps start at "sends a package of papers". They end at "pays the trucking company or sends a dispute letter". This meets the rule that the story runs from first request to final payment or refusal.
-- There are seven numbered steps. This meets the rule of 4 to 7 steps.
-- Step 3 and step 4 name the papers the clerk reads. They are the rate sheet, the bill of lading, the wait log, and the delivery record. This meets the rule that the papers are named, not called "the files".
-- Step 6 shows the exact weak spot, "often as dollars with rounding". This gives the next section something concrete to fix.
+- The section lists seven numbered steps. This meets the rule to write 4 to 7 steps.
+- The steps start at "sends an invoice package" and end at "pays the carrier or sends a dispute letter". This meets the rule to trace the full flow.
+- The steps name rate confirmations, bills of lading, driver detention logs, damage claims, and carrier invoices. This meets the rule to name specific papers.
+- "types numbers into a spreadsheet using rounded dollars". This meets the rule to show where the current way fails.
 
 ### Why this part passes: How it should work
 
-- It keeps the same start and end as the section above. A reader can compare the two side by side. This meets the rule that both stories share the same first and last step.
-- Step 6 sends hard cases "to a reviewer, who is a person". This meets the rule that a person still reviews hard cases.
-- Step 3 fixes the rounding bug with "12500 cents". Step 2 and step 7 give Priya her record "no one can change". Each leader's wish is answered somewhere.
-- No step names a tool. Every step says what happens, not how it is done. This meets the rule against technology words.
+- The steps keep the same first and last steps as the current process. This meets the rule to compare both flows directly.
+- "in under 1 hour". This meets the rule to state a measurable target time.
+- "integer cents, such as 12500 cents". This meets the rule to record money in whole integer cents.
+- "go to a human reviewer". This meets the rule to keep a person on hard cases.
+- No step names any technical tools. This meets the rule to describe business actions instead of tools.

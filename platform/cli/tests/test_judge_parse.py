@@ -38,7 +38,7 @@ def criteria_payload(rubric: dict, verdict: str = "pass") -> list[dict]:
 
 @pytest.fixture()
 def submission_dir(tmp_path: Path) -> Path:
-    (tmp_path / "brief.md").write_text("OmniCart gets 400 return requests a month.")
+    (tmp_path / "brief.md").write_text("Lantern Home gets 3,000 customer messages a month.")
     (tmp_path / "grade.yaml").write_text("answers: never shown to the model")
     return tmp_path
 

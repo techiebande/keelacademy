@@ -169,7 +169,7 @@ ON CONFLICT DO NOTHING;
 
 -- Gallery Projects
 INSERT INTO gallery_projects (student_id, unit_id, submission_id, title, description, repo_url, demo_url, published) VALUES
-    (1, '3.2.1', 2, 'Few-Shot OmniCart Extractor', 'Clean few-shot extractor with strict Pydantic parsing and robust XML delimiters.', 'https://github.com/alice/keel-3.2.1', 'https://demo.omnicart.test/alice', true)
+    (1, '3.2.1', 2, 'Few-Shot Lantern Home Extractor', 'Clean few-shot extractor with strict Pydantic parsing and robust XML delimiters.', 'https://github.com/alice/keel-3.2.1', 'https://demo.omnicart.test/alice', true)
 ON CONFLICT (student_id, unit_id) DO NOTHING;
 
 -- Simulations

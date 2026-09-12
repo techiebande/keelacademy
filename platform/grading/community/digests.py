@@ -53,7 +53,7 @@ CURRICULUM_UNITS = [
     {"id": "4.2", "phase": 4, "title": "Peer Accountability Pods"},
     {"id": "4.3", "phase": 4, "title": "Weekly Retention Digest"},
     {"id": "5.1", "phase": 5, "title": "Phase 5 Multi-Agent Triage Gate"},
-    {"id": "12.1", "phase": 12, "title": "OmniCart Operations Capstone"},
+    {"id": "12.1", "phase": 12, "title": "Lantern Home Capstone"},
 ]
 
 CURRICULUM_MAP = {u["id"]: u for u in CURRICULUM_UNITS}

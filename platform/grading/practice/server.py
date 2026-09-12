@@ -299,17 +299,22 @@ def get_unit_learn_text(unit_id: str) -> str:
     learn_rel = unit_data.get("learn")
     if not learn_rel:
         raise RuntimeError(f"learn path not declared for unit {unit_id}")
-    # unit-local first (the unit.yaml convention), then content root; a leading
-    # "content/" prefix is tolerated either way.
+    # A unit taught over several chapters lists them; the judge reads them all,
+    # in order, as one text. Unit-local first (the unit.yaml convention), then
+    # content root; a leading "content/" prefix is tolerated either way.
     unit_dir = matches[0].parent
-    rel = learn_rel.removeprefix("content/")
-    learn_path = next(
-        (c for c in (unit_dir / rel, root / rel) if c.is_file()),
-        None,
-    )
-    if learn_path is None:
-        raise RuntimeError(f"learn file not found: {learn_rel}")
-    return strip_script_markers(learn_path.read_text(encoding="utf-8"))
+    chapter_refs = learn_rel if isinstance(learn_rel, list) else [learn_rel]
+    texts: list[str] = []
+    for ref in chapter_refs:
+        rel = str(ref).removeprefix("content/")
+        learn_path = next(
+            (c for c in (unit_dir / rel, root / rel) if c.is_file()),
+            None,
+        )
+        if learn_path is None:
+            raise RuntimeError(f"learn file not found: {ref}")
+        texts.append(strip_script_markers(learn_path.read_text(encoding="utf-8")))
+    return "\n\n".join(texts)
 
 
 def get_retrieval_prompt_text(unit_id: str) -> str:

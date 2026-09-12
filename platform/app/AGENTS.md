@@ -45,9 +45,9 @@ them before writing any stylesheet or any copy. In short:
   phases.yaml) keep authored casing; lowercase technical values (exit codes,
   check types) render as code.
 
-**The anchor client is OmniCart Operations**, a multi-brand e-commerce retailer
+**The anchor client is Lantern Home**, a multi-brand e-commerce retailer
 and marketplace fulfillment hub; the domain is customer return intake, courier
-delivery reconciliation, and merchant dispute triage. OmniCart and Meridian Mutual
+delivery reconciliation, and merchant dispute triage. Lantern Home and Meridian Mutual
 are retired and must not be reintroduced.
 
 Also binding:
@@ -84,7 +84,7 @@ know before touching `lib/content.ts`, the unit renderer, or a
   2026-09-10). The three-key freshness model (`concept_core` /
   `applied_context` / `tool_specifics`) and the `Checked for accuracy` line
   it fed were removed from the schema, the renderer, and every template; do
-  not reintroduce them. Heading count is free per `content/STYLE.md`.
+  not reintroduce them. Heading count is free per `content/WRITING.md`.
 - **The renderer understands three authored markers**, and treats anything
   else as prose: `> **Gotcha: <title>**`, a
   `> **Predict, then check.**` blockquote whose answer is the paragraph
@@ -93,7 +93,7 @@ know before touching `lib/content.ts`, the unit renderer, or a
   scratch box above them, so predict-then-check is possible to follow.
   Writing an answer as plain prose under a prompt un-teaches the beat.
   The two blockquote forms (`Gotcha:`, `Predict, then check.`) are banned
-  from new authoring (owner direction, 2026-09-06; `docs/voice.md`); the
+  from new authoring (owner direction, 2026-09-06; `content/WRITING.md`); the
   parser still understands them, and the checkpoint and answer-reveal
   machinery they share is still live apparatus.
 - **The reading measure is `--lesson-measure` (35em), not `ch`, and not on
@@ -127,7 +127,7 @@ the app owns structure, data and state.** Full rationale in the repo-root
     emits, because `SECTION_ANCHORS`, every `#learn` style anchor and the
     demo greps key off those ids. `ask` maps to the `concierge` id.
   - `::: <slot>` injects apparatus. The slot names are `route`,
-    `worked-example`, `workbench`, `retrieval`, `deliverable`,
+    `assignment`, `workbench`, `retrieval`, `deliverable`,
     `submission`, `prove-it`, `grading-modes`, `checks`, `rubric`,
     `unstuck`, `ask`. The list lives in `SCRIPT_SLOTS`; the React for each
     one lives in the `slots` record in `app/units/[unitId]/page.tsx`, so

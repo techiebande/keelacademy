@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Curriculum",
   description:
-    "Every phase from engineering foundations through deployed AI systems, taught by building one invoice reconciliation and dispute triage pipeline end to end.",
+    "Every phase from engineering foundations through deployed AI systems, taught by building one invoice reconciliation and case triage pipeline end to end.",
 };
 
 export default function CurriculumPage() {
@@ -29,7 +29,7 @@ export default function CurriculumPage() {
         </h1>
         <p className="lead mt-5">
           Here is the whole route before you pay for step one. You build an
-          return reconciliation and dispute triage pipeline for OmniCart
+          return reconciliation and case triage pipeline for Lantern Home
           Operations, a simulated B2B wholesale distributor with messy
           real-world data. Each phase adds a part the pipeline needs to run.
           Python and APIs first. Then models, prompts, retrieval, and agents.

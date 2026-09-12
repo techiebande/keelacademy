@@ -8,7 +8,7 @@ The learner app uses the dark engineering-console design language documented in 
 - **Typography**: Space Grotesk / Goga for display headings, Inter for UI text, and Fira Mono for code and data. Measure adheres to `--lesson-measure: 35em` for long-form lesson prose.
 - **Components & Layout**: Tailwind CSS v4 `@theme` tokens and semantic component utility classes in `app/globals.css` (`.btn`, `.card-dark`, `.chip`, `.data-table`, `.field-input`, `.lesson-prose`, `.shell`, `.section`).
 - **Copy Direction**: Precise engineer-to-engineer voice, plain declarative sentences, active voice. Zero em/en-dashes and zero exclamation marks across student-facing UI copy. Automated grading is honestly described as automated checks and rubric review (never human reviewers or fake AI hype).
-- **Anchor Domain**: OmniCart Operations (multi-brand e-commerce retailer return reconciliation and dispute triage).
+- **Anchor Domain**: Lantern Home (multi-brand e-commerce retailer return reconciliation and case triage).
 - **Accessibility**: Strict WCAG 2.2 AA compliance across all surfaces. Automated static accessibility checks run via `scripts/a11y-static.mjs`.
 
 ## Getting Started

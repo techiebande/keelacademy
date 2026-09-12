@@ -16,7 +16,7 @@ A lesson is a chapter, and a chapter has whatever shape its material needs. Ther
 
 **It builds the thing in front of the reader, a few lines at a time.** You write two to twelve lines, you say what they do and why they are there, the reader sees them run, and only then do you write the next piece. If a program is forty lines long by the end, the reader has seen and understood every one of those forty lines before they see the whole file. The whole file appears once, at the end, so they have something to compare their own against.
 
-**It shows before it names.** The reader sees `name = "Amara"` and watches it work before the word *variable* appears. Then the word appears, in the same sentence or the next, and from then on you use that word and no other. Never "variable" in one paragraph and "identifier" or "binding" in the next. Beginners cannot tell a synonym from a new concept.
+**It shows before it names.** The reader sees `name = "Sarah"` and watches it work before the word *variable* appears. Then the word appears, in the same sentence or the next, and from then on you use that word and no other. Never "variable" in one paragraph and "identifier" or "binding" in the next. Beginners cannot tell a synonym from a new concept.
 
 **It says what the computer does.** When you show `count = count + 1`, you say what actually happens: Python works out the right-hand side first, using the value `count` has right now, and then stores the result under the name `count`, replacing what was there. You say this even though it seems obvious to you, because it is not obvious to someone who has spent their life reading `=` as "equals". Most beginner bugs come from a wrong picture of what the machine does with a line. Give them the right picture, every time a new kind of line appears.
 
@@ -25,7 +25,7 @@ A lesson is a chapter, and a chapter has whatever shape its material needs. Ther
 ```html
 <details><summary>What do you think this prints?</summary>
 
-`Amara Osei`, with a space, because `print` puts a space between the things you give it.
+`Sarah Johnson`, with a space, because `print` puts a space between the things you give it.
 
 </details>
 ```
@@ -58,7 +58,7 @@ Write the way a careful person talks when they are explaining something they und
 
 A code block is two to twelve lines when you are introducing something. The sentence before it says what to look at. The sentences after it say what happened, if that is not obvious from the output.
 
-Output goes in its own block, fenced as `text`, immediately after the code that produced it, exactly as the terminal shows it. If you run `python3 read_message.py` and the terminal prints `Order 48213 from Amara Osei`, that is what the block contains. Not a paraphrase, not a tidied version. The tool `content/tools/run-lesson-code.py` will run your Python blocks and compare; if they disagree, the lesson is wrong.
+Output goes in its own block, fenced as `text`, immediately after the code that produced it, exactly as the terminal shows it. If you run `python3 read_message.py` and the terminal prints `Order 48213 from Sarah Johnson`, that is what the block contains. Not a paraphrase, not a tidied version. The tool `content/tools/run-lesson-code.py` will run your Python blocks and compare; if they disagree, the lesson is wrong.
 
 Name things the way you want the reader to name things. `message_text`, not `s`. `order_number`, not `x`. The code in the chapter is the reader's model of what good code looks like.
 

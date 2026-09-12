@@ -6,11 +6,11 @@ Lantern Home is an online shop that sells household goods. Around three thousand
 
 ## Who cares, and what done means to each of them
 
-Amara Osei owns the shop. For her, done means a customer with an ordinary problem gets a correct answer within an hour, and she does not have to hire another eight people to make that happen. Anything slow is a failure to Amara, however careful it is.
+Sarah Johnson owns the shop. For her, done means a customer with an ordinary problem gets a correct answer within an hour, and she does not have to hire another eight people to make that happen. Anything slow is a failure to Sarah, however careful it is.
 
-Wei Zhang keeps the books. Every refund is money leaving the company that he has to account for. Done, for Wei, means that every decision is written down with what it was based on (the message, the order, the delivery record, the rule, who decided and when) and that record can never be quietly changed afterwards. A fast system that wrote nothing down would be worse than what exists now.
+Michael Brown keeps the books. Every refund is money leaving the company that he has to account for. Done, for Michael, means that every decision is written down with what it was based on (the message, the order, the delivery record, the rule, who decided and when) and that record can never be quietly changed afterwards. A fast system that wrote nothing down would be worse than what exists now.
 
-Rosa Delgado runs the support team and wrote the rulebook. Done, for Rosa, means the rules are applied the same way to every customer no matter who is on shift, and any case the rules do not clearly cover reaches a person before anything is paid. She would refuse a system that decided the hard cases by itself, however fast or well recorded.
+Rachel Smith runs the support team and wrote the rulebook. Done, for Rachel, means the rules are applied the same way to every customer no matter who is on shift, and any case the rules do not clearly cover reaches a person before anything is paid. She would refuse a system that decided the hard cases by itself, however fast or well recorded.
 
 ## How a message is handled today
 

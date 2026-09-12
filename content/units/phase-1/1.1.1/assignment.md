@@ -2,7 +2,7 @@
 
 The chapter built `read_message.py` in front of you. The assignment gives you the same program with one piece taken out, the piece that finds the order number, and asks you to write it.
 
-In `starter/` you will find `read_message.py`. It already opens Fatima's message, splits it into lines, pulls the email address off the first line, and prints both values at the end. Between those parts is a gap, marked by a comment and a line that sets `order_number` to an empty string. Replace that line with the two lines that do the real work: ask the text where the word `order` starts, and slice out the five characters that begin six characters after that.
+In `starter/` you will find `read_message.py`. It already opens Emily's message, splits it into lines, pulls the email address off the first line, and prints both values at the end. Between those parts is a gap, marked by a comment and a line that sets `order_number` to an empty string. Replace that line with the two lines that do the real work: ask the text where the word `order` starts, and slice out the five characters that begin six characters after that.
 
 Do not type `48213` into the program. The point is that the program finds it. When you have it working on `M-1041.txt`, change the path to `M-1043.txt` and `M-1045.txt` and make sure the number changes with it. Then change it back to `M-1041.txt`, because that is the message the checks use, and submit.
 
@@ -10,7 +10,7 @@ Do not type `48213` into the program. The point is that the program finds it. Wh
 
 Four checks run against your file, and the result names each one.
 
-`prints-email` runs your program and looks for the line `From: fatima.alsayed@example.com`. The starter already does this, so if it fails, something in the part you did not change has been disturbed. Compare against the chapter's final listing.
+`prints-email` runs your program and looks for the line `From: emily.carter@example.com`. The starter already does this, so if it fails, something in the part you did not change has been disturbed. Compare against the chapter's final listing.
 
 `prints-order-number` runs your program and looks for `Order: 48213`. This is the one your two lines have to earn.
 

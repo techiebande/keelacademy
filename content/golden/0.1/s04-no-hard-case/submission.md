@@ -6,11 +6,11 @@ Lantern Home is an online shop that sells household goods. Around three thousand
 
 ## Who cares, and what done means to each of them
 
-Amara Osei owns the shop. For her, done means a customer with an ordinary problem gets a correct answer within an hour, and she does not have to hire another eight people to make that happen. Anything slow is a failure to Amara, however careful it is.
+Sarah Johnson owns the shop. For her, done means a customer with an ordinary problem gets a correct answer within an hour, and she does not have to hire another eight people to make that happen. Anything slow is a failure to Sarah, however careful it is.
 
-Wei Zhang keeps the books. Every refund is money leaving the company that he has to account for. Done, for Wei, means that every decision is written down with what it was based on (the message, the order, the delivery record, the rule, who decided and when) and that record can never be quietly changed afterwards. A fast system that wrote nothing down would be worse than what exists now.
+Michael Brown keeps the books. Every refund is money leaving the company that he has to account for. Done, for Michael, means that every decision is written down with what it was based on (the message, the order, the delivery record, the rule, who decided and when) and that record can never be quietly changed afterwards. A fast system that wrote nothing down would be worse than what exists now.
 
-Rosa Delgado runs the support team and wrote the rulebook. Done, for Rosa, means the rules are applied the same way to every customer no matter who is on shift, and any case the rules do not clearly cover reaches a person before anything is paid. She would refuse a system that decided the hard cases by itself, however fast or well recorded.
+Rachel Smith runs the support team and wrote the rulebook. Done, for Rachel, means the rules are applied the same way to every customer no matter who is on shift, and any case the rules do not clearly cover reaches a person before anything is paid. She would refuse a system that decided the hard cases by itself, however fast or well recorded.
 
 ## How a message is handled today
 
@@ -20,9 +20,9 @@ Rosa Delgado runs the support team and wrote the rulebook. Done, for Rosa, means
 4. The agent looks up the courier's delivery record for that order.
 5. If damage is claimed, the agent looks for the photo.
 6. The agent finds the rules that apply and works out what the customer is entitled to.
-7. The agent decides, writes back, and adds a row to the decisions spreadsheet. Anything unclear is passed to Rosa, who has her own queue.
+7. The agent decides, writes back, and adds a row to the decisions spreadsheet. Anything unclear is passed to Rachel, who has her own queue.
 
-The waiting comes mostly from the pile, not the twenty minutes: unanswered customers write again, missing information stops a case for a day, and Rosa's queue is long.
+The waiting comes mostly from the pile, not the twenty minutes: unanswered customers write again, missing information stops a case for a day, and Rachel's queue is long.
 
 ## How a message should be handled
 

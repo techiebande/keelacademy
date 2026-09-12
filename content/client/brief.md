@@ -8,19 +8,19 @@ Lantern started eleven years ago as one shop on a busy street and now sells only
 
 Every month, roughly three thousand customers write to Lantern with a problem. "My parcel has not arrived." "The kettle came with a cracked lid." "You sent me a blue bedsheet and I ordered grey." "I want my money back." The messages arrive by email and through a form on the website, and they land in one shared inbox.
 
-A support agent, say Tunde, opens the next message. He reads it. He finds the order number in it, if the customer included one, and looks the order up. He opens the courier's delivery record to see when the parcel was delivered and who signed for it. If the customer says something is broken, he looks for the photo. He opens the rulebook, a document of about forty rules the team has built up over the years, and works out what the customer is entitled to. He decides: refund, resend, ask for more information, or say no. He writes back. He records the decision in a spreadsheet.
+A support agent, say James Miller, opens the next message. He reads it. He finds the order number in it, if the customer included one, and looks the order up. He opens the courier's delivery record to see when the parcel was delivered and who signed for it. If the customer says something is broken, he looks for the photo. He opens the rulebook, a document of about forty rules the team has built up over the years, and works out what the customer is entitled to. He decides: refund, resend, ask for more information, or say no. He writes back. He records the decision in a spreadsheet.
 
 That takes him about twenty minutes when everything is where it should be, and much longer when it is not. With three thousand messages a month and eight agents, a message waits two to three days before anyone opens it. Customers write again to ask why nobody has answered, which adds more messages to the pile. About one refund in fifty is later found to be wrong: too much paid, or paid twice, or paid against the rules.
 
 ## The people
 
-**Amara Osei** owns Lantern. She started the shop and still knows most of the warehouse staff by name. What she wants is simple to say: a customer with a problem should get an answer within an hour, not within three days, and she does not want to hire eight more agents to get there. She is the person who will decide whether to pay for what you build.
+**Sarah Johnson** owns Lantern. She started the shop and still knows most of the warehouse staff by name. What she wants is simple to say: a customer with a problem should get an answer within an hour, not within three days, and she does not want to hire eight more agents to get there. She is the person who will decide whether to pay for what you build.
 
-**Wei Zhang** keeps the books. Every refund is money leaving the company, and he has to explain every one of them to the tax office and to Amara. He wants every decision written down in a way that cannot quietly change afterwards: who decided, when, how much, and why. If your system pays a refund, Wei needs to be able to find that refund a year later and see exactly what it was based on.
+**Michael Brown** keeps the books. Every refund is money leaving the company, and he has to explain every one of them to the tax office and to Sarah. He wants every decision written down in a way that cannot quietly change afterwards: who decided, when, how much, and why. If your system pays a refund, Michael needs to be able to find that refund a year later and see exactly what it was based on.
 
-**Rosa Delgado** runs the support team. She wrote most of the rulebook. She wants the rules applied the same way to every customer, whoever is on shift. She also knows that some cases are genuinely hard, a customer whose story does not quite match the records, a photo that could show old damage or new, and she does not want any system deciding those on its own. Hard cases should reach a person. Easy cases should not.
+**Rachel Smith** runs the support team. She wrote most of the rulebook. She wants the rules applied the same way to every customer, whoever is on shift. She also knows that some cases are genuinely hard, a customer whose story does not quite match the records, a photo that could show old damage or new, and she does not want any system deciding those on its own. Hard cases should reach a person. Easy cases should not.
 
-You will meet all three again and again. When a lesson says "Wei would want this written down", it means exactly what it says here.
+You will meet all three again and again. When a lesson says "Michael would want this written down", it means exactly what it says here.
 
 ## What Lantern has
 
@@ -35,12 +35,12 @@ Prices are written as plain numbers, like `45.00`. Lantern sells in one country 
 
 ## What "better" means
 
-Amara, Wei and Rosa each answer that question differently, and a system that satisfies only one of them will not be bought.
+Sarah, Michael and Rachel each answer that question differently, and a system that satisfies only one of them will not be bought.
 
-For Amara: a customer whose case is straightforward gets a correct answer in under an hour.
+For Sarah: a customer whose case is straightforward gets a correct answer in under an hour.
 
-For Wei: every decision is recorded with what it was based on, and no record is ever edited after the fact.
+For Michael: every decision is recorded with what it was based on, and no record is ever edited after the fact.
 
-For Rosa: the rules are applied consistently, and every case the rules do not clearly cover reaches a human being before anything is paid.
+For Rachel: the rules are applied consistently, and every case the rules do not clearly cover reaches a human being before anything is paid.
 
 Over the course you will build, piece by piece, a system that reads a customer message, finds the order and the delivery record, checks the rulebook, decides what the customer is entitled to when the rules are clear, hands the case to a person when they are not, and writes down everything it did. Phase 1 starts with the smallest possible piece of that: a program that reads one message file and pulls out the order number.

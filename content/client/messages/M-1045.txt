@@ -1,4 +1,4 @@
-From: lan.nguyen@example.com
+From: sophie.harris@example.com
 Received: 2026-09-06 14:20
 Subject: pot set damaged
 

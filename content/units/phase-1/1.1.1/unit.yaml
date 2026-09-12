@@ -8,11 +8,11 @@ assignment: assignment.md
 practice:
   retrieval_seeds:
     - "When Python runs a program file, in what order does it carry out the lines, and what happens to the rest of the program when one line fails?"
-    - "What does the = sign do in a line like customer = \"Fatima\", and why is reading it as 'equals' misleading?"
+    - "What does the = sign do in a line like customer = \"Emily\", and why is reading it as 'equals' misleading?"
     - "What is the difference between print(customer) and print(\"customer\")?"
     - "What does text[0:5] give you, and why is the character at position 5 not included?"
     - "What does text.find(\"order\") give back when the word is not in the text, and why is that dangerous when you slice with it afterwards?"
-    - "Why did the program print 'd GRE' as the order number for Joseph's message? What did find actually match?"
+    - "Why did the program print 'd GRE' as the order number for Daniel's message? What did find actually match?"
     - "What does the with ... as file: line do for you when the indented lines underneath it finish?"
   completion_problem:
     base: starter/

@@ -1,6 +1,6 @@
 # A program that reads a customer's message
 
-Every one of the three thousand messages Lantern receives each month starts the same way for Tunde: he opens it and finds the order number, so he can look the order up. Sometimes it is right there in the subject line. Sometimes it is buried in the third sentence. Sometimes it is missing, and he has to go hunting by the customer's email address instead. It is a small, dull job, and he does it three thousand times a month.
+Every one of the three thousand messages Lantern receives each month starts the same way for James Miller: he opens it and finds the order number, so he can look the order up. Sometimes it is right there in the subject line. Sometimes it is buried in the third sentence. Sometimes it is missing, and he has to go hunting by the customer's email address instead. It is a small, dull job, and he does it three thousand times a month.
 
 By the end of this chapter you will have written a program that does that job: it opens one of Lantern's message files, finds the customer's email address and the order number inside it, and prints them. It is about twelve lines long. On the way you will learn what a program actually is, how Python runs one, how it remembers things, how it reads a file, and how it picks pieces out of text. Those four ideas are most of what any program does, so we are going to take them slowly.
 
@@ -33,16 +33,16 @@ That is how every program you will ever write runs: top to bottom, one instructi
 
 ## A name that remembers a value
 
-Programs need to hold on to things. Tunde reads the customer's name off the message and then uses it in his reply; the program will need to do the same, which means it needs a way to keep a value around under a name.
+Programs need to hold on to things. James Miller reads the customer's name off the message and then uses it in his reply; the program will need to do the same, which means it needs a way to keep a value around under a name.
 
 Change `hello.py` so it reads:
 
 ```python title=hello.py
-customer = "Fatima Al-Sayed"
+customer = "Emily Carter"
 print(customer)
 ```
 
-The first line is new. Read it as an instruction, not as a statement of fact: it says "take the string `Fatima Al-Sayed` and remember it under the name `customer`". The `=` sign is doing that remembering. It is not saying two things are equal, the way it does in arithmetic. It is an action: work out whatever is on the right, then store it under the name on the left. Python calls a name like `customer` a *variable*, and from here on so will I.
+The first line is new. Read it as an instruction, not as a statement of fact: it says "take the string `Emily Carter` and remember it under the name `customer`". The `=` sign is doing that remembering. It is not saying two things are equal, the way it does in arithmetic. It is an action: work out whatever is on the right, then store it under the name on the left. Python calls a name like `customer` a *variable*, and from here on so will I.
 
 Before you run it, decide what you expect the second line to print. Then check.
 
@@ -50,7 +50,7 @@ Before you run it, decide what you expect the second line to print. Then check.
 
 ```text
 $ python3 hello.py
-Fatima Al-Sayed
+Emily Carter
 ```
 
 `print(customer)` prints the value stored under the name `customer`, which is the string. There are no quotes around `customer` in that line, and that is the whole difference: `customer` without quotes means "the thing this name refers to". `"customer"` with quotes would mean the six letters c-u-s-t-o-m-e-r, and printing that would print the word `customer`, which is not what we want.
@@ -62,19 +62,19 @@ Try it the other way, so the difference sticks. Change the second line to `print
 A variable can be given a new value. Add two lines:
 
 ```python title=hello.py
-customer = "Fatima Al-Sayed"
+customer = "Emily Carter"
 print(customer)
-customer = "Joseph Mwangi"
+customer = "Daniel Wilson"
 print(customer)
 ```
 
 ```text
 $ python3 hello.py
-Fatima Al-Sayed
-Joseph Mwangi
+Emily Carter
+Daniel Wilson
 ```
 
-The third line stores a new string under the same name, and the old one is gone. Notice what that means about order: the first `print` happened before the reassignment, so it printed the first name. If you moved the third line above the first `print`, both would print Joseph. The variable holds whatever was most recently stored in it, at the moment the line runs. Top to bottom, one line at a time.
+The third line stores a new string under the same name, and the old one is gone. Notice what that means about order: the first `print` happened before the reassignment, so it printed the first name. If you moved the third line above the first `print`, both would print Daniel. The variable holds whatever was most recently stored in it, at the moment the line runs. Top to bottom, one line at a time.
 
 ## Reading the message file
 
@@ -99,17 +99,17 @@ Run it.
 
 ```text
 $ python3 read_message.py
-From: fatima.alsayed@example.com
+From: emily.carter@example.com
 Received: 2026-09-03 09:14
 Subject: Broken kettle lid
 
 Hello,
 I received my kettle yesterday, order 48213. The lid is cracked right across, I have attached a photo. I would like a replacement please or my money back, either is fine.
 Thank you
-Fatima
+Emily
 ```
 
-That is Fatima's message, exactly as it sits in the file, printed by a program you wrote. It is a small moment but it is a real one: your program just read something that was not typed into it.
+That is Emily's message, exactly as it sits in the file, printed by a program you wrote. It is a small moment but it is a real one: your program just read something that was not typed into it.
 
 ## When the file is not where you said
 
@@ -155,7 +155,7 @@ Load the message first, the same way as in the file (the prompt shows `...` whil
 ...     text = file.read()
 ...
 >>> len(text)
-283
+280
 ```
 
 `len` gives the length of a string: this message is 283 characters, counting spaces and the invisible line breaks. Now ask for single characters by position, in square brackets:
@@ -192,20 +192,20 @@ This is called a *slice*, and it is how we will cut the order number out. But to
 
 ```python
 >>> text.find("order")
-127
+125
 ```
 
 `find` searches the string for the piece you give it and tells you the position where it starts. The word `order` begins at position 127 of this message. Check it by slicing:
 
 ```python
->>> text[127:138]
+>>> text[125:136]
 'order 48213'
 ```
 
 Eleven characters starting at 127: `order`, a space, and the five digits. The order number itself starts six characters after the word begins (five letters and a space) and is five digits long. So:
 
 ```python
->>> text[127 + 6:127 + 11]
+>>> text[125 + 6:125 + 11]
 '48213'
 ```
 
@@ -244,7 +244,7 @@ The email address is on the first line, after `From: `. We could find it with `f
 ```python
 >>> lines = text.splitlines()
 >>> lines[0]
-'From: fatima.alsayed@example.com'
+'From: emily.carter@example.com'
 ```
 
 `splitlines` cuts the string at every line break and gives back the pieces as a *list*: an ordered collection of values, which you can ask for by position in the same square brackets. `lines[0]` is the first line. Try `lines[1]` and `lines[2]` and you will get the `Received` and `Subject` lines.
@@ -253,7 +253,7 @@ The first line still has `From: ` at the front. Strings know how to swap one pie
 
 ```python
 >>> lines[0].replace("From: ", "")
-'fatima.alsayed@example.com'
+'emily.carter@example.com'
 ```
 
 `replace` gives back a copy of the string with every occurrence of the first piece replaced by the second. Replacing `From: ` with nothing at all, the empty string `""`, deletes it. The original string is not changed; `replace` hands you a new one, which is why we have to store the result if we want to keep it.
@@ -280,11 +280,11 @@ The last two lines show something new about `print`: you can give it several thi
 
 ```text
 $ python3 read_message.py
-From: fatima.alsayed@example.com
+From: emily.carter@example.com
 Order: 48213
 ```
 
-If you expected `From:fatima.alsayed@example.com` with no space, that is the comma doing its work: `print` puts one space between each of the things you give it.
+If you expected `From:emily.carter@example.com` with no space, that is the comma doing its work: `print` puts one space between each of the things you give it.
 
 </details>
 
@@ -306,9 +306,9 @@ print("From:", email)
 print("Order:", order_number)
 ```
 
-Read it top to bottom the way Python does. Open the file and read its text. Find where `order` is and slice out the five digits after it. Split the text into lines, take the first one, remove the label. Print both. Nine instructions, and it does the first thing Tunde does with every message.
+Read it top to bottom the way Python does. Open the file and read its text. Find where `order` is and slice out the five digits after it. Split the text into lines, take the first one, remove the label. Print both. Nine instructions, and it does the first thing James Miller does with every message.
 
-Try it on another message. Change the path on the first line to Ana Souza's message, the one about returning a desk lamp:
+Try it on another message. Change the path on the first line to Olivia Taylor's message, the one about returning a desk lamp:
 
 ```python title=read_message.py line=1
 with open("messages/M-1043.txt") as file:
@@ -316,7 +316,7 @@ with open("messages/M-1043.txt") as file:
 
 ```text
 $ python3 read_message.py
-From: ana.souza@example.com
+From: olivia.taylor@example.com
 Order: 48231
 ```
 
@@ -328,7 +328,7 @@ with open("messages/M-1045.txt") as file:
 
 ```text
 $ python3 read_message.py
-From: lan.nguyen@example.com
+From: sophie.harris@example.com
 Order: 48237
 ```
 
@@ -336,23 +336,23 @@ The program does not care where in the message the word `order` is, because it a
 
 ## Where this breaks
 
-Now point it at Joseph Mwangi's message about blue bedsheets:
+Now point it at Daniel Wilson's message about blue bedsheets:
 
 ```python title=read_message.py line=1
 with open("messages/M-1042.txt") as file:
 ```
 
-Before you run it, open `messages/M-1042.txt` in your editor, read what Joseph wrote, and guess what the program will print for the order number.
+Before you run it, open `messages/M-1042.txt` in your editor, read what Daniel wrote, and guess what the program will print for the order number.
 
 <details><summary>What it prints</summary>
 
 ```text
 $ python3 read_message.py
-From: jmwangi@example.com
+From: daniel.wilson@example.com
 Order: d GRE
 ```
 
-Joseph wrote "i ordered GREY bedsheets". The word `ordered` contains the word `order`, so `find` stopped there, at the first match, and our slice cut five characters out of the middle of `ordered GREY`. The real order number, 48220, is in the next sentence, after the phrase "order number is". Our program has no way to know that the first `order` was the wrong one.
+Daniel wrote "i ordered GREY bedsheets". The word `ordered` contains the word `order`, so `find` stopped there, at the first match, and our slice cut five characters out of the middle of `ordered GREY`. The real order number, 48220, is in the next sentence, after the phrase "order number is". Our program has no way to know that the first `order` was the wrong one.
 
 </details>
 
@@ -370,6 +370,6 @@ Order:  ivan
 
 Ivan wrote `Order 48244` with a capital O, and `find` is looking for a lower-case `order`. It finds nothing and gives back `-1`. Then `position + 6` is `5` and `position + 11` is `10`, and `text[5:10]` is the five characters starting at position 5 of the message: the space after `From:` and the first four letters of Ivan's email address. The program prints that as the order number. No error, no traceback. Just a wrong answer, delivered with confidence.
 
-That last kind of failure is the one you should be most afraid of, and it is the reason this course spends so long on checking things. A program that crashes tells you. A program that prints ` ivan` where an order number should be tells you nothing, and if that value went into the decisions spreadsheet, Wei would find it a year later and want to know how.
+That last kind of failure is the one you should be most afraid of, and it is the reason this course spends so long on checking things. A program that crashes tells you. A program that prints ` ivan` where an order number should be tells you nothing, and if that value went into the decisions spreadsheet, Michael would find it a year later and want to know how.
 
 Fixing this properly needs two things the program cannot yet do: look at each word in the message in turn and ask whether it looks like an order number, and decide what to do when the answer is no. That is the next chapter. For now, the program works for messages that say "order" followed by the number, which is most of them, and the assignment below asks you to finish a version of it yourself, without the piece that finds the number, so that the slice is yours.

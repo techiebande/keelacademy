@@ -8,12 +8,12 @@ assignment: assignment.md
 practice:
   retrieval_seeds:
     - "Where do the two and a half days of waiting at Lantern actually come from, if not from the twenty minutes an agent spends on a message?"
-    - "What would make Wei reject a system that Amara loved? Describe what he needs to be able to do a year after a refund is paid."
-    - "Rosa wants hard cases to reach a person. Give two examples of what makes a case hard, and say what the system should do with one."
+    - "What would make Michael reject a system that Sarah loved? Describe what he needs to be able to do a year after a refund is paid."
+    - "Rachel wants hard cases to reach a person. Give two examples of what makes a case hard, and say what the system should do with one."
     - "Why does the course ask you to describe Lantern's problem without naming any technology? What does a client hear when you open with the technology?"
     - "Why will the system take months to build when reading a message and guessing the answer is a weekend's work? Where does the real work go?"
   completion_problem:
-    prompt: "Write a one-page client brief for Lantern Home in your own words: the problem and its size, what done means to Amara, Wei and Rosa, how a message is handled today, and how it should be handled."
+    prompt: "Write a one-page client brief for Lantern Home in your own words: the problem and its size, what done means to Sarah, Michael and Rachel, how a message is handled today, and how it should be handled."
     instructions: "Save it as lantern/docs/client-brief.md with the four headings in the order given in the assignment. Plain words; no AI, agent, LLM, model or machine learning; amounts as plain numbers like 45.00; 350 to 600 words."
     rubric: rubrics/0.1/v1.yaml
 build:
@@ -28,7 +28,7 @@ gate:
 unstuck:
   - symptom: "The tutor says my problem section is too general"
     fix_ref: assignment.md#the-tutor-says-the-problem-section-is-too-general
-  - symptom: "My paragraphs about Amara, Wei and Rosa sound the same"
+  - symptom: "My paragraphs about Sarah, Michael and Rachel sound the same"
     fix_ref: assignment.md#the-three-people-sound-the-same
   - symptom: "A banned word was found in my brief"
     fix_ref: assignment.md#a-banned-word-slipped-in

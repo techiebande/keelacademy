@@ -9,11 +9,11 @@ project:
       an agent about twenty minutes of looking up the order, the courier's delivery record, any photo and the twenty-rule
       rulebook. Messages wait two to three days before anyone reads them; about one refund in fifty is later found to be wrong.
     stakeholders:
-    - 'Amara Osei, owner: a straightforward case gets a correct answer within an hour, without hiring more agents. Decides
+    - 'Sarah Johnson, owner: a straightforward case gets a correct answer within an hour, without hiring more agents. Decides
       whether to buy.'
-    - 'Wei Zhang, keeps the books: every decision recorded with what it was based on (message, order, delivery record, rule,
+    - 'Michael Brown, keeps the books: every decision recorded with what it was based on (message, order, delivery record, rule,
       who, when) and never edited afterwards. Decides whether it can be trusted with money.'
-    - 'Rosa Delgado, runs support and wrote the rulebook: rules applied the same way to everyone; every unclear case reaches
+    - 'Rachel Smith, runs support and wrote the rulebook: rules applied the same way to everyone; every unclear case reaches
       a person before anything is paid. Decides whether her team will use it.'
   canonical_conventions:
     monetary_values: 'Plain decimal numbers with no currency symbol, as Lantern''s own records show them: 45.00. Lantern sells
@@ -29,11 +29,11 @@ project:
       phase_2: Direct LLM API calling, token math, latency and cost budgets
       phase_3: Structured outputs, retries, fallbacks, system prompts
       phase_4: Chunking, embeddings, vector search, hybrid reranking; the rulebook as the retrieval corpus
-      phase_5: Tool schemas, single and multi-agent loops, state graphs, human-in-the-loop (pass to Rosa)
+      phase_5: Tool schemas, single and multi-agent loops, state graphs, human-in-the-loop (pass to Rachel)
       phase_6: Fine-tuning decision and LoRA/QLoRA on message classification
       phase_7: Golden datasets, LLM-as-judge evals, tracing
       phase_8: Model routing, prompt caching, cost per case
-      phase_9: Prompt injection defence (customer text is untrusted), refund guardrails, the decision record Wei audits
+      phase_9: Prompt injection defence (customer text is untrusted), refund guardrails, the decision record Michael audits
       phase_10: Containers, deployment, monitoring, runbooks
       phase_11: Scoping, pricing, proposal and delivery of the Lantern engagement
       phase_12: Capstone and three portfolio builds in other industries
@@ -42,7 +42,7 @@ units:
   title: 'Meet the client: Lantern Home'
   concepts_unlocked:
   - Where the two and a half days of waiting come from (the pile, not the twenty minutes)
-  - 'Three definitions of done: Amara (fast), Wei (recorded, unchangeable), Rosa (consistent, hard cases reach a person)'
+  - 'Three definitions of done: Sarah (fast), Michael (recorded, unchangeable), Rachel (consistent, hard cases reach a person)'
   - Easy cases decided by the system, hard cases handed to a person with the facts gathered
   - Describing a client's problem without naming any technology
   - Why the trust is the product and the reading of the message is the easy part
@@ -57,15 +57,15 @@ units:
   retrieval_seeds:
   - Where do the two and a half days of waiting at Lantern actually come from, if not from the twenty minutes an agent spends
     on a message?
-  - What would make Wei reject a system that Amara loved? Describe what he needs to be able to do a year after a refund is
+  - What would make Michael reject a system that Sarah loved? Describe what he needs to be able to do a year after a refund is
     paid.
-  - Rosa wants hard cases to reach a person. Give two examples of what makes a case hard, and say what the system should do
+  - Rachel wants hard cases to reach a person. Give two examples of what makes a case hard, and say what the system should do
     with one.
   - Why does the course ask you to describe Lantern's problem without naming any technology? What does a client hear when
     you open with the technology?
   - Why will the system take months to build when reading a message and guessing the answer is a weekend's work? Where does
     the real work go?
-  narrative_anchor: Fatima Al-Sayed's cracked kettle lid (M-1041, order 48213), followed through Tunde's twenty minutes.
+  narrative_anchor: Emily Carter's cracked kettle lid (M-1041, order 48213), followed through James Miller's twenty minutes.
 - unit: 1.1.1
   title: A program that reads a customer's message (chapter 1 of Python fundamentals)
   concepts_unlocked:
@@ -92,12 +92,12 @@ units:
   retrieval_seeds:
   - When Python runs a program file, in what order does it carry out the lines, and what happens to the rest of the program
     when one line fails?
-  - What does the = sign do in a line like customer = "Fatima", and why is reading it as 'equals' misleading?
+  - What does the = sign do in a line like customer = "Emily", and why is reading it as 'equals' misleading?
   - What is the difference between print(customer) and print("customer")?
   - What does text[0:5] give you, and why is the character at position 5 not included?
   - What does text.find("order") give back when the word is not in the text, and why is that dangerous when you slice with
     it afterwards?
-  - Why did the program print 'd GRE' as the order number for Joseph's message? What did find actually match?
+  - Why did the program print 'd GRE' as the order number for Daniel's message? What did find actually match?
   - 'What does the with ... as file: line do for you when the indented lines underneath it finish?'
-  narrative_anchor: Tunde finding the order number in each message; read_message.py does it for M-1041, then breaks honestly
+  narrative_anchor: James Miller finding the order number in each message; read_message.py does it for M-1041, then breaks honestly
     on M-1042 (ordered GREY) and M-1044 (capital O).

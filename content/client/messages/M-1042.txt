@@ -1,4 +1,4 @@
-From: jmwangi@example.com
+From: daniel.wilson@example.com
 Received: 2026-09-03 11:02
 Subject: wrong colour
 

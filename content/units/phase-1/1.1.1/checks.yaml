@@ -11,7 +11,7 @@
   type: command
   run: python3 read_message.py
   expect:
-    output_contains: "From: fatima.alsayed@example.com"
+    output_contains: "From: emily.carter@example.com"
 
 - id: prints-order-number
   type: command

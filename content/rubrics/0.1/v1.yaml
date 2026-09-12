@@ -10,7 +10,7 @@ criteria:
     description: "The problem section says what is wrong in plain words and gives its size (roughly how many messages a month and how long a customer waits); a reader with no business or software background would understand it."
     evidence: "quote the sentence(s) that state the problem and its size"
   - id: three-people-differ
-    description: "Amara, Wei and Rosa are each named, and what each needs is specific to that person (speed for Amara, an unchangeable record of every decision for Wei, consistent rules with hard cases reaching a person for Rosa), not a general wish for improvement."
+    description: "Sarah, Michael and Rachel are each named, and what each needs is specific to that person (speed for Sarah, an unchangeable record of every decision for Michael, consistent rules with hard cases reaching a person for Rachel), not a general wish for improvement."
     evidence: "quote one phrase per person that shows the difference"
   - id: current-process-traceable
     description: "The current process is a sequence a reader could follow for one message (read, look up order, look up delivery, check photo or rules, decide, reply, record) and it says where the waiting comes from."

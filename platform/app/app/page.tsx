@@ -173,7 +173,7 @@ export default function HomePage() {
               {
                 step: "02",
                 title: "Practice",
-                body: "Study a fully worked example of a parallel task, then fill the gaps in a completion problem. Automated checks grade every save, so you always know exactly where you stand.",
+                body: "Every chapter builds the program in front of you, a few explained lines at a time. Then you finish it yourself on the client's files, and automated checks tell you exactly which step is missing.",
               },
               {
                 step: "03",
@@ -358,7 +358,7 @@ export default function HomePage() {
                     </span>
                   </div>
                   <h3 className="mt-4 font-goga text-[19px] font-medium leading-snug text-phosphor-white">
-                    {unit?.script?.title ?? unit?.curriculum?.title ?? `Unit ${u.id}`}
+                    {unit?.lesson.title ?? unit?.curriculum?.title ?? `Unit ${u.id}`}
                   </h3>
                   <p className="mt-2 line-clamp-3 text-[14.5px] leading-relaxed text-[color:var(--text-muted-on-dark)]">
                     {unit?.yaml.build.deliverable}

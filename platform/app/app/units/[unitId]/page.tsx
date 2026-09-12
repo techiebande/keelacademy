@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import {
@@ -10,25 +9,11 @@ import {
   type MapPhase,
   type Unit,
 } from "@/lib/content";
-import {
-  PracticeRouteStrip,
-  WorkedExampleCard,
-  CompletionWorkbenchCard,
-  RetrievalDrillCard,
-} from "@/components/unit/practice-section";
-import {
-  DeliverableCallout,
-  SubmissionContractCard,
-} from "@/components/unit/build-section";
-import {
-  ProveItCard,
-  GradingModesCard,
-  AutomatedChecksCard,
-  RubricCard,
-} from "@/components/unit/verify-section";
-import { UnstuckList } from "@/components/unit/unstuck-section";
+import { CompletionWorkbenchCard, RetrievalDrillCard } from "@/components/unit/practice-section";
+import { SubmissionContractCard } from "@/components/unit/build-section";
+import { AutomatedChecksCard, RubricCard } from "@/components/unit/verify-section";
 import { ConciergePanel } from "@/components/unit/concierge-panel";
-import { UnitScript } from "@/components/unit/unit-script";
+import { LessonBody } from "@/components/unit/lesson-body";
 import { UnitExitCard } from "@/components/unit/unit-exit-card";
 import { MermaidRuntime } from "@/components/unit/mermaid-runtime";
 import { CodeFigureRuntime } from "@/components/unit/code-figure";
@@ -98,7 +83,7 @@ export async function generateMetadata(
     return { title: "Unit not found" };
   }
   return {
-    title: `Unit ${unit.yaml.id}: ${unit.script?.title ?? unit.curriculum?.title ?? unit.yaml.id}`,
+    title: `Unit ${unit.yaml.id}: ${unit.lesson.title}`,
     description: unit.yaml.build.deliverable,
   };
 }
@@ -117,30 +102,7 @@ export default async function UnitPage(props: Props) {
     return <PlannedUnit phase={planned.phase} module={planned.module} />;
   }
 
-  const {
-    yaml,
-    script,
-    workedExample,
-    completionProblem,
-    checks,
-    contract,
-    rubric,
-    faq,
-    curriculum,
-  } = unit;
-
-  /**
-   * Every lesson is authored as a unit script, so a lesson file without a
-   * `::: phase` line is an authoring mistake rather than a state a student can
-   * reach. Failing loudly names the file and the missing marker; rendering a
-   * partial page would hide it until someone read the whole unit.
-   */
-  if (!script) {
-    throw new Error(
-      `Unit ${yaml.id}: ${yaml.learn ?? "learn.md"} is not a unit script. ` +
-        `Every lesson needs a "::: phase learn" line. See platform/app/AGENTS.md.`,
-    );
-  }
+  const { yaml, lesson, assignment, checks, contract, rubric } = unit;
 
   const user = await getSessionUser();
   const isSignedIn = !!user;
@@ -206,6 +168,7 @@ export default async function UnitPage(props: Props) {
     }
   }
 
+  const isCodeUnit = (yaml.kind ?? "code") === "code";
   const hasAccess = isFreeSample || hasActiveSub || isEnrolled;
 
   if (!hasAccess) {
@@ -220,11 +183,9 @@ export default async function UnitPage(props: Props) {
         <ChapterOpener
           unitId={yaml.id}
           phase={yaml.phase}
-          title={script.title}
-          specs={unitSpecs(yaml, checks?.length ?? 0, rubric?.criteria.length ?? 0, script.estMinutes)}
-          beats={script.phases.flatMap((phase) =>
-            phase.contents.map((entry) => ({ id: entry.id, name: entry.name, estMinutes: entry.estMinutes })),
-          )}
+          title={lesson.title}
+          specs={unitSpecs(yaml, checks?.length ?? 0, rubric?.criteria.length ?? 0, lesson.estMinutes)}
+          beats={openerBeats(lesson)}
         />
         <UnitPaywallCard unitId={yaml.id} priceLabel={priceLabel} />
       </article>
@@ -272,68 +233,6 @@ export default async function UnitPage(props: Props) {
   const phaseEntry =
     loadCurriculumMap().phases.find((p) => p.phase === yaml.phase) ?? null;
 
-  /**
-   * The apparatus a script can place, keyed by the name it uses in a `::: ` marker.
-   *
-   * Built here rather than inside the renderer so every data prop stays exactly
-   * where the page already fetched it, and so the script parser never has to know
-   * that React exists. A unit that is not a script ignores this entirely.
-   */
-  const slots: Record<string, ReactNode> = {
-    route: (
-      <PracticeRouteStrip
-        routeData={routeData}
-        isEnrolled={isEnrolled}
-        isSignedIn={isSignedIn}
-        serviceDown={practiceServiceDown}
-      />
-    ),
-    "worked-example": (
-      <WorkedExampleCard workedExample={workedExample} routeData={routeData} />
-    ),
-    workbench: (
-      <CompletionWorkbenchCard
-        unitId={yaml.id}
-        completionProblem={completionProblem}
-        manifest={practiceManifest}
-        initialAttempts={practiceAttempts}
-        isEnrolled={isEnrolled}
-        isSignedIn={isSignedIn}
-        serviceDown={practiceServiceDown}
-      />
-    ),
-    retrieval: (
-      <RetrievalDrillCard
-        unitId={yaml.id}
-        retrievalSeeds={yaml.practice.retrieval_seeds}
-        initialRetrievalAttempts={retrievalAttempts}
-        dueSeedIndices={dueSeedIndices}
-        isEnrolled={isEnrolled}
-        isSignedIn={isSignedIn}
-        serviceDown={practiceServiceDown}
-        reviewItems={priorReviewItems}
-      />
-    ),
-    deliverable: <DeliverableCallout unit={yaml} />,
-    submission: <SubmissionContractCard unit={yaml} contract={contract} />,
-    "prove-it": <ProveItCard curriculum={curriculum} />,
-    "grading-modes": <GradingModesCard unit={yaml} />,
-    checks: <AutomatedChecksCard checks={checks} />,
-    rubric: <RubricCard rubric={rubric} />,
-    unstuck: <UnstuckList unit={yaml} faq={faq} />,
-    ask: (
-      <ConciergePanel
-        unitId={yaml.id}
-        isEnrolled={isEnrolled}
-        isSignedIn={isSignedIn}
-        serviceDown={practiceServiceDown}
-        routeData={routeData}
-        initialTurns={conciergeTurns}
-        embedded
-      />
-    ),
-  };
-
   return (
     <article className="min-h-screen pb-24">
       <MermaidRuntime />
@@ -341,20 +240,71 @@ export default async function UnitPage(props: Props) {
       <ChapterOpener
         unitId={yaml.id}
         phase={yaml.phase}
-        title={script.title}
-        specs={unitSpecs(yaml, checks?.length ?? 0, rubric?.criteria.length ?? 0, script.estMinutes)}
-        beats={script.phases.flatMap((phase) =>
-          phase.contents.map((entry) => ({ id: entry.id, name: entry.name, estMinutes: entry.estMinutes })),
-        )}
+        title={lesson.title}
+        specs={unitSpecs(yaml, checks?.length ?? 0, rubric?.criteria.length ?? 0, lesson.estMinutes)}
+        beats={openerBeats(lesson)}
       />
       <ResumeBanner unitId={yaml.id} />
-      <ReadingTracker unitId={yaml.id} phases={script.phases} />
-      <UnitScript phases={script.phases} preamble={script.preamble} slots={slots} />
+      <ReadingTracker unitId={yaml.id} lesson={lesson} />
+      <LessonBody lesson={lesson} assignment={assignment} />
       {/*
-        The designed exit (lesson-flow spec U1), only for script units: it sits
-        after this throw-guarded point, so a fixed-layout unit can never reach
-        it. Fills the content track like the other apparatus.
+        The platform's own apparatus, after every authored word. Each card is
+        labelled by what it is and says nothing about the lesson: the assignment
+        above has already said, in the author's words, what to build and how it
+        is checked.
       */}
+      <div className="lesson-canvas flow unit-script-layout">
+        <div className="flow unit-script-body">
+          {isCodeUnit ? (
+            <div className="flow-apparatus">
+              <CompletionWorkbenchCard
+                unitId={yaml.id}
+                manifest={practiceManifest}
+                initialAttempts={practiceAttempts}
+                isEnrolled={isEnrolled}
+                isSignedIn={isSignedIn}
+                serviceDown={practiceServiceDown}
+              />
+            </div>
+          ) : null}
+          <div id="submission" className="flow-apparatus">
+            <SubmissionContractCard unit={yaml} contract={contract} />
+          </div>
+          {checks ? (
+            <div id="checks" className="flow-apparatus">
+              <AutomatedChecksCard checks={checks} />
+            </div>
+          ) : null}
+          {rubric ? (
+            <div id="rubric" className="flow-apparatus">
+              <RubricCard rubric={rubric} />
+            </div>
+          ) : null}
+          <div id="recall" className="flow-apparatus">
+            <RetrievalDrillCard
+              unitId={yaml.id}
+              retrievalSeeds={yaml.practice.retrieval_seeds}
+              initialRetrievalAttempts={retrievalAttempts}
+              dueSeedIndices={dueSeedIndices}
+              isEnrolled={isEnrolled}
+              isSignedIn={isSignedIn}
+              serviceDown={practiceServiceDown}
+              reviewItems={priorReviewItems}
+            />
+          </div>
+          <div className="flow-apparatus">
+            <ConciergePanel
+              unitId={yaml.id}
+              isEnrolled={isEnrolled}
+              isSignedIn={isSignedIn}
+              serviceDown={practiceServiceDown}
+              routeData={routeData}
+              initialTurns={conciergeTurns}
+              embedded
+            />
+          </div>
+        </div>
+      </div>
       <UnitExitCard
         unitId={yaml.id}
         deliverable={yaml.build.deliverable}
@@ -373,6 +323,15 @@ export default async function UnitPage(props: Props) {
   );
 }
 
+/** The opener's list of beats: every `##` heading across the chapters, with its share of the read time. */
+function openerBeats(lesson: Unit["lesson"]): { id: string; name: string; estMinutes?: number }[] {
+  return lesson.chapters.flatMap((chapter) => {
+    const sections = chapter.headings.filter((h) => h.level === 2);
+    const minutesEach = sections.length > 0 ? Math.max(1, Math.round(chapter.estMinutes / sections.length)) : undefined;
+    return sections.map((h) => ({ id: h.id, name: h.text, estMinutes: minutesEach }));
+  });
+}
+
 /**
  * The unit's measurable facts, phrased for the opener's one mono line.
  *
@@ -388,7 +347,7 @@ function unitSpecs(yaml: Unit["yaml"], checkCount: number, criterionCount: numbe
     gradedOn(checkCount, criterionCount),
     yaml.prereq_units.length > 0 ? `NEEDS ${yaml.prereq_units.join(", ")}` : "ENTRY POINT",
     yaml.gate.unlocks.length > 0 ? `UNLOCKS ${yaml.gate.unlocks.join(", ")}` : "PHASE GATE",
-    "OMNICART OPERATIONS DATA",
+    "LANTERN HOME DATA",
   ];
   if (estMinutes && estMinutes > 0) {
     // Insert reading time after hours, so scanner sees workload then read length.

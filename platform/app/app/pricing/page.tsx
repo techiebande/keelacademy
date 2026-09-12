@@ -168,7 +168,7 @@ export default async function PricingPage() {
           <div className="mt-7 grid gap-x-12 gap-y-5 md:grid-cols-2">
             {[
               "The full written lesson: the concept, the client numbers, the thing you are about to build",
-              "A worked example plus a completion problem, graded by automated checks on every save",
+              "An assignment that finishes what the chapter built, graded by automated checks on every save",
               "Retrieval drills that resurface right before you would forget them",
               "An assistant that has read that exact unit, ready to answer questions at 2am",
               "Automated checks and rubric review on every submission, with quoted evidence from your code",

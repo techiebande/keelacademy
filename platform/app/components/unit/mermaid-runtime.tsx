@@ -53,7 +53,7 @@ const THEME_VARIABLES = {
 /**
  * A diagram is allowed to shrink to fit the column, but only this far. Below it
  * the frame scrolls sideways instead, because 7px labels are worse than a
- * scrollbar. Authors are told to keep diagrams narrow (see check-mermaid.mjs).
+ * scrollbar. Authors are asked to keep diagrams narrow (content/WRITING.md).
  */
 const MIN_SCALE = 0.85;
 

@@ -1857,3 +1857,63 @@ details.faq-item[open] summary .faq-chevron {
 .divider-dark {
   border-top: 1px solid var(--color-phosphor-blue-black);
 }
+
+
+/* ---------- Chapters and the assignment ---------- */
+
+/* A unit taught over several chapter files, and the assignment that follows the
+   lesson, each open with a heading the page owns. It sits in the reading column
+   like an authored h2 and carries a small chapter number above it. */
+.chapter-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.chapter-heading-number {
+  font-family: var(--font-code-mono, ui-monospace, monospace);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint-on-dark);
+}
+
+/* The one construct a chapter uses beyond Markdown: a native fold for a
+   prediction the reader commits to before looking, or the answer to a question
+   they were asked to think about. Native details, so it works with no JavaScript. */
+.lesson-prose details {
+  border: 1px solid var(--circuit-border, rgba(255, 255, 255, 0.12));
+  border-radius: 6px;
+  padding: 0;
+}
+
+.lesson-prose details > summary {
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  font-weight: 500;
+  list-style: none;
+}
+
+.lesson-prose details > summary::-webkit-details-marker {
+  display: none;
+}
+
+.lesson-prose details > summary::before {
+  content: "\25B8";
+  display: inline-block;
+  width: 1.1em;
+  transition: transform 120ms ease;
+}
+
+.lesson-prose details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.lesson-prose details > :not(summary) {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.lesson-prose details > :last-child:not(summary) {
+  margin-bottom: 1rem;
+}

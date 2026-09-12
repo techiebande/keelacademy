@@ -2,7 +2,7 @@
 
 **Last updated:** 2026-09-10
 **Stage:** Content Production Track
-**Status:** Unit 0.1 authored from scratch and fully verified under structural variety rules. Ledger has Unit 0.1. All 9 validation battery checks pass cleanly. Pipeline revamp complete (2026-09-10, see decisions): precedence order live in AGENTS.md, readability gates aggregate, templated-feel and structural-fingerprint checks added; full battery re-run green.
+**Status:** Lesson system v2 is implemented on branch `lesson-system-v2`: research-backed plain-Markdown chapters, Lantern Home client data, author + first-reader workflow, verified lesson code, and a rewritten lesson renderer. Units 0.1 and 1.1.1 are authored. Remaining legacy simulation/content references are being removed and the complete suite is being re-run.
 
 > ## Resume protocol — read this first
 > 1. Read this file, then skim build-plan.md §4 for the current stage's exit criteria.
@@ -10,7 +10,7 @@
 > 3. At session end: check off finished milestones, update Status/Next action, append any decisions or blockers (dated). Milestones are tiny by design — if one can't finish in a sitting, split it and record the split here.
 
 ## Next action
-Author Unit 0.2 via `unit_orchestrator`. Unit 0.1 is complete and in the ledger. Follow the precedence order in AGENTS.md (voice skill over mechanical rules; accessibility binds in aggregate). Ensure Unit 0.2 differs structurally from Unit 0.1: battery check 10 (`structural-fingerprint.py 0.2`) must not flag, the playtester must report zero templated-feel flags, and the ledger entry must carry the structure field (blocks used with reasons, blocks skipped).
+Finish the legacy-reference sweep, run the complete validation/test suite, then push the migration to `main` with a clear commit history.
 
 ---
 

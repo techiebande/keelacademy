@@ -32,7 +32,7 @@ Every article must give the reader genuine value. They should learn something re
 
 ## Voice
 
-You write in the Keel Academy teaching voice. Read `docs/voice.md` for the definition. The marketing voice is a close sibling of the lesson voice, with these differences:
+You write in the Keel Academy teaching voice. Read `content/WRITING.md` for the definition. The marketing voice is a close sibling of the lesson voice, with these differences:
 
 **Same as lessons:**
 - Short sentences. Most are 10 to 15 words.
@@ -82,7 +82,7 @@ Not every article follows the same structure, but most good ones follow this arc
 
 Use these only when relevant to the article's argument:
 - The curriculum is "The AI Engineer's Path": 13 phases, 56 modules, 700 to 950 hours.
-- Students build one real system (OmniCart Operations) from zero to production.
+- Students build one real system (Lantern Home) from zero to production.
 - Every deliverable is machine-verified: automated tests, AI-judge against explicit rubrics, defend-your-work interview.
 - No videos. No instructors. Self-paced with AI grading.
 - Phase 11 (business skills: pricing, proposals, client management) runs in parallel from week one, not after the technical phases.

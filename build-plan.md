@@ -22,7 +22,7 @@ prereq_units: ["2.4.1", "1.5.1"]
 last_verified: { concept_core: 2026-08-01, applied_context: 2026-08-01, tool_specifics: 2026-08-01 }
 learn: learn.md                       # sections: concept_core / applied_context / tool_specifics
 practice:
-  worked_example: units/phase-3/3.2.1/worked-example/   # annotated parallel task
+  assignment: units/phase-<N>/<id>/assignment.md   # authored hand-off and faded task
   completion_problem: { base: units/phase-3/3.2.1/completion/, checks: checks/3.2.1.completion.yaml }
   retrieval_seeds: [ "why schema-constrained output beats prompt-promise JSON", "..." ]
 build:
@@ -92,7 +92,7 @@ Postgres schema, GitHub OAuth + webhook intake, queue + idempotent workers, sand
 **Exit:** a git push produces a verdict with zero human involvement; a rubric change that degrades golden-set accuracy blocks its own merge.
 
 ### Stage 2 — Content pipeline + learner UI MVP
-Content repo + schema-validation CI + per-unit dry-run on content PRs; unit-page renderer (chapter, assignment, apparatus); submission flow and verdict display; auth; Stripe + rebate state machine; gate engine consuming verdict events; progress dashboard v1 (the growing OmniCart map).
+Content repo + schema-validation CI + per-unit dry-run on content PRs; unit-page renderer (chapter, assignment, apparatus); submission flow and verdict display; auth; Stripe + rebate state machine; gate engine consuming verdict events; progress dashboard v1 (the growing Lantern Home map).
 **Exit:** a test student can sign up, pay, and complete unit 3.2.1 end to end.
 
 ### Stage 3 — Practice engine + concierge

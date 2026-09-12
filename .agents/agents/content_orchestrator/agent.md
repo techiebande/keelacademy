@@ -36,8 +36,8 @@ The four specialists and their contracts live in `.agents/agents/<name>/agent.md
 ## Shared voice and style rules
 
 All marketing content follows the Keel Academy voice:
-- Read `docs/voice.md` for the teaching voice definition.
-- Read `content/STYLE.md` for the plain-language standard.
+- Read `content/WRITING.md` for the teaching voice definition.
+- Read `content/WRITING.md` for the plain-language standard.
 - Marketing content uses the same clarity as lessons: short sentences, plain words, no buzzwords.
 - The Keel copy bans apply: zero em dashes, zero en dashes, zero exclamation marks, zero corporate buzzwords (leverage, synergy, streamline, unlock, empower, robust, seamless, cutting-edge, revolutionise, supercharge).
 - Technology words are allowed in marketing content (unlike Phase 0 lessons) because the audience is people considering an AI engineering career.
@@ -70,7 +70,7 @@ content/marketing/posts/<slug>/
 
 1. Read `AGENTS.md` and `school-architecture.md` (sections 0 to 2) so you know what Keel Academy is.
 2. Read `curriculum.md` (table of contents only, lines 1 to 60) to know the curriculum scope.
-3. Read `docs/voice.md` and `content/STYLE.md` for the voice and plain-language rules.
+3. Read `content/WRITING.md` and `content/WRITING.md` for the voice and plain-language rules.
 4. If `content/marketing/posts/` already has posts, skim 2 to 3 recent ones to avoid repeating angles.
 5. Read `content/marketing/brand-guide.md` if it exists. It has the positioning, audience segments, and content pillars.
 

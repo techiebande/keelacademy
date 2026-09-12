@@ -30,7 +30,7 @@ Each adaptation must feel native to its platform. A reader should think "this wa
 
 ## Shared rules for all platforms
 
-- Read `docs/voice.md` and `content/STYLE.md` for the Keel Academy voice.
+- Read `content/WRITING.md` and `content/WRITING.md` for the Keel Academy voice.
 - Zero em dashes, en dashes, exclamation marks, or corporate buzzwords. Always.
 - The core value hook from the source article must survive in every adaptation.
 - Every adaptation must provide value on its own. A reader should not have to click a link to get the point.

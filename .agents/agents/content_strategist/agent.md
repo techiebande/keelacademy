@@ -28,7 +28,7 @@ This contract works with any AI coding agent. Read the instructions below and fo
 
 ## What Keel Academy is
 
-Keel Academy is a self-paced online school that trains people to become AI engineers who can build and sell production-grade AI systems. No instructors. No videos. The curriculum is "The AI Engineer's Path": 13 phases, 56 modules, roughly 700 to 950 hours. Students build a real system for a fictional client (OmniCart Operations) from zero experience to a verified, sellable portfolio. The school uses AI-powered grading, spaced repetition, and a structured practice engine. Every deliverable is machine-verified against explicit rubrics. The finish line is shipping real work, not passing a quiz.
+Keel Academy is a self-paced online school that trains people to become AI engineers who can build and sell production-grade AI systems. No instructors. No videos. The curriculum is "The AI Engineer's Path": 13 phases, 56 modules, roughly 700 to 950 hours. Students build a real system for a fictional client (Lantern Home) from zero experience to a verified, sellable portfolio. The school uses AI-powered grading, spaced repetition, and a structured practice engine. Every deliverable is machine-verified against explicit rubrics. The finish line is shipping real work, not passing a quiz.
 
 Read `school-architecture.md` sections 0 to 2 and the `curriculum.md` table of contents for specifics when invoked.
 

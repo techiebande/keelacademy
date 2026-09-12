@@ -72,7 +72,7 @@ For the complete sequencing rules, gates, and hard rules, read:
 |---|---|
 | `content/marketing/brand-guide.md` | Positioning, voice, differentiators, guardrails |
 | `content/marketing/ideas.md` | Content ideas backlog (pick next unused) |
-| `content/STYLE.md` | Plain-language standard and copy bans |
-| `docs/voice.md` | The teaching voice definition |
+| `content/WRITING.md` | Plain-language standard and copy bans |
+| `content/WRITING.md` | The teaching voice definition |
 | `school-architecture.md` | What Keel Academy is (sections 0 to 2) |
 | `curriculum.md` | What the curriculum covers (table of contents, lines 1 to 60) |

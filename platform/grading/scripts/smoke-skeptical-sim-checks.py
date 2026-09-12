@@ -5,13 +5,13 @@ Verifies:
 1. Content Schema Validation:
    - content/personas/technical-stakeholder.yaml matches persona.schema.json.
    - content/personas/business-owner.yaml matches persona.schema.json.
-2. Technical Stakeholder (Wei Zhang) Multi-Turn Defense & Behavioral Triggers:
+2. Technical Stakeholder (Michael Brown) Multi-Turn Defense & Behavioral Triggers:
    - Initial greeting demands numbers, latency budgets, eval sets.
    - Hand-wavy accuracy claims -> Pushback ("Show me the exact test suite size and golden eval accuracy").
    - Vague token budget -> Pushback ("What is your p99 latency and token expenditure?").
    - Prompt injection inquiry -> Demands concrete sanitization and structural isolation.
    - Grounded responses (94.2% accuracy on 500 cases, $0.04 per transaction, regex sanitization) -> Score >= 70%, passed = true.
-3. Business Owner (Amara Osei) Multi-Turn Defense & Behavioral Triggers:
+3. Business Owner (Sarah Johnson) Multi-Turn Defense & Behavioral Triggers:
    - Initial greeting interrupts jargon, demands dollar savings and liability bounds.
    - AI Jargon ("embeddings", "vector DB") -> Pushback ("Stop using jargon. What does this save the department in real dollars?").
    - $50k catastrophic error liability -> Pushback ("What is the fallback when a $50,000 damage claim is misclassified?").
@@ -100,19 +100,19 @@ def main() -> int:
     # Student 103: Fails both defenses
 
     # -------------------------------------------------------------
-    # Test 1: Technical Stakeholder Defense (Wei Zhang) - Student 101 (PASS)
+    # Test 1: Technical Stakeholder Defense (Michael Brown) - Student 101 (PASS)
     # -------------------------------------------------------------
-    print("\n[Test 1] Wei Zhang (Technical Stakeholder) Passing Defense Session")
+    print("\n[Test 1] Michael Brown (Technical Stakeholder) Passing Defense Session")
     st, data = http_request("POST", "/simulation/start", {"student_id": 101, "persona_id": "technical-stakeholder"})
     if st != 200:
         record_fail("Failed to start technical-stakeholder simulation", f"Status: {st}, Body: {data}")
         return 1
     sim_tech_101_id = data["id"]
     turns = data.get("turns", [])
-    if len(turns) != 1 or "Wei Zhang" not in turns[0]["content"]:
-        record_fail("Technical stakeholder initial greeting missing Wei Zhang", str(turns))
+    if len(turns) != 1 or "Michael Brown" not in turns[0]["content"]:
+        record_fail("Technical stakeholder initial greeting missing Michael Brown", str(turns))
     else:
-        record_pass("Wei Zhang initialized with technical systems auditor prompt")
+        record_pass("Michael Brown initialized with technical systems auditor prompt")
 
     # Turn 1: Grounded Eval & Accuracy Rigor
     st, data = http_request("POST", "/simulation/turn", {
@@ -122,9 +122,9 @@ def main() -> int:
     })
     last_persona_msg = data["turns"][-1]["content"]
     if "p99" in last_persona_msg or "latency" in last_persona_msg or "budget" in last_persona_msg:
-        record_pass("Wei Zhang acknowledged eval numbers and shifted probe to cost and latency engineering")
+        record_pass("Michael Brown acknowledged eval numbers and shifted probe to cost and latency engineering")
     else:
-        record_fail("Wei Zhang turn 1 response did not match expected behavioral flow", last_persona_msg)
+        record_fail("Michael Brown turn 1 response did not match expected behavioral flow", last_persona_msg)
 
     # Turn 2: Cost and Latency Engineering
     st, data = http_request("POST", "/simulation/turn", {
@@ -134,9 +134,9 @@ def main() -> int:
     })
     last_persona_msg = data["turns"][-1]["content"]
     if "injection" in last_persona_msg or "security" in last_persona_msg or "guardrail" in last_persona_msg or "unit economics" in last_persona_msg or "cost per transaction" in last_persona_msg:
-        record_pass("Wei Zhang probed latency, economics, and prompt injection defense")
+        record_pass("Michael Brown probed latency, economics, and prompt injection defense")
     else:
-        record_fail("Wei Zhang turn 2 response did not match expected behavioral flow", last_persona_msg)
+        record_fail("Michael Brown turn 2 response did not match expected behavioral flow", last_persona_msg)
 
     # Turn 3: Security, Injection, and Fallback Governance
     st, data = http_request("POST", "/simulation/turn", {
@@ -146,9 +146,9 @@ def main() -> int:
     })
     last_persona_msg = data["turns"][-1]["content"]
     if "injection" in last_persona_msg or "pdf" in last_persona_msg or "architecture" in last_persona_msg or "rag" in last_persona_msg or "pipeline" in last_persona_msg or "tradeoff" in last_persona_msg or "engineering" in last_persona_msg:
-        record_pass("Wei Zhang validated security mitigations and completed technical audit")
+        record_pass("Michael Brown validated security mitigations and completed technical audit")
     else:
-        record_fail("Wei Zhang turn 3 response did not match expected behavioral flow", last_persona_msg)
+        record_fail("Michael Brown turn 3 response did not match expected behavioral flow", last_persona_msg)
 
     # Conclude and Score Technical Defense
     st, score_data = http_request("POST", "/simulation/conclude", {"simulation_id": sim_tech_101_id, "student_id": 101})
@@ -158,7 +158,7 @@ def main() -> int:
         passed = score_data.get("passed")
         score_pct = score_data.get("score_pct")
         if passed is True and score_pct >= 70.0:
-            record_pass(f"Technical defense passed with score {score_pct}% against Wei Zhang rubric")
+            record_pass(f"Technical defense passed with score {score_pct}% against Michael Brown rubric")
         else:
             record_fail("Technical defense did not pass as expected", str(score_data))
 
@@ -197,19 +197,19 @@ def main() -> int:
         record_fail("Premature gate.defense_cleared event found on spine")
 
     # -------------------------------------------------------------
-    # Test 3: Business Owner Defense (Amara Osei) - Student 101 (PASS)
+    # Test 3: Business Owner Defense (Sarah Johnson) - Student 101 (PASS)
     # -------------------------------------------------------------
-    print("\n[Test 3] Amara Osei (Business Owner) Passing Defense Session")
+    print("\n[Test 3] Sarah Johnson (Business Owner) Passing Defense Session")
     st, data = http_request("POST", "/simulation/start", {"student_id": 101, "persona_id": "business-owner"})
     if st != 200:
         record_fail("Failed to start business-owner simulation", f"Status: {st}, Body: {data}")
         return 1
     sim_biz_101_id = data["id"]
     turns = data.get("turns", [])
-    if len(turns) != 1 or "Amara Osei" not in turns[0]["content"]:
-        record_fail("Business owner initial greeting missing Amara Osei", str(turns))
+    if len(turns) != 1 or "Sarah Johnson" not in turns[0]["content"]:
+        record_fail("Business owner initial greeting missing Sarah Johnson", str(turns))
     else:
-        record_pass("Amara Osei initialized with shop finances commercial owner prompt")
+        record_pass("Sarah Johnson initialized with shop finances commercial owner prompt")
 
     # Turn 1: Grounded Quantified Business Value (Zero Jargon)
     st, data = http_request("POST", "/simulation/turn", {
@@ -219,9 +219,9 @@ def main() -> int:
     })
     last_persona_msg = data["turns"][-1]["content"]
     if "$50,000" in last_persona_msg or "wrong" in last_persona_msg or "liability" in last_persona_msg or "error" in last_persona_msg or "specialist hours" in last_persona_msg or "concrete numbers" in last_persona_msg:
-        record_pass("Amara Osei acknowledged dollar ROI and probed operational numbers and risk")
+        record_pass("Sarah Johnson acknowledged dollar ROI and probed operational numbers and risk")
     else:
-        record_fail("Amara Osei turn 1 response did not match expected behavioral flow", last_persona_msg)
+        record_fail("Sarah Johnson turn 1 response did not match expected behavioral flow", last_persona_msg)
 
     # Turn 2: Error and Risk Mitigation & Human-in-the-loop Guardrail
     st, data = http_request("POST", "/simulation/turn", {
@@ -231,9 +231,9 @@ def main() -> int:
     })
     last_persona_msg = data["turns"][-1]["content"]
     if "feasibility" in last_persona_msg or "timeline" in last_persona_msg or "rollout" in last_persona_msg or "team" in last_persona_msg or "protocol" in last_persona_msg or "fallback" in last_persona_msg:
-        record_pass("Amara Osei validated risk mitigation and probed rollout feasibility")
+        record_pass("Sarah Johnson validated risk mitigation and probed rollout feasibility")
     else:
-        record_fail("Amara Osei turn 2 response did not match expected behavioral flow", last_persona_msg)
+        record_fail("Sarah Johnson turn 2 response did not match expected behavioral flow", last_persona_msg)
 
     # Turn 3: Implementation Feasibility
     st, data = http_request("POST", "/simulation/turn", {
@@ -250,7 +250,7 @@ def main() -> int:
         passed = score_data.get("passed")
         score_pct = score_data.get("score_pct")
         if passed is True and score_pct >= 70.0:
-            record_pass(f"Business defense passed with score {score_pct}% against Amara Osei rubric")
+            record_pass(f"Business defense passed with score {score_pct}% against Sarah Johnson rubric")
         else:
             record_fail("Business defense did not pass as expected", str(score_data))
 
@@ -306,9 +306,9 @@ def main() -> int:
     })
     last_msg = data["turns"][-1]["content"]
     if "numbers" in last_msg or "vibes" in last_msg or "dataset" in last_msg or "size" in last_msg or "vibe" in last_msg:
-        record_pass("Wei Zhang pushed back against ungrounded accuracy hand-waving")
+        record_pass("Michael Brown pushed back against ungrounded accuracy hand-waving")
     else:
-        record_fail("Wei Zhang failed to push back on hand-waving", last_msg)
+        record_fail("Michael Brown failed to push back on hand-waving", last_msg)
 
     st, score_data = http_request("POST", "/simulation/conclude", {"simulation_id": sim_fail_tech_id, "student_id": 103})
     if score_data.get("passed") is False and score_data.get("score_pct") < 70.0:
@@ -326,9 +326,9 @@ def main() -> int:
     })
     last_msg = data["turns"][-1]["content"]
     if "jargon" in last_msg or "save" in last_msg or "dollar" in last_msg or "stop right there" in last_msg.lower():
-        record_pass("Amara Osei pushed back and interrupted technical jargon")
+        record_pass("Sarah Johnson pushed back and interrupted technical jargon")
     else:
-        record_fail("Amara Osei failed to push back on jargon", last_msg)
+        record_fail("Sarah Johnson failed to push back on jargon", last_msg)
 
     st, score_data = http_request("POST", "/simulation/conclude", {"simulation_id": sim_fail_biz_id, "student_id": 103})
     if score_data.get("passed") is False and score_data.get("score_pct") < 70.0:

@@ -7,7 +7,7 @@ Verifies:
 2. Session Management & Auth Boundaries:
    - 401 on missing or invalid app auth token.
    - 422 / 404 on missing/invalid student or non-existent persona.
-   - Session starts with initial greeting from Amara Osei.
+   - Session starts with initial greeting from Sarah Johnson.
    - Initial row written with status='in_progress' and 'simulation.started' spine event.
 3. Multi-Turn Dialogue & Behavioral Triggers:
    - Student premature pitch -> persona pushback ("We already tried ChatGPT and it hallucinated store discount rules").
@@ -135,10 +135,10 @@ def main() -> None:
         sim_id_alice = int(res["id"])
         record_pass(f"POST /simulation/start initialized session #{sim_id_alice}")
         
-        # Check initial greeting contains Amara Osei
+        # Check initial greeting contains Sarah Johnson
         init_msg = res.get("initial_message", "")
-        if "Amara Osei" in init_msg and "Lantern Home" in init_msg:
-            record_pass("Initial persona greeting correctly introduces Amara Osei at Lantern Home")
+        if "Sarah Johnson" in init_msg and "Lantern Home" in init_msg:
+            record_pass("Initial persona greeting correctly introduces Sarah Johnson at Lantern Home")
         else:
             record_fail("Initial persona greeting content", f"got {init_msg}")
     else:

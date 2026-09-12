@@ -73,19 +73,19 @@ def get_initial_greeting(persona_id: str) -> str:
     """Return default initial greeting for persona."""
     if persona_id == "discovery-call":
         return (
-            "Hi, thanks for hopping on. As I mentioned in my note, I'm Amara Osei, "
+            "Hi, thanks for hopping on. As I mentioned in my note, I'm Sarah Johnson, "
             "Owner here at Lantern Home. We're getting slammed with customer order problems "
             "and our leadership is pushing us to look into AI automation. What would you like to know about our setup?"
         )
     if persona_id == "technical-stakeholder":
         return (
-            "Hello. I'm Wei Zhang, Staff AI Architect. I've reviewed your high-level architecture diagram, "
+            "Hello. I'm Michael Brown, Staff AI Architect. I've reviewed your high-level architecture diagram, "
             "but I evaluate systems on empirical proof, not promises. How do you know this case triage pipeline is "
             "reliable, secure, and cost-effective in production?"
         )
     if persona_id == "business-owner":
         return (
-            "Thanks for meeting with me. I'm Amara Osei. I oversee our online household-goods shops and shop finances. "
+            "Thanks for meeting with me. I'm Sarah Johnson. I oversee our online household-goods shops and shop finances. "
             "I've seen dozens of AI pitches that promise the moon and deliver costly maintenance headaches. "
             "What does your system actually save Lantern Home, and what happens when it makes a mistake?"
         )

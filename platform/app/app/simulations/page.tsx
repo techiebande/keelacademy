@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Practice conversations",
   description:
-    "Run a discovery call and defend your build to a technical reviewer and a business owner, against personas grounded in the OmniCart Operations brief.",
+    "Run a discovery call and defend your build to a technical reviewer and a business owner, against personas grounded in the Lantern Home brief.",
 };
 
 // Display copy only. The behaviour of each persona comes from
@@ -20,8 +20,8 @@ const TRACKS = [
     id: "discovery-call",
     slug: "discovery",
     title: "Run a discovery call",
-    persona: "Sarah Jenkins",
-    role: "VP of Operations, OmniCart Operations",
+    persona: "Amara Osei",
+    role: "Owner, Lantern Home",
     description:
       "Find what costs her time before you offer to build anything.",
     href: "/simulations/discovery",
@@ -30,8 +30,8 @@ const TRACKS = [
     id: "technical-stakeholder",
     slug: "technical-stakeholder",
     title: "Defend it to an engineer",
-    persona: "Marcus Vance",
-    role: "Staff AI Architect, OmniCart Operations",
+    persona: "Wei Zhang",
+    role: "Staff AI Architect, Lantern Home",
     description:
       "Answer for accuracy, cost, latency, and failure handling. Bring numbers, as charm does not count.",
     href: "/simulations/technical-stakeholder",
@@ -40,8 +40,8 @@ const TRACKS = [
     id: "business-owner",
     slug: "business-owner",
     title: "Defend it to the budget holder",
-    persona: "Elena Rostova",
-    role: "Managing Director, OmniCart Operations",
+    persona: "Amara Osei",
+    role: "Managing Director, Lantern Home",
     description:
       "Say what it saves in hours and money. Plain words only, because she signs invoices, not architecture diagrams.",
     href: "/simulations/business-owner",

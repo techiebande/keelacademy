@@ -21,26 +21,26 @@ interface PersonaConfig {
 const PERSONA_CONFIGS: Record<string, PersonaConfig> = {
   "discovery-call": {
     id: "discovery-call",
-    name: "Sarah Jenkins",
-    role: "VP of Operations, OmniCart Operations",
+    name: "Amara Osei",
+    role: "Owner, Lantern Home",
     description:
-      "Her team reconciles 4,000 invoices a month and it takes two to three days. Find what costs that time before you offer a build.",
+      "Her team reconciles 3,000 invoices a month and it takes two to three days. Find what costs that time before you offer a build.",
     scorecardTitle: "How this call was scored",
   },
   "technical-stakeholder": {
     id: "technical-stakeholder",
-    name: "Marcus Vance",
-    role: "Staff AI Architect, OmniCart Operations",
+    name: "Wei Zhang",
+    role: "Staff AI Architect, Lantern Home",
     description:
       "He has read your code before the call. Expect questions on your evaluation set, cost per invoice, latency, and what the system does when the model is wrong.",
     scorecardTitle: "How this defence was scored",
   },
   "business-owner": {
     id: "business-owner",
-    name: "Elena Rostova",
-    role: "Managing Director, OmniCart Operations",
+    name: "Amara Osei",
+    role: "Managing Director, Lantern Home",
     description:
-      "She owns profit and loss for an $80M distribution business. Say what your build saves in hours and money, and what happens on a disputed invoice. Plain words only.",
+      "She owns profit and loss for an $80M distribution business. Say what your build saves in hours and money, and what happens on a cased invoice. Plain words only.",
     scorecardTitle: "How this defence was scored",
   },
 };

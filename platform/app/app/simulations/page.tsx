@@ -20,7 +20,7 @@ const TRACKS = [
     id: "discovery-call",
     slug: "discovery",
     title: "Run a discovery call",
-    persona: "Amara Osei",
+    persona: "Sarah Johnson",
     role: "Owner, Lantern Home",
     description:
       "Find what costs her time before you offer to build anything.",
@@ -30,7 +30,7 @@ const TRACKS = [
     id: "technical-stakeholder",
     slug: "technical-stakeholder",
     title: "Defend it to an engineer",
-    persona: "Wei Zhang",
+    persona: "Michael Brown",
     role: "Staff AI Architect, Lantern Home",
     description:
       "Answer for accuracy, cost, latency, and failure handling. Bring numbers, as charm does not count.",
@@ -40,7 +40,7 @@ const TRACKS = [
     id: "business-owner",
     slug: "business-owner",
     title: "Defend it to the budget holder",
-    persona: "Amara Osei",
+    persona: "Sarah Johnson",
     role: "Managing Director, Lantern Home",
     description:
       "Say what it saves in hours and money. Plain words only, because she signs invoices, not architecture diagrams.",

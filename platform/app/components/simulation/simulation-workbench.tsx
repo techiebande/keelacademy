@@ -21,7 +21,7 @@ interface PersonaConfig {
 const PERSONA_CONFIGS: Record<string, PersonaConfig> = {
   "discovery-call": {
     id: "discovery-call",
-    name: "Amara Osei",
+    name: "Sarah Johnson",
     role: "Owner, Lantern Home",
     description:
       "Her team reconciles 3,000 invoices a month and it takes two to three days. Find what costs that time before you offer a build.",
@@ -29,7 +29,7 @@ const PERSONA_CONFIGS: Record<string, PersonaConfig> = {
   },
   "technical-stakeholder": {
     id: "technical-stakeholder",
-    name: "Wei Zhang",
+    name: "Michael Brown",
     role: "Staff AI Architect, Lantern Home",
     description:
       "He has read your code before the call. Expect questions on your evaluation set, cost per invoice, latency, and what the system does when the model is wrong.",
@@ -37,7 +37,7 @@ const PERSONA_CONFIGS: Record<string, PersonaConfig> = {
   },
   "business-owner": {
     id: "business-owner",
-    name: "Amara Osei",
+    name: "Sarah Johnson",
     role: "Managing Director, Lantern Home",
     description:
       "She owns profit and loss for an $80M distribution business. Say what your build saves in hours and money, and what happens on a cased invoice. Plain words only.",

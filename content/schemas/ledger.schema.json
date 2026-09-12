@@ -21,7 +21,6 @@
       "required": [
         "name",
         "anchor_client",
-        "parallel_entity",
         "canonical_conventions"
       ],
       "properties": {
@@ -52,26 +51,6 @@
               "items": {
                 "type": "string"
               }
-            }
-          }
-        },
-        "parallel_entity": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": [
-            "name",
-            "description",
-            "role"
-          ],
-          "properties": {
-            "name": {
-              "type": "string"
-            },
-            "description": {
-              "type": "string"
-            },
-            "role": {
-              "type": "string"
             }
           }
         },
@@ -155,33 +134,6 @@
           },
           "narrative_anchor": {
             "type": "string"
-          },
-          "structure": {
-            "type": "object",
-            "description": "Structural-variety audit trail: which lesson blocks were used and why, which were considered and skipped, and any structural-fingerprint flag justification (AGENTS.md precedence, build-plan.md content-track gate).",
-            "properties": {
-              "note": {
-                "type": "string"
-              },
-              "fingerprint": {
-                "type": "string"
-              },
-              "blocks_used": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "blocks_skipped": {
-                "type": "array",
-                "items": {
-                  "type": "string"
-                }
-              },
-              "flag_justification": {
-                "type": "string"
-              }
-            }
           }
         }
       }

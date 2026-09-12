@@ -12,17 +12,18 @@ that grades, gates, and serves them.
 - `build-plan.md` — the build approach: stages and exit criteria
 - `build-state.md` — live progress: status, next action, recent decisions
   (full decision archive in `docs/decisions/`)
-- `content/` — units, rubrics, prompts, golden sets, FAQs, personas, gates
+- `content/` — the client (`content/client/`), units, rubrics, prompts, golden sets, personas, gates
 - `platform/` — the code:
   - `platform/cli` — Python grading CLI (Layer 1 runner, judge, calibrate)
   - `platform/grading` — FastAPI/Python grading core: Postgres schema, worker,
     sandbox runner, LLM proxy, practice engine, enroll, reader, analytics
   - `platform/app` — Next.js/TypeScript learner app
-- `docs/` — specs (`lesson-flow-spec.md`, `voice.md`) and the decisions archive
-- `.agents/` — the Backward Design subagent team and authoring skills
+- `docs/` — `lesson-design.md` (what a lesson is and why), `research/` (the
+  evidence it rests on), `lesson-flow-spec.md`, and the decisions archive
+- `.agents/` — `lesson_author` and `first_reader` (unit authoring), the Content
+  Marketing team
 
-Authoring standards: `content/STYLE.md` (plain language and copy rules),
-`docs/voice.md` (lesson voice). Authoring templates: `content/templates/`.
+How to write a lesson: `content/WRITING.md`. There are no templates.
 
 ## Prerequisites
 
@@ -38,9 +39,10 @@ Authoring standards: `content/STYLE.md` (plain language and copy rules),
 Content validation (also runs as a pre-push gate and in CI):
 
 ```bash
-python3 content/tools/validate.py          # units, examples, variants, personas
-bash .githooks/pre-push                    # the full gate (activate once:
-git config core.hooksPath .githooks        #   then it runs on every push)
+python3 content/tools/run-lesson-code.py --all   # every code block prints what the page says
+python3 content/tools/validate.py                # unit.yaml and the other schemas
+bash .githooks/pre-push                          # the full gate (activate once:
+git config core.hooksPath .githooks              #   then it runs on every push)
 ```
 
 Grading CLI (Layer 1 in Docker + LLM judge):
@@ -84,6 +86,7 @@ cd scripts/provision && sudo bash 10-docker.sh   # then 20..60 in order
 
 Start with `AGENTS.md` (how to pick the project up), then `build-state.md`
 (where we are), `build-plan.md` (how we build), `school-architecture.md`
-(what we build). The lesson design contract is `docs/lesson-flow-spec.md`.
+(what we build). The lesson design is `docs/lesson-design.md`; the exit card
+and resume behaviour are `docs/lesson-flow-spec.md`.
 Every decision ever logged is in `build-state.md` (recent) and
 `docs/decisions/` (archive).

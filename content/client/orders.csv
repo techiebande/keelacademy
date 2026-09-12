@@ -1,0 +1,13 @@
+order_number,customer_name,item,item_price,delivery_charge,order_date,paid_by,final_sale
+48213,Fatima Al-Sayed,"Electric kettle, 1.7 L, white",45.00,5.00,2026-08-28,card,no
+48220,Joseph Mwangi,"Bedsheet set, double, grey",62.50,5.00,2026-08-29,card,no
+48231,Ana Souza,"Desk lamp, black",38.00,5.00,2026-08-29,bank transfer,no
+48237,Nguyen Thi Lan,"Cooking pot set, 3 pieces",210.00,0.00,2026-08-30,card,no
+48244,Ivan Petrov,"Phone charger, USB-C, 2 m",12.00,5.00,2026-08-30,card,no
+48251,Aisha Bello,"School bag, blue",29.90,5.00,2026-08-31,card,yes
+48263,Carlos Mendoza,"Standing fan, 40 cm",85.00,0.00,2026-09-01,card,no
+48270,Mei Lin,"Table lamp, brass",74.00,5.00,2026-09-01,bank transfer,no
+48278,Kwame Boateng,"Electric kettle, 1.7 L, white",45.00,5.00,2026-09-02,card,no
+48285,Sofia Rossi,"Bedsheet set, single, blue",41.00,5.00,2026-09-03,card,no
+48291,Fatima Al-Sayed,"Phone charger, USB-C, 1 m",9.50,5.00,2026-09-04,card,no
+48302,Daniel Okafor,"Rice cooker, 1.8 L",96.00,0.00,2026-09-05,card,no

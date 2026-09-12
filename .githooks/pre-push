@@ -25,7 +25,7 @@ if [ -z "$PY" ]; then
 fi
 
 fail=0
-echo "[keel-content-gate] validating content (schemas, rubrics, gates, map, routing, lint --strict, unit consistency, diagrams)..."
+echo "[keel-content-gate] validating content (schemas, rubrics, gates, map, routing, lesson code)..."
 if ! "$PY" content/tools/validate.py; then
     echo "[keel-content-gate] BLOCKED: content/tools/validate.py failed — offending file(s) named in the FAIL lines above" >&2
     fail=1
@@ -55,39 +55,21 @@ if ! "$PY" content/tools/validate-diagnostics.py; then
     fail=1
 fi
 
-# M2.1 strict lesson gate: every authored learn.md must pass --strict.
-learn_files="$(find content/units -type f -name learn.md 2>/dev/null)"
-if [ -n "$learn_files" ]; then
-    # shellcheck disable=SC2086
-    if ! "$PY" content/tools/lint-lesson.py --strict $learn_files; then
-        echo "[keel-content-gate] BLOCKED: lint-lesson.py --strict failed — defects named in the FAIL lines above" >&2
+# The one lesson gate: every code block on a page does what the page says.
+# (docs/lesson-design.md section 3; no shape rules, no readability score.)
+lesson_files="$(find content/units -type f -name 'lesson*.md' 2>/dev/null)"
+if [ -n "$lesson_files" ]; then
+    if ! "$PY" content/tools/run-lesson-code.py --all; then
+        echo "[keel-content-gate] BLOCKED: run-lesson-code.py found a code block whose output differs from the page" >&2
         fail=1
     fi
 else
-    echo "[keel-content-gate] note: no authored learn.md files; strict lesson lint skipped"
+    echo "[keel-content-gate] note: no lesson files; code check skipped"
 fi
-
-# M2.2 cross-file consistency gate: every authored unit must agree across files.
-for unit_dir in content/units/phase-*/*/; do
-    [ -d "$unit_dir" ] || continue
-    unit_id="$(basename "$unit_dir")"
-    if ! "$PY" content/tools/check-unit-consistency.py "$unit_id"; then
-        echo "[keel-content-gate] BLOCKED: check-unit-consistency.py failed for unit $unit_id" >&2
-        fail=1
-    fi
-done
 
 if ! "$PY" platform/grading/scripts/check-concierge-structural.py; then
     echo "[keel-content-gate] BLOCKED: platform/grading/scripts/check-concierge-structural.py failed — offending file(s) named in the FAIL lines above" >&2
     fail=1
-fi
-if command -v node >/dev/null 2>&1 && [ -d platform/app/node_modules/mermaid ]; then
-    if ! (cd platform/app && node scripts/check-mermaid.mjs); then
-        echo "[keel-content-gate] BLOCKED: platform/app/scripts/check-mermaid.mjs failed (diagram grammar or legibility limits)" >&2
-        fail=1
-    fi
-else
-    echo "[keel-content-gate] note: node or platform/app/node_modules missing, diagram check skipped here (CI runs it)"
 fi
 if [ $fail = 0 ]; then
     echo "[keel-content-gate] OK — content validates, push allowed."

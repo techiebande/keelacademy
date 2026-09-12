@@ -1,0 +1,12 @@
+submission: s05-process-not-traceable
+expected: fail
+criteria:
+  problem-stated-plainly: pass
+  three-people-differ: pass
+  current-process-traceable: fail
+  target-process-distinguishes-cases: pass
+  words-and-length: pass
+overall: fail
+grader_notes: The current process is one sentence with no steps and no account of where the waiting comes from. Everything else passes.
+graded_by: human
+graded_on: '2026-09-12'

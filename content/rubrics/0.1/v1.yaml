@@ -6,18 +6,18 @@ judge:
   model_tier: mid
 golden_set: golden/0.1/
 criteria:
-  - id: no-technology-words
-    description: "The brief never uses forbidden technology words like AI, software, or pipeline. The check is case insensitive and covers plural forms like agents. Do not accept a job title like support agent, because the student should write clerk or specialist."
-    evidence: "Quote each banned word with the words around it, or quote the five headings and state that no banned word appears."
   - id: problem-stated-plainly
-    description: "The problem section uses at most three sentences. It states the monthly volume of about 4,000 cases and the current wait of 2 to 3 days. Do not accept a fourth sentence, a missing number, or vague wording like many cases or too long."
-    evidence: "Quote the sentence that gives the volume and the sentence that gives the wait, or quote the extra or vague sentence."
-  - id: three-stakeholders-differ
-    description: "The Who cares and why section names the VP of Operations, the CFO, and the Trust and Safety Officer. Each role wants a different outcome, such as speed, exact money tracking, or policy enforcement. Do not accept a missing role or three roles who all want the same thing."
-    evidence: "Quote the phrase that states what each of the three roles wants, or quote the section heading and name the missing role or the shared want."
+    description: "The problem section says what is wrong in plain words and gives its size (roughly how many messages a month and how long a customer waits); a reader with no business or software background would understand it."
+    evidence: "quote the sentence(s) that state the problem and its size"
+  - id: three-people-differ
+    description: "Amara, Wei and Rosa are each named, and what each needs is specific to that person (speed for Amara, an unchangeable record of every decision for Wei, consistent rules with hard cases reaching a person for Rosa), not a general wish for improvement."
+    evidence: "quote one phrase per person that shows the difference"
   - id: current-process-traceable
-    description: "The How it works today section lists 4 to 7 numbered steps in order. The steps name the order receipt, the delivery slip, the unboxing photo, and the return policy. Do not accept 3 or fewer steps, 8 or more steps, steps out of order, or unnamed documents."
-    evidence: "Quote the first and last numbered step and state the step count, or quote the step that breaks the order or leaves a document unnamed."
-  - id: target-process-measurable
-    description: "The How it should work section lists 4 to 7 numbered steps. It states a target time of under 1 hour. It states that a person reviews hard cases and gives an amount in integer cents, like 4520 cents. Do not accept a missing target, no human review, or dollars like $45.20 with no integer cents anywhere."
-    evidence: "Quote the target time, the human review step, and the integer cents amount, or quote the section heading and name what is missing."
+    description: "The current process is a sequence a reader could follow for one message (read, look up order, look up delivery, check photo or rules, decide, reply, record) and it says where the waiting comes from."
+    evidence: "quote the steps or the sentence about where time goes"
+  - id: target-process-distinguishes-cases
+    description: "The target process says what happens to an easy case (decided and answered quickly) and what happens to a hard case (reaches a person with the facts gathered), and says that decisions are recorded."
+    evidence: "quote the easy-case and hard-case sentences and the recording sentence"
+  - id: words-and-length
+    description: "The words AI, agent, LLM, model, and machine learning do not appear; amounts are plain numbers like 45.00; the brief is roughly 350 to 600 words with the four required headings in order."
+    evidence: "state the word count and confirm the banned words are absent, or quote the offending word"

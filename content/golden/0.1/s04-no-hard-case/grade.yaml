@@ -1,0 +1,12 @@
+submission: s04-no-hard-case
+expected: fail
+criteria:
+  problem-stated-plainly: pass
+  three-people-differ: pass
+  current-process-traceable: pass
+  target-process-distinguishes-cases: fail
+  words-and-length: pass
+overall: fail
+grader_notes: The target process describes the easy case and recording but never says what happens when something is unclear. Rosa's requirement is missing, so target-process-distinguishes-cases fails alone.
+graded_by: human
+graded_on: '2026-09-12'

@@ -3,34 +3,34 @@ id: "0.1"
 phase: 0
 est_hours: 1
 prereq_units: []
-learn: learn.md
+learn: lesson.md
+assignment: assignment.md
 practice:
-  worked_example: worked-example/
-  completion_problem:
-    prompt: "Write a client brief for OmniCart Operations covering the current delay, the three leaders, and both process flows."
-    instructions: "Draft your brief inside omnicart-system/docs/client-brief.md using the five required headings and whole integer cents."
-    rubric: rubrics/0.1/v1.yaml
   retrieval_seeds:
-    - "OmniCart handles about 4,000 return requests, damage claims, delivery slips, and payout disputes each month."
-    - "Today a dispute sits for 2 to 3 days before review begins."
-    - "Operations wants reviews under 1 hour, the CFO wants integer cents tracked, and compliance protects return rules."
-    - "Money is always written as integer cents, so 45 dollars and 20 cents becomes 4520 cents."
-    - "We describe the business problem in plain words before we choose any fix."
+    - "Where do the two and a half days of waiting at Lantern actually come from, if not from the twenty minutes an agent spends on a message?"
+    - "What would make Wei reject a system that Amara loved? Describe what he needs to be able to do a year after a refund is paid."
+    - "Rosa wants hard cases to reach a person. Give two examples of what makes a case hard, and say what the system should do with one."
+    - "Why does the course ask you to describe Lantern's problem without naming any technology? What does a client hear when you open with the technology?"
+    - "Why will the system take months to build when reading a message and guessing the answer is a weekend's work? Where does the real work go?"
+  completion_problem:
+    prompt: "Write a one-page client brief for Lantern Home in your own words: the problem and its size, what done means to Amara, Wei and Rosa, how a message is handled today, and how it should be handled."
+    instructions: "Save it as lantern/docs/client-brief.md with the four headings in the order given in the assignment. Plain words; no AI, agent, LLM, model or machine learning; amounts as plain numbers like 45.00; 350 to 600 words."
+    rubric: rubrics/0.1/v1.yaml
 build:
-  deliverable: "Submit your client brief document for OmniCart Operations saved to omnicart-system/docs/client-brief.md."
+  deliverable: "Your client brief for Lantern Home, saved as lantern/docs/client-brief.md."
   submission: file
-  data_variant: omnicart@v0
+  data_variant: lantern@v1
 verify:
   layers: [2]
   rubric: rubrics/0.1/v1.yaml
 gate:
   unlocks: ["0.2"]
 unstuck:
-  - symptom: "The grader flags a forbidden technology word in my brief"
-    fix_ref: faq/0.1.md#forbidden-technology-words
-  - symptom: "My problem section has more than three sentences"
-    fix_ref: faq/0.1.md#too-many-sentences
-  - symptom: "The grader rejects money written as dollars"
-    fix_ref: faq/0.1.md#dollar-amounts-instead-of-cents
-  - symptom: "My steps list misses one of the four required documents"
-    fix_ref: faq/0.1.md#missing-required-documents
+  - symptom: "The tutor says my problem section is too general"
+    fix_ref: assignment.md#the-tutor-says-the-problem-section-is-too-general
+  - symptom: "My paragraphs about Amara, Wei and Rosa sound the same"
+    fix_ref: assignment.md#the-three-people-sound-the-same
+  - symptom: "A banned word was found in my brief"
+    fix_ref: assignment.md#a-banned-word-slipped-in
+  - symptom: "My brief is far over 600 words"
+    fix_ref: assignment.md#it-is-much-longer-than-600-words

@@ -1,77 +1,103 @@
-version: 1
+version: 2
 project:
-  name: "OmniCart Operations Intake & Return Dispute Pipeline"
+  name: Lantern Home customer support system
   anchor_client:
-    name: "OmniCart Operations"
-    description: "120-person regional multi-brand e-commerce retailer and marketplace fulfillment hub processing thousands of customer orders across hundreds of consumer brands. Processes ~4,000 customer return requests, damaged parcel claims, courier delivery slips, and merchant payout disputes per month."
-    pain_point: "Customer support and warehouse clerks manually cross-reference order receipts, courier waybills, unboxing photos, and store return policies; disputes sit unreviewed for 2-3 days, resulting in frustrated shoppers, fraudulent refund payouts, and unrecovered courier damage claims."
+    name: Lantern Home
+    description: A fictional online shop selling everyday household goods (kettles, lamps, bedsheets, chargers, school bags)
+      to one country, about sixty staff, eight of them in customer support. Everything about it is in content/client/.
+    pain_point: About 3,000 customer messages a month about orders (not arrived, damaged, wrong item, refund). Each takes
+      an agent about twenty minutes of looking up the order, the courier's delivery record, any photo and the twenty-rule
+      rulebook. Messages wait two to three days before anyone reads them; about one refund in fifty is later found to be wrong.
     stakeholders:
-      - "VP of Operations (Sarah Jenkins): wants return triage cycle time cut from 2-3 days to under 1 hour with zero lost customer tickets"
-      - "CFO: wants every refund, replacement, and merchant chargeback tracked down to exact integer cents with an immutable audit trail"
-      - "Trust & Safety / Policy Officer: enforces 14-day statutory return policies, warranty clauses, and photo evidence standards for damage claims"
-  parallel_entity:
-    name: "Apex Freight Logistics"
-    description: "Regional third-party logistics (3PL) freight broker and carrier audit clearinghouse headquartered in Indianapolis. Audits approximately 3,500 carrier document packages each month (rate confirmations, bills of lading, driver detention logs, damage claims, carrier invoices) across 300 active motor carriers."
-    role: "Used exclusively in worked examples and scaffolded demonstrations so students learn the exact structural pattern on a parallel domain without having the OmniCart solution spoon-fed."
+    - 'Amara Osei, owner: a straightforward case gets a correct answer within an hour, without hiring more agents. Decides
+      whether to buy.'
+    - 'Wei Zhang, keeps the books: every decision recorded with what it was based on (message, order, delivery record, rule,
+      who, when) and never edited afterwards. Decides whether it can be trusted with money.'
+    - 'Rosa Delgado, runs support and wrote the rulebook: rules applied the same way to everyone; every unclear case reaches
+      a person before anything is paid. Decides whether her team will use it.'
   canonical_conventions:
-    monetary_values: "Strictly integer cents (e.g., $45.20 is stored as 4520, never float 45.20)"
+    monetary_values: 'Plain decimal numbers with no currency symbol, as Lantern''s own records show them: 45.00. Lantern sells
+      in one country and the currency is never named. Integer minor-unit storage is taught when floating point is taught,
+      not before.'
     identifier_prefixes:
-      claims: "CLM-##### (e.g. CLM-20841)"
-      invoices: "INV-#####"
-      orders: "ORD-##### (e.g. ORD-8821)"
-      merchants: "MCH-#### or VND-####"
-      deliveries: "DEL-##### or TRK-#####"
+      orders: five digits, e.g. 48213 (see content/client/orders.csv)
+      messages: M-#### e.g. M-1041 (file names in content/client/messages/)
     stack_evolution:
-      phase_0: "Docker environment, plain text / markdown briefs, manual baseline triage"
-      phase_1: "Python 3.12, Pydantic v2, pytest, asyncio, FastAPI intake"
-      phase_2: "Direct LLM API calling, token math, latency/cost budgets"
-      phase_3: "Structured outputs (JSON Schema/Pydantic), retries, fallbacks, system prompts"
-      phase_4: "Chunking, embeddings, vector search (Qdrant), hybrid reranking, store policy RAG"
-      phase_5: "Tool schemas, single/multi-agent loops, state graphs (LangGraph), human-in-the-loop"
-      phase_6: "Fine-tuning, LoRA/QLoRA on customer return dispute records"
-      phase_7: "Golden datasets, LLM-as-judge evals, Langfuse observability"
-      phase_8: "Model routing, prompt caching, token cost optimization"
-      phase_9: "Prompt injection defense, return fraud guardrails, compliance audit logs"
-      phase_10: "Docker containerization, CI/CD, production deployment, telemetry"
-      phase_11: "Business scoping, proposals, pricing, discovery simulations"
-      phase_12: "Capstone end-to-end client deployment"
-
-# Chronological ledger of units.
+      phase_0: Plain text and Markdown; the client brief; the terminal and an editor
+      phase_1: Python 3.12, standard library first (open, str methods, lists, dicts, csv, json, pathlib), then Pydantic v2,
+        pytest, asyncio, FastAPI
+      phase_2: Direct LLM API calling, token math, latency and cost budgets
+      phase_3: Structured outputs, retries, fallbacks, system prompts
+      phase_4: Chunking, embeddings, vector search, hybrid reranking; the rulebook as the retrieval corpus
+      phase_5: Tool schemas, single and multi-agent loops, state graphs, human-in-the-loop (pass to Rosa)
+      phase_6: Fine-tuning decision and LoRA/QLoRA on message classification
+      phase_7: Golden datasets, LLM-as-judge evals, tracing
+      phase_8: Model routing, prompt caching, cost per case
+      phase_9: Prompt injection defence (customer text is untrusted), refund guardrails, the decision record Wei audits
+      phase_10: Containers, deployment, monitoring, runbooks
+      phase_11: Scoping, pricing, proposal and delivery of the Lantern engagement
+      phase_12: Capstone and three portfolio builds in other industries
 units:
-  - unit: "0.1"
-    title: "Meet the client: OmniCart Operations"
-    concepts_unlocked:
-      - "State a business problem in plain words before naming any fix"
-      - "Stakeholder trilemma: three leaders with three different definitions of done (speed, every cent tracked, rules followed)"
-      - "Client brief structure: the problem, who cares and why, how it works today, how it should work"
-      - "Money is written as integer cents (4520, never 45.20)"
-      - "Claim and order identifiers: CLM-##### and ORD-#####"
-      - "The four documents a clerk reads: order receipt, delivery slip, unboxing photo, return policy"
-      - "A person still reviews hard cases in the target process"
-    anti_prerequisites:
-      - "No code, no Python, no Docker, no terminal, no editor beyond plain text"
-      - "No technology vocabulary: AI, agent, LLM, model, prompt, automation, API, schema, JSON"
-      - "No knowledge of the Keel grading loop (taught in 0.2)"
-      - "No idea of how a computer could solve the problem; the student describes only"
-    project_working_tree:
-      added_files:
-        - "omnicart-system/docs/client-brief.md"
-      contracts_established:
-        - "omnicart-system/ is the fixed project root for every later unit"
-        - "docs/client-brief.md is a living file; later units append below its five headings, never replace them"
-        - "Five stable headings: # OmniCart Operations: Client Brief, ## The problem, ## Who cares and why, ## How it works today, ## How it should work"
-        - "Targets later tests check: about 4,000 cases a month, under 1 hour, integer cents"
-    retrieval_seeds:
-      - "OmniCart handles about 4,000 return requests, damage claims, delivery slips, and payout disputes each month."
-      - "Today a dispute sits for 2 to 3 days before review begins."
-      - "Operations wants reviews under 1 hour, the CFO wants integer cents tracked, and compliance protects return rules."
-      - "Money is always written as integer cents, so 45 dollars and 20 cents becomes 4520 cents."
-      - "We describe the business problem in plain words before we choose any fix."
-    narrative_anchor: "Tuesday morning on the OmniCart dock. Order ORD-8821, a coffee grinder with a cracked hopper, becomes claim CLM-20841 and sits in the queue for 2 to 3 days. Parallel entity Apex Freight Logistics carries the worked example."
-    structure:
-      note: "Backfilled 2026-09-10 from the authored learn.md. Skip-reasons were not logged at authoring time; the field became mandatory for units authored after 2026-09-10 (unit_orchestrator Step 7)."
-      fingerprint: "learn headings 3; apparatus mermaid, aside, recap; recap late; coda yes; per-phase headings 3/1/1/1/1/1"
-      blocks_used:
-        - "mermaid: the intake case forks into fast payout versus human review, a genuine flow"
-        - "aside: the integer-cent rounding explanation would break the stakeholder narrative"
-        - "recap: lands after the current-versus-target process topic shift, late in the learn phase"
+- unit: '0.1'
+  title: 'Meet the client: Lantern Home'
+  concepts_unlocked:
+  - Where the two and a half days of waiting come from (the pile, not the twenty minutes)
+  - 'Three definitions of done: Amara (fast), Wei (recorded, unchangeable), Rosa (consistent, hard cases reach a person)'
+  - Easy cases decided by the system, hard cases handed to a person with the facts gathered
+  - Describing a client's problem without naming any technology
+  - Why the trust is the product and the reading of the message is the easy part
+  anti_prerequisites:
+  - No code, no terminal, no editor beyond plain text
+  - No knowledge of how the course is graded (taught in 0.2)
+  project_working_tree:
+    added_files:
+    - lantern/docs/client-brief.md
+    contracts_established:
+    - lantern/ is the student's project root for every later unit; it contains a copy of content/client/
+  retrieval_seeds:
+  - Where do the two and a half days of waiting at Lantern actually come from, if not from the twenty minutes an agent spends
+    on a message?
+  - What would make Wei reject a system that Amara loved? Describe what he needs to be able to do a year after a refund is
+    paid.
+  - Rosa wants hard cases to reach a person. Give two examples of what makes a case hard, and say what the system should do
+    with one.
+  - Why does the course ask you to describe Lantern's problem without naming any technology? What does a client hear when
+    you open with the technology?
+  - Why will the system take months to build when reading a message and guessing the answer is a weekend's work? Where does
+    the real work go?
+  narrative_anchor: Fatima Al-Sayed's cracked kettle lid (M-1041, order 48213), followed through Tunde's twenty minutes.
+- unit: 1.1.1
+  title: A program that reads a customer's message (chapter 1 of Python fundamentals)
+  concepts_unlocked:
+  - A program is a text file Python runs top to bottom, one line at a time, halting at the first line it cannot carry out
+  - print and strings
+  - 'Variables: = as an action (work out the right side, store it under the name on the left); reassignment'
+  - 'with open(path) as file: / file.read(); indentation marks what runs while the file is open'
+  - Reading a traceback from the bottom up
+  - 'Strings as rows of characters: len, indexing from 0, slicing with the end excluded, find and -1'
+  - The interactive prompt for trying one thing at a time
+  - splitlines gives a list; lists are indexed like strings; replace returns a new string
+  - print with several arguments
+  - A wrong answer delivered without an error is the failure to fear most
+  anti_prerequisites:
+  - No loops, no if, no functions, no dicts (chapter 2 onwards)
+  - 'No case-insensitive matching or digit checks: the find-then-slice approach is shown breaking on M-1042 and M-1044 and
+    left broken on purpose'
+  project_working_tree:
+    added_files:
+    - lantern/hello.py
+    - lantern/read_message.py
+    contracts_established:
+    - 'Lantern''s files are read by relative path from the lantern/ folder: messages/M-1041.txt'
+  retrieval_seeds:
+  - When Python runs a program file, in what order does it carry out the lines, and what happens to the rest of the program
+    when one line fails?
+  - What does the = sign do in a line like customer = "Fatima", and why is reading it as 'equals' misleading?
+  - What is the difference between print(customer) and print("customer")?
+  - What does text[0:5] give you, and why is the character at position 5 not included?
+  - What does text.find("order") give back when the word is not in the text, and why is that dangerous when you slice with
+    it afterwards?
+  - Why did the program print 'd GRE' as the order number for Joseph's message? What did find actually match?
+  - 'What does the with ... as file: line do for you when the indented lines underneath it finish?'
+  narrative_anchor: Tunde finding the order number in each message; read_message.py does it for M-1041, then breaks honestly
+    on M-1042 (ordered GREY) and M-1044 (capital O).

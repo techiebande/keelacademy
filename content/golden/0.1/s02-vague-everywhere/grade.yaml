@@ -1,0 +1,12 @@
+submission: s02-vague-everywhere
+expected: fail
+criteria:
+  problem-stated-plainly: fail
+  three-people-differ: fail
+  current-process-traceable: fail
+  target-process-distinguishes-cases: fail
+  words-and-length: fail
+overall: fail
+grader_notes: Brochure language throughout. No numbers. The three people are interchangeable. No sequence. Target says nothing about easy versus hard or about records. Under 200 words, so length also fails.
+graded_by: human
+graded_on: '2026-09-12'

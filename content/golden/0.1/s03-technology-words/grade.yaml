@@ -1,0 +1,12 @@
+submission: s03-technology-words
+expected: fail
+criteria:
+  problem-stated-plainly: pass
+  three-people-differ: pass
+  current-process-traceable: pass
+  target-process-distinguishes-cases: pass
+  words-and-length: fail
+overall: fail
+grader_notes: Substantively strong, but 'AI agent' and 'LLM' appear in the target process. Only words-and-length fails; the feedback should point at the sentence and suggest describing what the customer sees instead.
+graded_by: human
+graded_on: '2026-09-12'

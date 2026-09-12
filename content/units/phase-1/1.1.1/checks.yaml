@@ -1,0 +1,30 @@
+# Checks for Unit 1.1.1, chapter 1: read_message.py
+#
+# Submission contract
+#   read_message.py    your finished program, in the top folder of your submission
+#   CLI: python3 read_message.py
+#
+# The checker copies Lantern's messages folder next to your file before running.
+# Each check runs your program once and looks at what it printed.
+
+- id: prints-email
+  type: command
+  run: python3 read_message.py
+  expect:
+    output_contains: "From: fatima.alsayed@example.com"
+
+- id: prints-order-number
+  type: command
+  run: python3 read_message.py
+  expect:
+    output_contains: "Order: 48213"
+
+- id: order-number-is-found-not-typed
+  type: command
+  run: python3 -c "import sys; src = open('read_message.py').read(); sys.exit(1 if '48213' in src else 0)"
+  expect: exit_zero
+
+- id: uses-find-and-a-slice
+  type: command
+  run: python3 -c "import sys; src = open('read_message.py').read(); sys.exit(0 if '.find(' in src and '[' in src else 1)"
+  expect: exit_zero

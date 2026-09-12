@@ -7,14 +7,14 @@ phases:
   why: Setup is where self-taught learners stall, not for lack of talent,
     but because nobody tells them what "ready" looks like. You finish your
     first session with a working sandbox and your first graded drill.
-  outcome: 'Your Docker workspace runs, and you can describe what OmniCart
+  outcome: 'Your Docker workspace runs, and you can describe what Lantern Home
     needs in three sentences. That is the whole bar, and you will clear it
     tonight.'
   pipeline_role: The Docker workspace and the first e-commerce order and return fixtures.
   modules:
   - id: '0.1'
-    title: 'Meet the client: OmniCart Operations'
-    description: Read real customer return notes, delivery slips, and photo tickets to name where intake breaks.
+    title: 'Meet the client: Lantern Home'
+    description: Follow one customer's message through the support team and see where the two and a half days go.
   - id: '0.2'
     title: How the curriculum and grading loop work
     description: See how automated checks, rubric review, and defence questions
@@ -29,15 +29,18 @@ phases:
   why: Later phases are software with one unpredictable part bolted on. If
     the software underneath wobbles, nothing above it can be trusted, so
     you learn the software part here, on the intake pipeline itself.
-  outcome: You ship a tested API that reads dispute files and returns clean
+  outcome: You ship a tested API that reads customer messages and returns clean
     records. Unglamorous? Completely. Everything else stands on it.
-  pipeline_role: The intake API that validates dispute records.
+  pipeline_role: The intake API that reads and validates customer messages.
   note: Experienced programmers can take a 20-minute adaptive diagnostic to place
     straight into Phase 2.
   modules:
   - id: '1.1'
     title: Python for AI engineering
-    description: Write typed Python and model disputes with Pydantic, with no more hope-typed dicts.
+    description: Write typed Python and model customer cases with Pydantic, with no more hope-typed dicts.
+  - id: '1.1.1'
+    title: Python fundamentals, on Lantern's messages
+    description: Read a message file, find the order number and email inside it, and learn how Python runs, remembers and slices along the way.
   - id: '1.2'
     title: Version control and collaborative git workflows
     description: Branch, commit, and open pull requests a client's engineer could review.
@@ -132,14 +135,14 @@ phases:
   why: 'Agents loop forever and burn budget; this is where most builders stall.
     Yours will not: step caps, stop rules, and a state log you can replay. Boring?
     Boring is what ships.'
-  outcome: You build an agent that checks stock, checks terms, and routes the dispute
+  outcome: You build an agent that checks the order, checks the rules, and routes the case
     without exceeding budget. It does the morning triage shift of a human specialist.
   pipeline_role: The triage agent with step caps and a full trace.
   note: Pass the Phase 5 gate within 365 days and you earn a 15% rebate.
   modules:
   - id: '5.1'
     title: Function calling schemas and structured parameter validation
-    description: Define lookup_agreement, check_prior_disputes, and flag_for_review, three tools, zero ambiguity.
+    description: Define lookup_order, check_prior_refunds, and pass_to_rosa, three tools, zero ambiguity.
     is_gate: true
   - id: '5.2'
     title: Single-agent ReAct reasoning loops with hard stop conditions
@@ -152,7 +155,7 @@ phases:
     description: Rebuild the loop as a named graph you can draw for a non-engineer.
   - id: '5.5'
     title: Persistent conversation memory and state compaction
-    description: Scope state per dispute so two cases never mix; cross-contamination is a horror story, not a feature.
+    description: Scope state per case so two customers never mix; cross-contamination is a horror story, not a feature.
 - phase: 6
   id: phase-6
   title: Fine-Tuning & Model Adaptation
@@ -207,13 +210,13 @@ phases:
   est_hours: 50
   why: At 4,000 invoices a month, a wasteful call pattern loses money. A system that
     costs more than the clerk it replaces will not ship, no matter how clever it is.
-  outcome: You price each dispute, route easy cases to cheap models, and cache repeated
+  outcome: You price each case, route easy ones to cheap models, and cache repeated
     prompts. Unit economics you can show a CFO without flinching.
   pipeline_role: The router that sends easy cases to cheap models.
   modules:
   - id: '8.1'
     title: Token economics, context modeling and ROI calculations
-    description: Model cost per dispute and show where batching helps, in dollars, not vibes.
+    description: Model cost per case and show where batching helps, in dollars, not vibes.
   - id: '8.2'
     title: Dynamic cascading model routers
     description: Route simple cases cheap and escalate hard ones. Biggest-model-always is a rookie tax.
@@ -309,13 +312,13 @@ phases:
   why: One deep build proves you can ship. Three more prove you can repeat it in
     legal, clinical, and finance settings, because "one vertical" is a project,
     and "four" is a practice.
-  outcome: OmniCart runs in production, plus three portfolio builds in other industries.
+  outcome: Lantern Home's system runs in production, plus three portfolio builds in other industries.
     Depth and range, on one transcript, all verified.
-  pipeline_role: The live OmniCart system plus three portfolio builds.
+  pipeline_role: The live Lantern Home system plus three portfolio builds.
   note: Clear the capstone gate within 365 days and you earn the final 15% rebate.
   modules:
   - id: '12.1'
-    title: 'The Capstone: OmniCart Operations end to end in production'
+    title: 'The Capstone: Lantern Home end to end in production'
     description: Connect extraction, retrieval, routing, and audit logs end to end; the whole animal, alive.
     is_gate: true
   - id: '12.2'

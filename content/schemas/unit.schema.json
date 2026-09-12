@@ -20,7 +20,10 @@
   "properties": {
     "kind": {
       "type": "string",
-      "enum": ["code", "conceptual"],
+      "enum": [
+        "code",
+        "conceptual"
+      ],
       "description": "Unit kind: code (default) with sandbox completion problem, or conceptual with model answer and synthesis prompt"
     },
     "id": {
@@ -40,81 +43,156 @@
     },
     "prereq_units": {
       "type": "array",
-      "items": { "$ref": "#/$defs/unitId" }
+      "items": {
+        "$ref": "#/$defs/unitId"
+      }
     },
     "learn": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          }
+        }
+      ],
+      "description": "Path to the lesson chapter (plain Markdown), or an ordered list of chapter paths for a unit taught over several chapters"
+    },
+    "assignment": {
       "type": "string",
-      "description": "Path to the unit-script lesson (six ::: phase blocks)"
+      "description": "Path to assignment.md: the authored hand-off (the task, how it is checked, where people get stuck), rendered after the chapter"
     },
     "practice": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["worked_example", "completion_problem", "retrieval_seeds"],
+      "required": [
+        "completion_problem",
+        "retrieval_seeds"
+      ],
       "properties": {
-        "worked_example": { "type": "string" },
+        "worked_example": {
+          "type": "string",
+          "description": "Deprecated. The chapter is the worked example. Left optional so old grading fixtures still validate."
+        },
         "completion_problem": {
           "oneOf": [
             {
               "type": "object",
               "additionalProperties": false,
-              "required": ["base", "checks"],
+              "required": [
+                "base",
+                "checks"
+              ],
               "properties": {
-                "base": { "type": "string" },
-                "checks": { "type": "string" }
+                "base": {
+                  "type": "string"
+                },
+                "checks": {
+                  "type": "string"
+                }
               }
             },
             {
               "type": "object",
               "additionalProperties": false,
-              "required": ["prompt"],
+              "required": [
+                "prompt"
+              ],
               "properties": {
-                "prompt": { "type": "string", "minLength": 1 },
-                "instructions": { "type": "string" },
-                "rubric": { "type": "string" }
+                "prompt": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "instructions": {
+                  "type": "string"
+                },
+                "rubric": {
+                  "type": "string"
+                }
               }
             }
-          ]
+          ],
+          "description": "The faded assignment: for code units the starter files and checks; for conceptual units the writing prompt, instructions and rubric."
         },
         "retrieval_seeds": {
           "type": "array",
           "minItems": 1,
-          "items": { "type": "string", "minLength": 1 }
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": "Recall QUESTIONS the platform asks the student from memory after the chapter and again days later; graded against the chapter text. Questions, never statements."
         }
       }
     },
     "build": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["deliverable", "submission", "data_variant"],
+      "required": [
+        "deliverable",
+        "submission",
+        "data_variant"
+      ],
       "properties": {
-        "deliverable": { "type": "string", "minLength": 1 },
-        "submission": { "enum": ["repo", "file", "recording"] },
-        "data_variant": { "type": "string", "minLength": 1 }
+        "deliverable": {
+          "type": "string",
+          "minLength": 1
+        },
+        "submission": {
+          "enum": [
+            "repo",
+            "file",
+            "recording"
+          ]
+        },
+        "data_variant": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "verify": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["layers", "rubric"],
+      "required": [
+        "layers"
+      ],
       "properties": {
         "layers": {
           "type": "array",
           "minItems": 1,
           "uniqueItems": true,
-          "items": { "type": "integer", "minimum": 1, "maximum": 4 }
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 4
+          }
         },
-        "deterministic_checks": { "type": "string" },
-        "rubric": { "type": "string" }
-      }
+        "deterministic_checks": {
+          "type": "string"
+        },
+        "rubric": {
+          "type": "string"
+        }
+      },
+      "description": "Which grading layers run. Layer 1 needs deterministic_checks; layer 2 needs rubric."
     },
     "gate": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["unlocks"],
+      "required": [
+        "unlocks"
+      ],
       "properties": {
         "unlocks": {
           "type": "array",
-          "items": { "$ref": "#/$defs/unitId" }
+          "items": {
+            "$ref": "#/$defs/unitId"
+          }
         }
       }
     },
@@ -123,10 +201,20 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["symptom", "fix_ref"],
+        "required": [
+          "symptom",
+          "fix_ref"
+        ],
         "properties": {
-          "symptom": { "type": "string", "minLength": 1 },
-          "fix_ref": { "type": "string", "minLength": 1 }
+          "symptom": {
+            "type": "string",
+            "minLength": 1
+          },
+          "fix_ref": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Anchor in assignment.md (assignment.md#heading-slug) where the fix is explained"
+          }
         }
       }
     }
@@ -134,15 +222,23 @@
   "allOf": [
     {
       "if": {
-        "required": ["kind"],
-        "properties": { "kind": { "const": "conceptual" } }
+        "required": [
+          "kind"
+        ],
+        "properties": {
+          "kind": {
+            "const": "conceptual"
+          }
+        }
       },
       "then": {
         "properties": {
           "practice": {
             "properties": {
               "completion_problem": {
-                "required": ["prompt"]
+                "required": [
+                  "prompt"
+                ]
               }
             }
           }
@@ -153,12 +249,17 @@
           "practice": {
             "properties": {
               "completion_problem": {
-                "required": ["base", "checks"]
+                "required": [
+                  "base",
+                  "checks"
+                ]
               }
             }
           },
           "verify": {
-            "required": ["deterministic_checks"]
+            "required": [
+              "deterministic_checks"
+            ]
           }
         }
       }

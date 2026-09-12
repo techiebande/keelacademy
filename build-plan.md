@@ -28,7 +28,7 @@ practice:
 build:
   deliverable: "<verbatim from curriculum.md>"
   submission: repo                    # repo | file | recording
-  data_variant: omnicart@v3
+  data_variant: lantern@v1
 verify:
   layers: [1, 2, 3]                   # which verification layers apply
   deterministic_checks: checks/3.2.1.build.yaml
@@ -51,7 +51,7 @@ criteria:
     evidence: "quote the log line or code path"
 ```
 
-**Data variant** (`data_variant: omnicart@v3`, a versioned string; schema at `content/schemas/variant.schema.json`): generator script + parameter ranges; per-student seed = `hash(student_id, unit_id)`, so every student's corpus differs but is reproducible.
+**Data variant** (`data_variant: lantern@v1`, a versioned string; schema at `content/schemas/variant.schema.json`): generator script + parameter ranges; per-student seed = `hash(student_id, unit_id)`, so every student's corpus differs but is reproducible.
 
 **Persona** (`content/personas/*.yaml`): grounding refs, rubric ref, scoring config for the §6 simulation engine.
 
@@ -92,12 +92,12 @@ Postgres schema, GitHub OAuth + webhook intake, queue + idempotent workers, sand
 **Exit:** a git push produces a verdict with zero human involvement; a rubric change that degrades golden-set accuracy blocks its own merge.
 
 ### Stage 2 — Content pipeline + learner UI MVP
-Content repo + schema-validation CI + per-unit dry-run on content PRs; unit-page renderer (Learn/Practice/Build/Verify/Unstuck); submission flow and verdict display; auth; Stripe + rebate state machine; gate engine consuming verdict events; progress dashboard v1 (the growing OmniCart map).
+Content repo + schema-validation CI + per-unit dry-run on content PRs; unit-page renderer (chapter, assignment, apparatus); submission flow and verdict display; auth; Stripe + rebate state machine; gate engine consuming verdict events; progress dashboard v1 (the growing OmniCart map).
 **Exit:** a test student can sign up, pay, and complete unit 3.2.1 end to end.
 
 ### Stage 3 — Practice engine + concierge
 Completion-problem grading (reuses Layer 1), retrieval-question generation + grading, spaced re-check scheduler, adaptive routing, dual-mode concierge (server-side mode switch).
-**Exit:** a failed drill routes through worked example → completion problem → retry; concierge teach/guard behavior verified by test prompts in CI.
+**Exit:** a failed drill routes the student back to the relevant chapter section and the faded assignment before retrying; concierge teach/guard behavior verified by test prompts in CI.
 
 ### Stage 4 — Community, simulations, retention, analytics
 Pod tooling + weekly digest, gallery v1, simulation service (discovery-call + two skeptical-reviewer personas, scored transcripts feeding gates), per-unit drop-off dashboard, commitment screen + placement diagnostic live.
@@ -106,7 +106,7 @@ Pod tooling + weekly digest, gallery v1, simulation service (discovery-call + tw
 ### Content production track (parallel after Stage 2)
 Lessons are authored in batches against the same schema and CI — pilot batch = Phases 0–3, then 4–5, 6–7, 8–10, then 11 simulation content. This track is the *only* work remaining once the platform-done checklist below holds.
 
-Stage gate (every unit, before it is marked complete): a structural-variety check. `python content/tools/structural-fingerprint.py <unit>` compares the finished lesson's structure (blocks present, their order, recap presence and position, heading counts) against the last 3–5 completed units. A flag is not an automatic fail: it forces a second look by the author, who restructures or justifies the shared shape; the outcome is recorded in the ledger unit's `structure` field (blocks used with reasons, blocks considered and skipped, any flag justification) so drift stays auditable. Authoring precedence (voice skill over mechanical rules) is defined in AGENTS.md.
+Stage gate (every unit, before it is marked complete): `python3 content/tools/run-lesson-code.py <lesson.md>` is green (every code block prints what the page says), the schema validators pass, and the first reader (`.agents/agents/first_reader/agent.md`) has read the chapter cold and the author has answered every finding. No structural check exists any more: shape is not a property we measure (docs/lesson-design.md §1, §7).
 
 ---
 

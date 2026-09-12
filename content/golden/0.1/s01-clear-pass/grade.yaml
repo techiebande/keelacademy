@@ -1,0 +1,12 @@
+submission: s01-clear-pass
+expected: pass
+criteria:
+  problem-stated-plainly: pass
+  three-people-differ: pass
+  current-process-traceable: pass
+  target-process-distinguishes-cases: pass
+  words-and-length: pass
+overall: pass
+grader_notes: Every criterion met. Problem gives 3,000 a month, two to three days, one in fifty wrong. Three people differ clearly. Seven traceable steps plus a sentence on where time goes. Target distinguishes easy from hard and says records are never edited. 480 words, no banned words.
+graded_by: human
+graded_on: '2026-09-12'

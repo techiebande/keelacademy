@@ -11,7 +11,7 @@ format:
   style: "Self-directed, text-first curriculum authored in-house."
   finish_line: "A production-grade, audited AI system deployed on real client data, plus sendable proposals and signed verification."
   teaching_delivery: "There are no video lectures and no live instructor. Your work is executed by automated checks in a sandbox, the code you push is scored by rubric review, and a concierge asks you questions to unblock you rather than writing your answer."
-  summary: "Text-first engineering curriculum grounded in building the OmniCart Operations invoice and dispute pipeline. Progress is measured exclusively by verified working deliverables."
+  summary: "Text-first engineering curriculum grounded in building the Lantern Home invoice and case pipeline. Progress is measured exclusively by verified working deliverables."
 
 guarantees:
   client_guarantee: "We cannot and do not guarantee you clients or employment upon completion."

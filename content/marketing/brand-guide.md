@@ -10,7 +10,7 @@ Keel Academy is the only AI engineering school where every deliverable is machin
 
 - A self-paced online school for AI engineering
 - 13 phases, 56 modules, 700 to 950 hours of structured work
-- Students build one real system (OmniCart Operations) from zero to production
+- Students build one real system (Lantern Home) from zero to production
 - Every deliverable is graded by automated tests and AI judges against rubrics
 - Business skills (pricing, proposals, client work) run in parallel from day one
 - The finish line is shipped, verified work and a sendable proposal

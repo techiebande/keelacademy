@@ -10,7 +10,7 @@ steps:
     title: "The Apex Freight brief with notes"
     type: "scaffold"
   - id: "completion"
-    title: "Write your OmniCart brief"
+    title: "Write your Lantern Home brief"
     type: "workbench"
 fast_pass:
   condition: "all_retrieval_passed_first_try"

@@ -1,0 +1,37 @@
+kind: code
+id: "1.1.1"
+phase: 1
+est_hours: 3
+prereq_units: ["0.3"]
+learn: lesson.md
+assignment: assignment.md
+practice:
+  retrieval_seeds:
+    - "When Python runs a program file, in what order does it carry out the lines, and what happens to the rest of the program when one line fails?"
+    - "What does the = sign do in a line like customer = \"Fatima\", and why is reading it as 'equals' misleading?"
+    - "What is the difference between print(customer) and print(\"customer\")?"
+    - "What does text[0:5] give you, and why is the character at position 5 not included?"
+    - "What does text.find(\"order\") give back when the word is not in the text, and why is that dangerous when you slice with it afterwards?"
+    - "Why did the program print 'd GRE' as the order number for Joseph's message? What did find actually match?"
+    - "What does the with ... as file: line do for you when the indented lines underneath it finish?"
+  completion_problem:
+    base: starter/
+    checks: checks.yaml
+build:
+  deliverable: "read_message.py, which opens messages/M-1041.txt and prints the customer's email address and the order number found in the message."
+  submission: repo
+  data_variant: lantern@v1
+verify:
+  layers: [1]
+  deterministic_checks: checks.yaml
+gate:
+  unlocks: ["1.1.2"]
+unstuck:
+  - symptom: "Order prints as an empty line"
+    fix_ref: assignment.md#order-prints-as-an-empty-line
+  - symptom: "Order prints five characters that are not the number"
+    fix_ref: assignment.md#order-prints-five-characters-that-are-not-the-number
+  - symptom: "NameError: name 'position' is not defined"
+    fix_ref: assignment.md#nameerror-name-position-is-not-defined
+  - symptom: "The checks pass on my machine but the email check fails"
+    fix_ref: assignment.md#the-checks-pass-on-my-machine-but-the-email-check-fails

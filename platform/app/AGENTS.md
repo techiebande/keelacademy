@@ -143,23 +143,24 @@ the app owns structure, data and state.** Full rationale in the repo-root
   `h3`/`h4`. Generated ids are deduped against `SCRIPT_RESERVED_IDS`, so a
   heading called "Practice" becomes `practice-2` rather than colliding with
   the section anchor.
-- **Learn-phase heading count is free** (STYLE.md: at least two, no maximum;
-  let the topic decide). `last_verified` and the `Checked for accuracy` stamp
+- **Heading count is free beyond one per phase.** The contents rail lists a
+  script's `##` headings across the whole page and nothing else, so each of
+  the six phases needs at least one `##` heading to be reachable from the
+  rail; that is the only structural constraint, and it exists for navigation,
+  not prose shape (STYLE.md). `last_verified` and the `Checked for accuracy` stamp
   it fed, the phase-boundary `END OF LEARN · NEXT: ...` marker, and the
   `Show the diagram source` toggle are gone (owner direction, 2026-09-10:
   system-emitted scaffolding reads as machine-assembled, not authored; the
   spec note lives in docs/lesson-flow-spec.md). Do not reintroduce them: no
   app-owned prose at the edges of a phase, and a drawn diagram replaces its
   source rather than hiding it behind a toggle.
-- **Give every other phase at least one `##` too.** The contents rail lists a
-  script's `##` headings across the whole page and nothing else, so a phase
-  without one cannot be reached from the rail. Those headings are the only
-  navigation the page has, which means they are read far more often than the
-  prose under them: write them as beats a student would look for, and keep
-  them clear of the unit's `retrieval_seeds` vocabulary. A heading hit counts
-  5x in `select_lesson_excerpt`, so a bridge heading that borrows seed words
-  will beat the teaching section that actually answers the seed. Re-run the
-  selector for all five seeds after adding or renaming one.
+- **Those headings are the only navigation the page has**, which means they
+  are read far more often than the prose under them: write them as beats a
+  student would look for, and keep them clear of the unit's `retrieval_seeds`
+  vocabulary. A heading hit counts 5x in `select_lesson_excerpt`, so a bridge
+  heading that borrows seed words will beat the teaching section that actually
+  answers the seed. Re-run the selector for all five seeds after adding or
+  renaming one.
 - **`:::` lines never reach a judge.** `strip_script_markers` in
   `platform/grading/practice/server.py` filters them inside
   `get_unit_learn_text`, which is the single entry point for retrieval

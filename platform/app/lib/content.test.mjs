@@ -83,12 +83,8 @@ test("reading stats are present for prose", () => {
   assert.ok(script.estMinutes >= 1);
 });
 
-test("integration: authored unit 0.1 parses with six phases, ask anchored at concierge", () => {
-  const unit = loadUnit("0.1");
-  assert.ok(unit, "unit 0.1 must be authored on disk");
-  assert.ok(unit.script, "0.1 learn.md is authored as a unit script");
-  assert.deepEqual(
-    unit.script.phases.map((p) => p.id),
-    ["learn", "practice", "build", "verify", "unstuck", "concierge"],
-  );
+test("integration: zero authored units state (all units deleted 2026-09-12)", () => {
+  // All units were deleted at owner direction; loadUnit("0.1") must return null
+  // so the unit page cleanly 404s instead of erroring on missing files.
+  assert.equal(loadUnit("0.1"), null);
 });

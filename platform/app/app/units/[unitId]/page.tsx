@@ -388,7 +388,7 @@ function unitSpecs(yaml: Unit["yaml"], checkCount: number, criterionCount: numbe
     gradedOn(checkCount, criterionCount),
     yaml.prereq_units.length > 0 ? `NEEDS ${yaml.prereq_units.join(", ")}` : "ENTRY POINT",
     yaml.gate.unlocks.length > 0 ? `UNLOCKS ${yaml.gate.unlocks.join(", ")}` : "PHASE GATE",
-    "OMNISUPPLY OPERATIONS DATA",
+    "OMNICART OPERATIONS DATA",
   ];
   if (estMinutes && estMinutes > 0) {
     // Insert reading time after hours, so scanner sees workload then read length.

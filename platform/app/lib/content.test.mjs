@@ -2,89 +2,86 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createJiti } from "jiti";
 
-// Tiny harness (improvement plan M4.1): jiti loads the TypeScript lib and its
-// extensionless relative imports straight from source, so parseUnitScript is
-// tested without a build step. Run from platform/app with: node --test lib/content.test.mjs
+// Tiny harness: jiti loads the TypeScript lib and its extensionless relative
+// imports straight from source, so the lesson parser is tested without a build
+// step. Run from platform/app with: node --test lib/content.test.mjs
 const jiti = createJiti(import.meta.url);
-const { parseUnitScript, loadUnit } = jiti("./content.ts");
+const { parseLesson, loadUnit } = jiti("./content.ts");
 
-const SCRIPTED_LESSON = [
-  "# Unit 9.9: A tiny lesson",
+const CHAPTER = [
+  "# A program that reads a message",
   "",
-  "Intro paragraph before the first phase.",
+  "Intro paragraph. It promises something.",
   "",
-  "::: phase learn",
+  "## Running a program",
   "",
-  "## Meet the dock",
+  "We start by running it.",
   "",
-  "We start at the dock. The truck is late again.",
+  "### A small detail",
   "",
-  "## Meet the dock",
+  "## Running a program",
   "",
   "Second heading with the same name.",
   "",
-  "::: aside Why this matters",
-  "The dock is the heart of the operation.",
-  ":::",
-  "",
   "```text",
-  "::: phase build",
   "## Not a real heading",
   "```",
   "",
-  "::: coda One last thing",
-  "Try it with your own numbers.",
-  ":::",
+  "<details><summary>What does it print?</summary>",
+  "",
+  "It prints `3`.",
+  "",
+  "</details>",
 ].join("\n");
 
-test("a lesson with no phase marker is not a unit script (null)", () => {
-  assert.equal(parseUnitScript("# Plain lesson\n\nJust prose.\n"), null);
+test("the first h1 is the title and is not rendered in the body", () => {
+  const lesson = parseLesson([CHAPTER]);
+  assert.equal(lesson.title, "A program that reads a message");
+  assert.ok(!lesson.chapters[0].html.includes("<h1"));
 });
 
-test("h1 parses into id label and title", () => {
-  const script = parseUnitScript(SCRIPTED_LESSON);
-  assert.ok(script);
-  assert.equal(script.idLabel, "Unit 9.9");
-  assert.equal(script.title, "A tiny lesson");
+test("headings get slugged ids, repeats are deduped, fenced headings are ignored", () => {
+  const lesson = parseLesson([CHAPTER]);
+  const ids = lesson.chapters[0].headings.map((h) => h.id);
+  assert.deepEqual(ids, ["running-a-program", "a-small-detail", "running-a-program-2"]);
+  assert.deepEqual(lesson.chapters[0].headings.map((h) => h.level), [2, 3, 2]);
+  assert.ok(!lesson.chapters[0].html.includes("not-a-real-heading"));
+  assert.ok(lesson.chapters[0].html.includes('<h2 id="running-a-program">'));
 });
 
-test("phases parse in authored order and fenced markers are ignored", () => {
-  const script = parseUnitScript(SCRIPTED_LESSON);
-  assert.ok(script);
-  // The "::: phase build" inside the fence must not open a phase.
-  assert.deepEqual(script.phases.map((p) => p.id), ["learn"]);
+test("an authored heading never takes an id the page reserves", () => {
+  const lesson = parseLesson(["# T\n\n## Assignment\n\ntext\n"]);
+  assert.equal(lesson.chapters[0].headings[0].id, "assignment-2");
 });
 
-test("contents rail gets slugged ids and dedupes repeated headings", () => {
-  const script = parseUnitScript(SCRIPTED_LESSON);
-  assert.ok(script);
-  const names = script.phases[0].contents.map((c) => c.name);
-  assert.deepEqual(names, ["Meet the dock", "Meet the dock"]);
-  const ids = script.phases[0].contents.map((c) => c.id);
-  assert.deepEqual(ids, ["meet-the-dock", "meet-the-dock-2"]);
+test("the fold passes through as a native details element", () => {
+  const lesson = parseLesson([CHAPTER]);
+  assert.ok(lesson.chapters[0].html.includes("<details><summary>What does it print?</summary>"));
 });
 
-test("aside and coda markers become titled items", () => {
-  const script = parseUnitScript(SCRIPTED_LESSON);
-  assert.ok(script);
-  const kinds = script.phases[0].items.map((i) => i.type);
-  assert.ok(kinds.includes("aside"));
-  assert.ok(kinds.includes("coda"));
-  const aside = script.phases[0].items.find((i) => i.type === "aside");
-  assert.equal(aside.title, "Why this matters");
-  const coda = script.phases[0].items.find((i) => i.type === "coda");
-  assert.equal(coda.title, "One last thing");
+test("several chapters dedupe ids across the whole unit and sum their words", () => {
+  const lesson = parseLesson([CHAPTER, "# Second\n\n## Running a program\n\nmore words here\n"]);
+  assert.equal(lesson.chapters.length, 2);
+  assert.equal(lesson.chapters[1].headings[0].id, "running-a-program-3");
+  assert.equal(lesson.wordCount, lesson.chapters[0].wordCount + lesson.chapters[1].wordCount);
+  assert.ok(lesson.estMinutes >= 1);
 });
 
-test("reading stats are present for prose", () => {
-  const script = parseUnitScript(SCRIPTED_LESSON);
-  assert.ok(script);
-  assert.ok(script.wordCount > 0);
-  assert.ok(script.estMinutes >= 1);
-});
-
-test("integration: zero authored units state (all units deleted 2026-09-12)", () => {
-  // All units were deleted at owner direction; loadUnit("0.1") must return null
-  // so the unit page cleanly 404s instead of erroring on missing files.
-  assert.equal(loadUnit("0.1"), null);
+test("loadUnit reads the authored units on disk", () => {
+  for (const id of ["0.1", "1.1.1"]) {
+    const unit = loadUnit(id);
+    assert.ok(unit, `unit ${id} should load`);
+    assert.ok(unit.lesson.chapters.length >= 1);
+    assert.ok(unit.lesson.chapters[0].headings.length >= 2);
+    assert.ok(unit.assignment, `unit ${id} should have an assignment`);
+    assert.ok(unit.assignment.title);
+  }
+  const code = loadUnit("1.1.1");
+  assert.ok(code.checks && code.checks.length === 4);
+  assert.ok(code.contract && code.contract.cli === "python3 read_message.py");
+  // every unstuck anchor resolves to a heading id in the rendered assignment
+  for (const entry of code.yaml.unstuck) {
+    const anchor = entry.fix_ref.split("#")[1];
+    assert.ok(code.assignment.html.includes(`id="${anchor}"`), `anchor ${anchor} missing`);
+  }
 });

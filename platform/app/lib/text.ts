@@ -11,12 +11,14 @@ export function humanizeId(id: string): string {
 }
 
 /**
- * The standing technology-word ban for student prose (content/STYLE.md and the
- * Unit 0.1 rubric name the same list). A unit's rubric remains the authority
- * for grading; this list powers the live warning in the practice workbench so
- * the student hears about a banned word before submitting, not after.
+ * The words Unit 0.1's client brief may not use (content/rubrics/0.1/v1.yaml,
+ * criterion words-and-length). The rubric remains the authority for grading;
+ * this list powers the live warning in the practice workbench so the student
+ * hears about a banned word before submitting, not after. It applies to the
+ * client brief only: later units use these words freely once they have taught
+ * them.
  */
-export const BANNED_TECH_WORDS = ["ai", "agent", "llm", "model", "prompt", "automation"] as const;
+export const BANNED_TECH_WORDS = ["ai", "agent", "llm", "model", "machine learning"] as const;
 
 export function countWords(text: string): number {
   return text.split(/\s+/).filter(Boolean).length;

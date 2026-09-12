@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 import { saveReadingPosition, getSessionStartTime } from "@/lib/reading-position";
-import type { ScriptPhase } from "@/lib/content";
+import type { Lesson } from "@/lib/content";
 
 /**
- * Client component that monitors reading scroll position in a unit script and
+ * Client component that monitors reading scroll position in a lesson and
  * updates `keel-reading-position` in localStorage (lesson-flow spec U3).
  *
  * Progress is word-based (M6.2): the saved ratio is words scrolled past over
@@ -19,24 +19,27 @@ import type { ScriptPhase } from "@/lib/content";
  */
 export function ReadingTracker({
   unitId,
-  phases,
+  lesson,
 }: {
   unitId: string;
-  phases: ScriptPhase[];
+  lesson: Lesson;
 }) {
   useEffect(() => {
     getSessionStartTime();
 
+    // One beat per `##` heading. Words are shared evenly across a chapter's
+    // headings, which keeps the saved ratio word-based without a second parse.
     const beats: { id: string; name: string; phaseId: string; phaseName: string; words: number }[] = [];
-    for (const phase of phases) {
-      const phaseName = phase.id.charAt(0).toUpperCase() + phase.id.slice(1);
-      for (const entry of phase.contents) {
+    for (const chapter of lesson.chapters) {
+      const sections = chapter.headings.filter((h) => h.level === 2);
+      const wordsEach = sections.length > 0 ? Math.round(chapter.wordCount / sections.length) : chapter.wordCount;
+      for (const heading of sections) {
         beats.push({
-          id: entry.id,
-          name: entry.name,
-          phaseId: phase.id,
-          phaseName,
-          words: entry.wordCount ?? 0,
+          id: heading.id,
+          name: heading.text,
+          phaseId: chapter.id,
+          phaseName: chapter.title,
+          words: wordsEach,
         });
       }
     }
@@ -100,7 +103,7 @@ export function ReadingTracker({
       if (frame) window.cancelAnimationFrame(frame);
       window.removeEventListener("scroll", onScroll);
     };
-  }, [unitId, phases]);
+  }, [unitId, lesson]);
 
   return null;
 }

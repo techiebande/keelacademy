@@ -115,7 +115,7 @@ export function PracticeWorkbench({
     return (
       <div className="rounded-lg border border-circuit-border bg-carbon-veil p-5">
         <p className="text-[14.5px] leading-relaxed text-[color:var(--text-muted-on-dark)]">
-          The practice editor is down. The lesson and worked example above remain. Reload.
+          The practice editor is down. The lesson and assignment above remain. Reload.
         </p>
       </div>
     );

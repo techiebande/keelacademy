@@ -42,6 +42,8 @@ jobs:
         run: python content/tools/validate-guard-evals.py
       - name: Validate diagnostic assessments and commitment declarations
         run: python content/tools/validate-diagnostics.py
+      - name: Student-facing prose does not expose private source paths
+        run: python content/tools/validate-student-facing.py
       - name: Lesson code blocks reproduce the output shown on the page
         run: python content/tools/run-lesson-code.py --all
       - name: Concierge structural contract and spoof-immunity checks (keyless)

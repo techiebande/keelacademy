@@ -29,7 +29,7 @@ Read `content/WRITING.md` once first, so you know what the author was trying to 
 
 A list. Each item is a line number, a short quote (under twenty words), and one sentence saying what happened to you there. Nothing else. In this order of importance:
 
-1. **I could not do what it told me to do.** A file, command, or value the chapter uses that it never gave me, or a step that assumes I remember something it has not said.
+1. **I could not do what it told me to do.** A file, command, or value the chapter uses that it never gave me, or a step that assumes I remember something it has not said. Treat every repository path, source filename, internal YAML/Markdown filename, and private implementation reference as inaccessible unless the page explicitly says the assignment gives that artifact to the student. Report it immediately as a stop, even if the author could see it while writing.
 2. **A word or symbol I had not been shown yet.** The chapter used a term (or `[`, `:`, `.`) as if I knew it, before the place it is shown and named.
 3. **A line of code I could not say the purpose of.** Quote the line. If a block has three such lines, that is three items.
 4. **A prediction I got wrong that the text did not address.** I guessed, the answer was different, and the chapter did not tell me why my guess was the natural one.

@@ -6,6 +6,8 @@ This is the whole writing guide. There is no style file behind it, no voice skil
 
 One person. They are an adult, they can use a computer, and they have never written a line of code. English may be their second or third language. They are reading on their own, probably at night, and there is nobody in the room to ask. They are smart. They are not familiar.
 
+They cannot see this repository. They cannot see `content/client/`, `unit.yaml`, internal Markdown files, source code, agent instructions, or the author's notes. The lesson is the only briefing they receive. If the student needs to know a person, rule, file, number, path, or decision, state it in the lesson before using it. A source path is never a student instruction. A course-folder path is valid only when the assignment explicitly gives the student that artifact.
+
 Everything below follows from taking that person seriously.
 
 ## The shape of a chapter

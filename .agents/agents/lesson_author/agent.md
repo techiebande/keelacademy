@@ -27,7 +27,7 @@ Read, in this order, before writing anything:
 
 1. `content/WRITING.md`. This is the whole writing guide. Everything you write is held to it.
 2. `docs/lesson-design.md`. Why the guide says what it says, and how the unit fits together on disk and on the page.
-3. `content/client/brief.md`, `rules.md`, and the files in `messages/`. Every example you write uses these people and these files. Nothing about Lantern Home lives anywhere else, and you do not invent new facts about it; if a unit needs something Lantern does not have, add it to `content/client/` first, in the same plain words.
+3. The canonical Lantern source data (`content/client/brief.md`, `rules.md`, and `messages/`) is author-only reference material. Students do **not** see the repository. Every fact a student needs must be restated inside the lesson or assignment before it is used. Never tell a student to read, open, inspect, copy, or find a repository path, source file, YAML file, Markdown file, or internal implementation file. Student-facing paths may name only artifacts the assignment explicitly gives them in their course folder, such as `client-brief.md` or `messages/M-1041.txt`. Every example uses the canonical people and data; if a unit needs something Lantern does not have, add it to `content/client/` first, then explain the needed fact in the lesson.
 4. The unit's slice of the curriculum: `python3 content/tools/curriculum-section.py <id>`.
 5. The most recent finished unit before this one, for continuity of what the student has already built (files in their `lantern/` folder, names they know). Not for shape. Its shape was right for its material and is probably wrong for yours.
 
@@ -54,14 +54,21 @@ Write these down before drafting; they are for you, not for shipping.
 
 `assignment.md` in the same voice, continuing the chapter's last paragraph. For code units, `starter/` (the chapter's program with the last steps removed) and `checks.yaml` (each check with a header comment carrying the submission contract, and ids that read as plain English). Prove the starter fails the checks it should fail and a reference solution passes them all; paste that proof in your handoff. For conceptual units, the rubric under `content/rubrics/<id>/v1.yaml`, the judge prompt under `content/prompts/judge-<id>.md`, and a golden set with at least one clear pass and one failing submission per criterion. Then `unit.yaml`, following `content/units/phase-0/0.1/unit.yaml` or `content/units/phase-1/1.1.1/unit.yaml` as the model. Add the unit to `content/curriculum/phases.yaml` if it is not declared, and to `content/curriculum/ledger.yaml`.
 
-## Step 4: check the facts
+## Step 4: check the facts and the student boundary
+
+First run the boundary check. It must pass before a first reader sees the unit:
 
 ```
+python3 content/tools/validate-student-facing.py
 python3 content/tools/run-lesson-code.py content/units/phase-<N>/<id>/lesson.md
 python3 content/tools/validate.py
 python3 content/tools/validate-map.py
 python3 content/tools/validate-rubrics.py     # conceptual units
 ```
+
+The boundary check is not optional. If it reports a source path or internal filename, rewrite the student-facing passage so the lesson supplies the needed context in its own words. Do not weaken the validator to make the prose pass.
+
+Before handing off, ask: "Could a student complete this lesson with only the page, the course-folder files the assignment explicitly gives them, and the tools named in the page?" If the answer is no, add the missing briefing to the lesson or assignment.
 
 All green before the first reader sees anything. `run-lesson-code.py` will catch you claiming output that Python does not produce; it caught the author of 1.1.1 asserting the wrong slice on the first draft. That is what it is for.
 

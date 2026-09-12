@@ -101,7 +101,7 @@ def parse_blocks(md: str) -> list[Block]:
     return blocks
 
 
-DISPLAY_HOME = "/home/you/lantern"
+DISPLAY_HOME = "your-course-folder"
 
 
 def normalize(out: str, scratch: Path) -> list[str]:

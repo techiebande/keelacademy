@@ -55,6 +55,12 @@ if ! "$PY" content/tools/validate-diagnostics.py; then
     fail=1
 fi
 
+# Student-facing boundary: lessons never expose private repository paths.
+if ! "$PY" content/tools/validate-student-facing.py; then
+    echo "[keel-content-gate] BLOCKED: student-facing prose references private source files or repository paths" >&2
+    fail=1
+fi
+
 # The one lesson gate: every code block on a page does what the page says.
 # (docs/lesson-design.md section 3; no shape rules, no readability score.)
 lesson_files="$(find content/units -type f -name 'lesson*.md' 2>/dev/null)"

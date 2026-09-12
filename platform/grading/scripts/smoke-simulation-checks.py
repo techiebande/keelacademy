@@ -7,12 +7,12 @@ Verifies:
 2. Session Management & Auth Boundaries:
    - 401 on missing or invalid app auth token.
    - 422 / 404 on missing/invalid student or non-existent persona.
-   - Session starts with initial greeting from Sarah Jenkins.
+   - Session starts with initial greeting from Amara Osei.
    - Initial row written with status='in_progress' and 'simulation.started' spine event.
 3. Multi-Turn Dialogue & Behavioral Triggers:
    - Student premature pitch -> persona pushback ("We already tried ChatGPT and it hallucinated store discount rules").
-   - Student open question about volume & bottlenecks -> persona reveals metrics (4,000 transactions/mo, 2-3 days turnaround).
-   - Student question on store policy compliance -> persona reveals unstructured contract verification and compliance audit pain.
+   - Student open question about volume & bottlenecks -> persona reveals metrics (3,000 transactions/mo, 2-3 days turnaround).
+   - Student question on rulebook compliance -> persona reveals unstructured contract verification and compliance audit pain.
    - Student synthesis question -> persona acknowledges and confirms project fit.
    - State persistence: turns array updated and 'simulation.turn_completed' spine event emitted per turn.
    - 403 on another student attempting to execute a turn in session.
@@ -135,10 +135,10 @@ def main() -> None:
         sim_id_alice = int(res["id"])
         record_pass(f"POST /simulation/start initialized session #{sim_id_alice}")
         
-        # Check initial greeting contains Sarah Jenkins
+        # Check initial greeting contains Amara Osei
         init_msg = res.get("initial_message", "")
-        if "Sarah Jenkins" in init_msg and "OmniCart" in init_msg:
-            record_pass("Initial persona greeting correctly introduces Sarah Jenkins at OmniCart")
+        if "Amara Osei" in init_msg and "Lantern Home" in init_msg:
+            record_pass("Initial persona greeting correctly introduces Amara Osei at Lantern Home")
         else:
             record_fail("Initial persona greeting content", f"got {init_msg}")
     else:
@@ -193,15 +193,15 @@ def main() -> None:
     })
     if code == 200:
         reply2 = t2_res.get("persona_reply", "")
-        if "4,000" in reply2 or "4000" in reply2 or "2 to 3 business days" in reply2 or "turnaround" in reply2:
-            record_pass("Persona revealed volume and latency metrics (4,000 transactions/mo, 2-3 days turnaround)")
+        if "3,000" in reply2 or "4000" in reply2 or "2 to 3 business days" in reply2 or "turnaround" in reply2:
+            record_pass("Persona revealed volume and latency metrics (3,000 transactions/mo, 2-3 days turnaround)")
         else:
             record_fail("Persona reply to volume probe", f"got: {reply2}")
     else:
         record_fail("POST /simulation/turn turn 2", f"got {code}: {t2_res}")
 
     # Turn 3: Alice probes the root cause and why past pilots hallucinated
-    t3_msg = "What specifically caused the earlier ChatGPT pilot to hallucinate? Where is the real underlying bottleneck in store policy verification?"
+    t3_msg = "What specifically caused the earlier ChatGPT pilot to hallucinate? Where is the real underlying bottleneck in rulebook verification?"
     code, t3_res = http_request("/simulation/turn", method="POST", body={
         "simulation_id": sim_id_alice,
         "student_id": 1,
@@ -210,14 +210,14 @@ def main() -> None:
     if code == 200:
         reply3 = t3_res.get("persona_reply", "")
         if "store master policies" in reply3 or "policy grounding" in reply3 or "contract grounding" in reply3 or "compliance" in reply3 or "audit" in reply3:
-            record_pass("Persona revealed underlying pain: unstructured store policy verification and compliance audit risk")
+            record_pass("Persona revealed underlying pain: unstructured rulebook verification and compliance audit risk")
         else:
             record_fail("Persona reply to root cause probe", f"got: {reply3}")
     else:
         record_fail("POST /simulation/turn turn 3", f"got {code}: {t3_res}")
 
     # Turn 4: Alice provides an accurate synthesis/summary of the problem
-    t4_msg = "In summary, it sounds like the core bottleneck is not basic OCR extraction, but deterministic store policy verification against master policy terms with an audit trail compliance can trust."
+    t4_msg = "In summary, it sounds like the core bottleneck is not basic OCR extraction, but deterministic rulebook verification against master policy terms with an audit trail compliance can trust."
     code, t4_res = http_request("/simulation/turn", method="POST", body={
         "simulation_id": sim_id_alice,
         "student_id": 1,

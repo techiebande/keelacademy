@@ -73,21 +73,21 @@ def get_initial_greeting(persona_id: str) -> str:
     """Return default initial greeting for persona."""
     if persona_id == "discovery-call":
         return (
-            "Hi, thanks for hopping on. As I mentioned in my note, I'm Sarah Jenkins, "
-            "VP of Operations here at OmniCart. We're getting slammed with return and refund dispute volume "
+            "Hi, thanks for hopping on. As I mentioned in my note, I'm Amara Osei, "
+            "Owner here at Lantern Home. We're getting slammed with customer order problems "
             "and our leadership is pushing us to look into AI automation. What would you like to know about our setup?"
         )
     if persona_id == "technical-stakeholder":
         return (
-            "Hello. I'm Marcus Vance, Staff AI Architect. I've reviewed your high-level architecture diagram, "
-            "but I evaluate systems on empirical proof, not promises. How do you know this dispute triage pipeline is "
+            "Hello. I'm Wei Zhang, Staff AI Architect. I've reviewed your high-level architecture diagram, "
+            "but I evaluate systems on empirical proof, not promises. How do you know this case triage pipeline is "
             "reliable, secure, and cost-effective in production?"
         )
     if persona_id == "business-owner":
         return (
-            "Thanks for meeting with me. I'm Elena Rostova. I oversee our multi-brand e-commerce retail operations and P&L. "
+            "Thanks for meeting with me. I'm Amara Osei. I oversee our online household-goods shops and shop finances. "
             "I've seen dozens of AI pitches that promise the moon and deliver costly maintenance headaches. "
-            "What does your system actually save OmniCart, and what happens when it makes a mistake?"
+            "What does your system actually save Lantern Home, and what happens when it makes a mistake?"
         )
     return f"Hello, I am ready to start our conversation regarding {persona_id}."
 
@@ -101,7 +101,7 @@ def _mock_persona_reply(persona_id: str, student_message: str, turns: list[dict[
         if any(w in msg_lower for w in ["works well", "great accuracy", "very reliable", "users love it", "prompt is robust", "super accurate", "high accuracy", "vibe"]):
             return (
                 "That sounds like a vibe, not an engineering metric. What is your exact golden evaluation "
-                "dataset size, what is your benchmark accuracy on store policy edge cases, and what is your CI regression score threshold?"
+                "dataset size, what is your benchmark accuracy on rulebook edge cases, and what is your CI regression score threshold?"
             )
         # 2. Security, Injection & Failure Modes trigger
         if any(w in msg_lower for w in ["injection", "delimiter", "guardrail", "sanitization", "canary token", "untrusted inputs", "pdf"]):
@@ -112,13 +112,13 @@ def _mock_persona_reply(persona_id: str, student_message: str, turns: list[dict[
         # 3. Cost & Latency Probing trigger
         if any(w in msg_lower for w in ["cost", "latency", "budget", "token economics", "p99", "router", "pricing", "$0.04", "haiku", "sonnet"]):
             return (
-                "At 4,000 transactions a month, frontier model calls will demolish our unit economics. What is your "
+                "At 3,000 transactions a month, frontier model calls will demolish our unit economics. What is your "
                 "estimated cost per transaction, how does your dynamic model router cascade to cheaper tiers, and what is your p99 latency budget?"
             )
         # 4. Architecture justification trigger
         if any(w in msg_lower for w in ["rag", "fine-tuning", "finetuning", "hybrid search", "bm25", "vector", "architecture"]):
             return (
-                "Why RAG vs Fine-tuning for store policy rules? How did you justify the retrieval latency of hybrid BM25 and vector search over pure keyword matching?"
+                "Why RAG vs Fine-tuning for rulebook rules? How did you justify the retrieval latency of hybrid BM25 and vector search over pure keyword matching?"
             )
         # 5. Technical Grounding / Defense synthesis trigger
         if any(w in msg_lower for w in ["golden set", "golden evaluation", "regression", "cascading router", "human-in-the-loop", "hit rate"]):
@@ -136,12 +136,12 @@ def _mock_persona_reply(persona_id: str, student_message: str, turns: list[dict[
         if any(w in msg_lower for w in ["embedding", "temperature", "vector db", "vector database", "semantic chunk", "rag pipeline", "langchain", "llama", "transformer"]):
             return (
                 "Stop right there. Explain what that means in dollars, specialist hours, and operational risk. "
-                "I don't run a computer science lab; I run a commercial supply chain operation."
+                "I don't run a computer science lab; I run a commercial support operation."
             )
         # 2. Financial ROI & Hours Saved trigger
         if any(w in msg_lower for w in ["save", "dollars", "roi", "hours", "payback", "cost reduction", "efficiency", "margin"]):
             return (
-                "Give me the concrete numbers: across our 4,000 monthly transactions, how many specialist hours does this eliminate per week, "
+                "Give me the concrete numbers: across our 3,000 monthly transactions, how many specialist hours does this eliminate per week, "
                 "what is the net annual cost reduction, and what is our expected payback timeline?"
             )
         # 3. $50k Error Fallback & Risk Mitigation trigger
@@ -163,7 +163,7 @@ def _mock_persona_reply(persona_id: str, student_message: str, turns: list[dict[
                 "human escalation safeguards make this a compelling rollout for our executive committee."
             )
         return (
-            "I see. From an operational standpoint, how does this improve our merchant dispute turnaround time without creating compliance liability?"
+            "I see. From an operational standpoint, how does this improve our merchant case turnaround time without creating compliance liability?"
         )
 
     # Discovery Call Persona (default)
@@ -174,13 +174,13 @@ def _mock_persona_reply(persona_id: str, student_message: str, turns: list[dict[
     ]):
         return (
             "Exactly. That is precisely what keeps me up at night. If you can solve the unstructured "
-            "store policy verification piece with a verifiable audit trail without my team having to redo the work, "
+            "rulebook verification piece with a verifiable audit trail without my team having to redo the work, "
             "we have a real project."
         )
 
     # 2. Root problem / compliance / contract verification probing trigger
     if any(w in msg_lower for w in [
-        "contract", "policy", "store policy", "vendor", "purchase order", "audit", "compliance", "hallucinat",
+        "contract", "policy", "rulebook", "vendor", "purchase order", "audit", "compliance", "hallucinat",
         "root cause", "underlying"
     ]):
         return (
@@ -204,12 +204,12 @@ def _mock_persona_reply(persona_id: str, student_message: str, turns: list[dict[
 
     # 4. Metric / volume probing trigger
     if any(w in msg_lower for w in [
-        "volume", "how many", "per month", "transactions per", "disputes per", "turnaround", "how long",
+        "volume", "how many", "per month", "transactions per", "cases per", "turnaround", "how long",
         "specialist time", "hours", "cost", "error rate"
     ]):
         return (
-            "Right now we're processing around 4,000 transactions a month across our consumer brands. "
-            "Triage takes 2 to 3 business days per dispute. Our senior specialists are spending roughly "
+            "Right now we're processing around 3,000 transactions a month across our consumer brands. "
+            "Triage takes 2 to 3 business days per case. Our senior specialists are spending roughly "
             "60% of their day just reading delivery slips and damage reports and matching them against customer orders and store return policies."
         )
 
@@ -301,7 +301,7 @@ def _mock_judge_evaluation(persona_id: str, transcript: list[dict[str, Any]], cr
     else:
         # Discovery Call Evaluation
         c1_pass = any(w in student_text for w in ["root", "underlying", "contract", "policy", "vendor", "purchase order", "compliance", "audit", "liability", "why did chatgpt fail"])
-        c2_pass = any(w in student_text for w in ["volume", "how many", "4000", "4,000", "turnaround", "days", "hours", "metrics", "bottleneck"])
+        c2_pass = any(w in student_text for w in ["volume", "how many", "4000", "3,000", "turnaround", "days", "hours", "metrics", "bottleneck"])
         first_student_turn = next((t.get("content", "").lower() for t in transcript if t.get("role") == "student"), "")
         pitched_first = any(w in first_student_turn for w in ["we build", "langchain", "rag pipeline", "solution for you", "deploy an agent"])
         c3_pass = not pitched_first
@@ -317,7 +317,7 @@ def _mock_judge_evaluation(persona_id: str, transcript: list[dict[str, Any]], cr
             "explored-process-metrics": {
                 "passed": c2_pass,
                 "score": 100.0 if c2_pass else 40.0,
-                "feedback": "Gathered clear metrics on transaction volume (4,000/mo) and turnaround latency (2-3 days)." if c2_pass else "Did not ask about transaction volumes or turnaround latency.",
+                "feedback": "Gathered clear metrics on transaction volume (3,000/mo) and turnaround latency (2-3 days)." if c2_pass else "Did not ask about transaction volumes or turnaround latency.",
                 "evidence": "Inquired about volume, turnaround times, and specialist bottleneck" if c2_pass else "No volume metrics requested",
             },
             "avoided-premature-pitching": {
@@ -329,8 +329,8 @@ def _mock_judge_evaluation(persona_id: str, transcript: list[dict[str, Any]], cr
             "accurate-problem-summary": {
                 "passed": c4_pass,
                 "score": 100.0 if c4_pass else 35.0,
-                "feedback": "Synthesized an accurate summary of OmniCart's triage and audit bottleneck." if c4_pass else "Did not synthesize a problem summary before concluding the call.",
-                "evidence": "Summarized the bottleneck as store policy grounding with audit trail" if c4_pass else "No synthesis provided",
+                "feedback": "Synthesized an accurate summary of Lantern Home's triage and audit bottleneck." if c4_pass else "Did not synthesize a problem summary before concluding the call.",
+                "evidence": "Summarized the bottleneck as rulebook grounding with audit trail" if c4_pass else "No synthesis provided",
             },
         }
 

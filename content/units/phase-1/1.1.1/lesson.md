@@ -126,13 +126,13 @@ Run it again.
 ```text
 $ python3 read_message.py
 Traceback (most recent call last):
-  File "/home/you/lantern/read_message.py", line 1, in <module>
+  File "your-course-folder/read_message.py", line 1, in <module>
     with open("message/M-1041.txt") as file:
          ^^^^^^^^^^^^^^^^^^^^^^^^^^
 FileNotFoundError: [Errno 2] No such file or directory: 'message/M-1041.txt'
 ```
 
-Your path will be different from `/home/you/lantern`, but the rest will match. Read it from the bottom up, because the bottom line is the one that says what went wrong: `FileNotFoundError`, no such file or directory, and then the exact path it looked for. Above that, Python tells you which line it was on (line 1) and shows you the line, with a row of carets under the part it was trying to carry out when it failed. Everything you need is in those five lines: what, where, and which piece.
+The folder name in your traceback will be different, but the rest will match. Read it from the bottom up, because the bottom line is the one that says what went wrong: `FileNotFoundError`, no such file or directory, and then the exact path it looked for. Above that, Python tells you which line it was on (line 1) and shows you the line, with a row of carets under the part it was trying to carry out when it failed. Everything you need is in those five lines: what, where, and which piece.
 
 Nothing printed after the error, because Python stopped at line 1. It never reached `print(text)`. A program halts at the first instruction it cannot carry out; it does not skip the bad line and carry on. Put the s back:
 
